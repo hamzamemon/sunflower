@@ -104,7 +104,7 @@ theme.loadSyntax = function()
         Constant = {fg = sunflower.green, style = 'bold'}, -- any constant
         String = {fg = sunflower.darkblue}, -- a string constant: "this is a string"
         Character = {fg = sunflower.orange, style = 'bold'}, -- a character constant: 'c', '\n'
-        Number = {fg = sunflower.blue}, -- a number constant: 234, 0xff
+        Number = {fg = sunflower.purple}, -- a number constant: 234, 0xff
         Boolean = {fg = sunflower.orange, style = 'bold'}, -- a boolean constant: TRUE, false
         Float = {fg = sunflower.blue}, -- a floating point constant: 2.3e10
 
@@ -209,7 +209,7 @@ theme.loadTreeSitter = function()
         TSException = {fg = sunflower.orange, style = 'bold'}, -- For exception related keywords
         TSField = {fg = sunflower.green}, -- For fields
         TSFloat = {fg = sunflower.blue}, -- For floats
-        TSFunction = {fg = sunflower.yellow}, -- For fuction (calls and definitions)
+        TSFunction = {fg = sunflower.yellow}, -- For function (calls and definitions)
         TSFuncBuiltin = {fg = sunflower.green}, -- For builtin functions: `table.insert` in Lua
         TSFuncMacro = {fg = sunflower.green}, -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust
         TSInclude = {fg = sunflower.orange, style = 'bold'}, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua
@@ -220,11 +220,11 @@ theme.loadTreeSitter = function()
         TSMethod = {fg = sunflower.yellow}, -- For method calls and definitions
         TSNamespace = {fg = sunflower.yellow}, -- For identifiers referring to modules and namespaces
         -- TSNone = { }, -- For no highlighting
-        TSNumber = {fg = sunflower.blue}, -- For all numbers
+        TSNumber = {fg = sunflower.purple}, -- For all numbers
         TSOperator = {fg = sunflower.gray}, -- For any operator: `+`, but also `->` and `*` in C
         TSParameter = {fg = sunflower.paleblue}, -- For parameters of a function
         TSParameterReference = {fg = sunflower.paleblue}, -- For references to parameters of a function
-        TSProperty = {fg = sunflower.paleblue}, -- Same as `TSField`
+        TSProperty = {fg = sunflower.green}, -- Same as `TSField`
         TSPunctDelimiter = {fg = sunflower.gray}, -- For delimiters ie: `.`
         TSPunctBracket = {fg = sunflower.gray}, -- For brackets and parens
         TSPunctSpecial = {fg = sunflower.gray}, -- For special punctutation that does not fall in the catagories before
@@ -233,8 +233,8 @@ theme.loadTreeSitter = function()
         TSStringRegex = {fg = sunflower.darkblue}, -- For regexes
         TSStringEscape = {fg = sunflower.orange, style = 'bold'}, -- For escape characters within a string
         TSSymbol = {fg = sunflower.yellow}, -- For identifiers referring to symbols or atoms
-        TSTag = {fg = sunflower.red}, -- Tags like html tag names
-        TSTagDelimiter = {fg = sunflower.yellow}, -- Tag delimiter like `<` `>` `/`
+        TSTag = {fg = sunflower.orange, style = 'bold'}, -- Tags like html tag names
+        TSTagDelimiter = {fg = sunflower.orange, style = 'bold'}, -- Tag delimiter like `<` `>` `/`
         TSText = {fg = sunflower.darkblue}, -- For strings considered text in a markup language
         TSStrong = {fg = sunflower.paleblue, style = 'bold'}, -- For text to be represented in bold
         TSEmphasis = {fg = sunflower.paleblue, style = 'italic'}, -- For text to be represented with emphasis
@@ -252,7 +252,7 @@ theme.loadTreeSitter = function()
         TSDanger = {fg = sunflower.error}, -- Text representation of a danger note
         TSType = {fg = sunflower.yellow}, -- For types
         TSTypeBuiltin = {fg = sunflower.orange, style = 'bold'}, -- For builtin types
-        TSVariable = {fg = sunflower.white}, -- Any variable name that does not have another highlight
+        TSVariable = {fg = sunflower.fg}, -- Any variable name that does not have another highlight
         TSVariableBuiltin = {fg = sunflower.orange, style = 'bold'} -- Variable names that are defined by the languages, like `this` or `self`
     }
 
