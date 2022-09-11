@@ -1,560 +1,619 @@
-local sunflower = require("sunflower.colors")
+local c = require('sunflower.colors')
 
+local hl = vim.api.nvim_set_hl
 local theme = {}
 
-theme.loadEditor = function()
-    local editor = {
-        ColorColumn = {fg = sunflower.none, bg = sunflower.gray}, --  used for the columns set with 'colorcolumn'
-        Conceal = {fg = sunflower.disabled}, -- placeholder characters substituted for concealed text (see 'conceallevel')
-        Cursor = {fg = sunflower.cursor, style = 'reverse'}, -- character under the cursor
-        lCursor = {fg = sunflower.cursor, style = 'reverse'}, -- the character under the cursor when language-mapping is used (see 'guicursor')
-        CursorIM = {fg = sunflower.cursor, style = 'reverse'}, -- like Cursor, but used when in IME mode
-        CursorColumn = {fg = sunflower.cursor, style = 'reverse'}, -- Screen-column at the cursor, when 'cursorcolumn' is set
-        CursorLine = {fg = sunflower.purple, style = 'reverse'}, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set
-        Directory = {fg = sunflower.blue}, -- directory names (and other special names in listings)
-        DiffAdd = {fg = sunflower.green, style = 'reverse'}, -- diff mode: Added line
-        DiffChange = {fg = sunflower.yellow, style = 'reverse'}, --  diff mode: Changed line
-        DiffDelete = {fg = sunflower.red, style = 'reverse'}, -- diff mode: Deleted line
-        DiffText = {fg = sunflower.orange, style = 'reverse'}, -- diff mode: Changed text within a changed line
-        EndOfBuffer = {fg = sunflower.disabled}, -- filler lines (~) after the end of the buffer
-        TermCursor = {fg = sunflower.cursor}, -- cursor in a focused terminal
-        TermCursorNC = {fg = sunflower.cursor}, -- cursor in an unfocused terminal
-        ErrorMsg = {fg = sunflower.none}, -- error messages on the command line
-        VertSplit = {fg = sunflower.bg}, -- the column separating vertically split windows
-        Folded = {fg = sunflower.disabled, style = 'italic'}, -- line used for closed folds
-        FoldColumn = {fg = sunflower.blue}, -- 'foldcolumn'
-        SignColumn = {fg = sunflower.fg, bg = sunflower.bg}, -- column where signs are displayed
-        IncSearch = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-        Substitute = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        }, -- :substitute replacement text highlighting
-        LineNr = {fg = sunflower.darkblue}, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set
-        CursorLineNr = {fg = sunflower.purple}, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line
-        MatchParen = {
-            fg = sunflower.yellow,
-            bg = sunflower.none,
-            style = 'bold'
-        }, -- the character under the cursor or just before it, if it is a paired bracket, and its match
-        ModeMsg = {fg = sunflower.purple}, -- 'showmode' message (e.g., "-- INSERT --")
-        MsgArea = {fg = sunflower.purple}, -- area for messages and cmdline
-        MsgSeparator = {fg = sunflower.purple}, -- separator for scrolled messages, msgsep flag of 'display'
-        MoreMsg = {fg = sunflower.purple}, -- 'more-prompt'
-        NonText = {fg = sunflower.disabled}, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line)
-        Normal = {fg = sunflower.fg, bg = sunflower.bg}, -- normal text
-        NormalFloat = {fg = sunflower.fg, bg = sunflower.bg}, -- normal text in floating windows
-        NormalNC = {fg = sunflower.fg, bg = sunflower.bg}, -- normal text in non-current windows
-        Pmenu = {fg = sunflower.darkblue, bg = sunflower.purple}, -- popup menu: normal item
-        PmenuSel = {fg = sunflower.purple, bg = sunflower.darkblue}, -- popup menu: selected item
-        PmenuSbar = {fg = sunflower.darkblue, bg = sunflower.purple}, -- popup menu: scrollbar
-        PmenuThumb = {fg = sunflower.fg, bg = sunflower.purple}, -- popup menu: thumb of the scrollbar
-        Question = {fg = sunflower.green}, -- 'hit-enter' prompt and yes/no questions
-        QuickFixLine = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        }, -- current 'quickfix' item in the quickfix window. Combined with 'hl-CursorLine' when the cursor is there
-        Search = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        }, -- last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out
-        SpecialKey = {fg = sunflower.purple}, -- unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. 'hl-Whitespace'
-        SpellBad = {style = 'undercurl'}, -- word that is not recognized by the spellchecker. 'spell'
-        SpellCap = {style = 'undercurl'}, -- word that should start with a capital. 'spell'
-        SpellLocal = {}, -- word that is recognized by the spellchecker as one that is used in another region. 'spell'
-        SpellRare = {}, -- word that is recognized by the spellchecker as one that is hardly ever used. 'spell'
-        StatusLine = {fg = sunflower.fg, bg = sunflower.bg}, -- status line of current window
-        StatusLineNC = {fg = sunflower.darkblue, bg = sunflower.disabled}, -- status lines of not-current windows.Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window
-        Tabline = {fg = sunflower.fg}, -- tab pages line, not active tab page label
-        TabLineFill = {fg = sunflower.fg}, -- tab pages line, where there are no labels
-        TablineSel = {fg = sunflower.bg, bg = sunflower.purple}, -- tab pages line, active tab page label
-        Title = {fg = sunflower.green, style = 'bold'}, -- titles for output from ":set all", ":autocmd" etc.
-        Visual = {fg = sunflower.none, bg = sunflower.selection}, -- visual mode selection
-        VisualNOS = {fg = sunflower.none, bg = sunflower.selection}, -- visual mode selection when Vim is "Not Owning the Selection"
-        WarningMsg = {fg = sunflower.yellow}, -- warning messages
-        Whitespace = {fg = sunflower.white}, -- "nbsp", "space", "tab" and "trail" in 'listchars'
-        WildMenu = {fg = sunflower.orange, style = 'bold'}, -- current match in 'wildmenu' completion
-        ToolbarLine = {fg = sunflower.fg, bg = sunflower.bg},
-        ToolbarButton = {fg = sunflower.fg, style = 'bold'},
-        NormalMode = {fg = sunflower.blue, style = 'reverse'},
-        InsertMode = {fg = sunflower.green, style = 'reverse'},
-        ReplacelMode = {fg = sunflower.red, style = 'reverse'},
-        VisualMode = {fg = sunflower.yellow, style = 'reverse'},
-        CommandMode = {fg = sunflower.gray, style = 'reverse'},
-        Warnings = {fg = sunflower.yellow},
+theme.set_highlights = function()
 
-        healthError = {fg = sunflower.error},
-        healthWarning = {fg = sunflower.yellow},
-        healthSuccess = {fg = sunflower.green}
-    }
+    -- Editor
+    hl(0, "Normal", {fg = c.fg, bg = c.bg}) -- normal text
+    hl(0, "SignColumn", {fg = c.fg, bg = c.bg}) -- column where signs are displayed
+    hl(0, "MsgArea", {fg = c.fg, bg = c.bg}) -- area for messages and cmdline
+    hl(0, "ModeMsg", {fg = c.fg, bg = c.alt_bg}) -- 'showmode' message (e.g., "-- INSERT --")
+    hl(0, "MsgSeparator", {fg = c.fg, bg = c.bg}) -- separator for scrolled messages, msgsep flag of 'display'
+    hl(0, "SpellBad", {fg = 'NONE', bg = 'NONE', sp = c.red, undercurl = true}) -- word that is not recognized by the spellchecker. 'spell'
+    hl(0, "SpellCap",
+       {fg = 'NONE', bg = 'NONE', sp = c.yellow, undercurl = true}) -- word that should start with a capital. 'spell'
+    hl(0, "SpellLocal",
+       {fg = 'NONE', bg = 'NONE', sp = c.green, underline = true}) -- word that is recognized by the spellchecker as one that is used in another region. 'spell'
+    hl(0, "SpellRare",
+       {fg = 'NONE', bg = 'NONE', sp = c.purple, underline = true}) -- word that is recognized by the spellchecker as one that is hardly ever used. 'spell'
+    hl(0, "NormalNC", {fg = c.fg, bg = c.bg}) -- normal text in non-current windows
+    hl(0, "Pmenu", {fg = c.darkblue, bg = c.purple}) -- popup menu: normal item
+    hl(0, "PmenuSel", {fg = c.purple, bg = c.darkblue}) -- popup menu: selected item
+    hl(0, "WildMenu", {fg = c.orange, bold = true}) -- current match in 'wildmenu' completion
+    hl(0, "CursorLineNr", {fg = c.purple, bg = 'NONE', bold = true}) -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line
+    hl(0, "Folded", {fg = c.gray, bg = c.alt_bg, italic = true}) -- line used for closed folds
+    hl(0, "FoldColumn", {fg = c.gray, bg = c.alt_bg}) -- 'foldcolumn'
+    hl(0, "LineNr", {fg = c.gray, bg = 'NONE'}) -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set
+    hl(0, "FloatBoder", {fg = c.gray, bg = c.alt_bg})
+    hl(0, "Whitespace", {fg = c.bg, bg = 'NONE'}) -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    hl(0, "VertSplit", {fg = c.gray, bg = c.bg}) -- the column separating vertically split windows
+    hl(0, "CursorLine", {fg = 'NONE', bg = c.alt_bg}) -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set
+    hl(0, "CursorColumn", {fg = 'NONE', bg = c.alt_bg}) -- Screen-column at the cursor, when 'cursorcolumn' is set
+    hl(0, "ColorColumn", {fg = 'NONE', bg = c.alt_bg}) --  used for the columns set with 'colorcolumn'
+    hl(0, "NormalFloat", {fg = c.fg, bg = c.alt_bg}) -- normal text in floating windows
+    hl(0, "Visual", {fg = 'NONE', bg = c.dark_gray}) -- visual mode selection
+    hl(0, "VisualNOS", {fg = 'NONE', bg = c.dark_gray}) -- visual mode selection when Vim is "Not Owning the Selection"
+    hl(0, "WarningMsg", {fg = c.warn, bg = 'NONE'}) -- warning messages
+    hl(0, "DiffText", {fg = c.orange, bg = c.sign_delete}) -- diff mode: Changed text within a changed line
+    hl(0, "DiffAdd", {fg = c.green, bg = c.sign_add}) -- diff mode: Added line
+    hl(0, "DiffChange", {fg = c.yellow, bg = c.sign_change, underline = true}) --  diff mode: Changed line
+    hl(0, "DiffDelete", {fg = c.red, bg = c.sign_delete}) -- diff mode: Deleted line
+    hl(0, "QuickFixLine", {fg = c.purple, bg = c.ui2_blue, reverse = true}) -- current 'quickfix' item in the quickfix window. Combined with 'hl-CursorLine' when the cursor is there
+    hl(0, "PmenuSbar", {fg = 'NONE', bg = c.alt_bg}) -- popup menu: scrollbar
+    hl(0, "PmenuThumb", {fg = c.fg, bg = c.gray}) -- popup menu: thumb of the scrollbar
+    hl(0, "MatchWord", {fg = 'NONE', bg = 'NONE', underline = true})
+    hl(0, "MatchParen", {fg = c.hint, bg = 'NONE', underline = true})
+    hl(0, "MatchWordCur", {fg = 'NONE', bg = 'NONE', underline = true})
+    hl(0, "MatchParenCur", {fg = 'NONE', bg = 'NONE', underline = true})
+    hl(0, "Cursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- character under the cursor
+    hl(0, "lCursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- the character under the cursor when language-mapping is used (see 'guicursor')
+    hl(0, "CursorIM", {fg = c.cursor_fg, bg = c.cursor_bg}) -- like Cursor, but used when in IME mode
+    hl(0, "TermCursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- cursor in a focused terminal
+    hl(0, "TermCursorNC", {fg = c.cursor_fg, bg = c.cursor_bg}) -- cursor in an unfocused terminal
+    hl(0, "Conceal", {fg = c.gray, bg = 'NONE'}) -- placeholder characters substituted for concealed text (see 'conceallevel')
+    hl(0, "Directory", {fg = c.folder_blue, bg = 'NONE'}) -- directory names (and other special names in listings)
+    hl(0, "SpecialKey", {fg = c.blue, bg = 'NONE', bold = true}) -- unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. 'hl-Whitespace'
+    hl(0, "ErrorMsg", {fg = c.error, bg = c.bg, bold = true}) -- error messages on the command line
+    hl(0, "Search", {fg = 'NONE', bg = c.ui5_blue, reverse = true}) -- last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out
+    hl(0, "IncSearch", {fg = 'NONE', bg = c.ui2_orange}) -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+    hl(0, "Substitute", {fg = 'NONE', bg = c.ui2_orange}) -- :substitute replacement text highlighting
+    hl(0, "MoreMsg", {fg = c.orange, bg = 'NONE'}) -- 'more-prompt'
+    hl(0, "Question", {fg = c.orange, bg = 'NONE'}) -- 'hit-enter' prompt and yes/no questions
+    hl(0, "EndOfBuffer", {fg = c.bg, bg = 'NONE'}) -- filler lines (~) after the end of the buffer
+    hl(0, "NonText", {fg = c.bg, bg = 'NONE'}) -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line)
+    hl(0, "TabLine", {fg = c.light_gray, bg = c.line}) -- tab pages line, not active tab page label
+    hl(0, "TabLineSel", {fg = c.fg, bg = c.line}) -- tab pages line, active tab page label
+    hl(0, "TabLineFill", {fg = c.line, bg = c.line}) -- tab pages line, where there are no labels
 
-    return editor
-end
+    -- ToolbarLine = {fg = sunflower.fg, bg = sunflower.bg},
+    -- ToolbarButton = {fg = sunflower.fg, style = 'bold'},
+    -- NormalMode = {fg = sunflower.blue, style = 'reverse'},
+    -- InsertMode = {fg = sunflower.green, style = 'reverse'},
+    -- ReplacelMode = {fg = sunflower.red, style = 'reverse'},
+    -- VisualMode = {fg = sunflower.yellow, style = 'reverse'},
+    -- CommandMode = {fg = sunflower.gray, style = 'reverse'},
+    -- Warnings = {fg = sunflower.yellow},
+    -- healthError = {fg = sunflower.error},
+    -- healthWarning = {fg = sunflower.yellow},
+    -- healthSuccess = {fg = sunflower.green}
 
-theme.loadSyntax = function()
-    local syntax = {
-        Comment = {fg = sunflower.green}, -- any comment
+    -- Code
+    hl(0, "Comment", {fg = c.green, bg = 'NONE', italic = true}) -- any comment
+    hl(0, "Variable", {fg = c.yellow, bg = 'NONE'}) -- any variable name
+    hl(0, "String", {fg = c.purple, bg = 'NONE'}) -- a string constant: "this is a string"
+    hl(0, "Character", {fg = c.orange, bg = 'NONE', bold = true}) -- a character constant: 'c', '\n'
+    hl(0, "Number", {fg = c.purple, bg = 'NONE'}) -- a number constant: 234, 0xff
+    hl(0, "Float", {fg = c.blue, bg = 'NONE'}) -- a floating point constant: 2.3e10
+    hl(0, "Boolean", {fg = c.orange, bg = 'NONE'}) -- a boolean constant: TRUE, false
+    hl(0, "Constant", {fg = c.green, bg = 'NONE', bold = true}) -- any constant
+    hl(0, "Type", {fg = c.yellow, bg = '#342532', bold = true}) -- int, long, char, etc.
+    hl(0, "Function", {fg = c.yellow, bg = '#262d3f', bold = true}) -- function name (also: methods for classes)
+    hl(0, "Keyword", {fg = c.orange, bg = '#312c37', bold = true}) -- any other keyword
+    hl(0, "Conditional", {fg = c.orange, bg = 'NONE', bold = true}) -- if, then, else, endif, switch, etc.
+    hl(0, "Repeat", {fg = c.orange, bg = 'NONE', bold = true}) -- for, do, while, etc.
+    hl(0, "Operator", {fg = c.cyan, bg = 'NONE'}) -- sizeof, +, *, etc.
+    hl(0, "PreProc", {fg = c.purple, bg = 'NONE'}) -- generic preprocessor
+    hl(0, "Include", {fg = c.orange, bg = 'NONE', bold = true}) -- preprocessor #include
+    hl(0, "Exception", {fg = c.cyan, bg = 'NONE'}) -- try, catch, throw
+    hl(0, "StorageClass", {fg = c.cyan, bg = 'NONE'}) -- static, register, volatile, etc.
+    hl(0, "Structure", {fg = c.purple, bg = 'NONE', bold = true}) -- struct, union, enum, etc.
+    hl(0, "Typedef", {fg = c.red, bg = 'NONE'}) -- a typedef
+    hl(0, "Define", {fg = c.pink, bg = 'NONE'}) -- preprocessor #define
+    hl(0, "Macro", {fg = c.pink, bg = 'NONE'}) -- same as Define
+    hl(0, "Debug", {fg = c.red, bg = 'NONE'}) -- debugging statements
+    hl(0, "Title", {fg = c.green, bg = 'NONE', bold = true}) -- titles for output from ":set all", ":autocmd" etc.
+    hl(0, "Label", {fg = c.cyan, bg = 'NONE'}) -- case, default, etc.
+    hl(0, "SpecialChar", {fg = c.pink, bg = 'NONE'}) -- special character in a constant
+    hl(0, "Delimiter", {fg = c.cyan, bg = 'NONE'}) -- character that needs attention like , or .
+    hl(0, "SpecialComment", {fg = c.gray, bg = 'NONE'}) -- special things inside a comment
+    hl(0, "Tag", {fg = c.red, bg = 'NONE'}) -- you can use CTRL-] on this
+    hl(0, "Bold", {fg = 'NONE', bg = 'NONE', bold = true})
+    hl(0, "Italic", {fg = 'NONE', bg = 'NONE', italic = true})
+    hl(0, "Underlined", {fg = 'NONE', bg = 'NONE', underline = true}) -- text that stands out, HTML links
+    hl(0, "Ignore", {fg = c.magenta, bg = 'NONE', bold = true}) -- left blank, hidden
+    hl(0, "Todo", {fg = c.magenta, bg = 'NONE', bold = true}) -- anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    hl(0, "Error", {fg = c.error, bg = 'NONE', bold = true}) -- any erroneous construct
+    hl(0, "Statement", {fg = c.pink, bg = 'NONE'}) -- any statement
+    hl(0, "Identifier", {fg = c.yellow, bg = 'NONE'}) -- any variable name
+    hl(0, "PreCondit", {fg = c.cyan, bg = 'NONE'}) -- preprocessor #if, #else, #endif, etc.
+    hl(0, "Special", {fg = red.orange, bg = 'NONE'}) -- any special symbol
 
-        Constant = {fg = sunflower.green, style = 'bold'}, -- any constant
-        String = {fg = sunflower.darkblue}, -- a string constant: "this is a string"
-        Character = {fg = sunflower.orange, style = 'bold'}, -- a character constant: 'c', '\n'
-        Number = {fg = sunflower.purple}, -- a number constant: 234, 0xff
-        Boolean = {fg = sunflower.orange, style = 'bold'}, -- a boolean constant: TRUE, false
-        Float = {fg = sunflower.blue}, -- a floating point constant: 2.3e10
+    -- Treesitter
+    hl(0, "TSComment", {link = 'Comment'}) -- For comment blocks
+    hl(0, "TSVariable", {link = 'Variable'}) -- Any variable name that does not have another highlight
+    hl(0, "TSString", {link = 'String'}) -- For strings
+    hl(0, "TSStringRegex", {link = 'String'}) -- For regexes
+    hl(0, "TSStringEscape", {link = 'String'}) -- For escape characters within a string
+    hl(0, "TSCharacter", {link = 'String'}) -- For characters
+    hl(0, "TSCharacterSpecial", {link = 'SpecialChar'})
+    hl(0, "TSNumber", {link = 'Number'}) -- For all numbers
+    hl(0, "TSFloat", {link = 'Float'}) -- For floats
+    hl(0, "TSBoolean", {link = 'Boolean'}) -- For booleans
+    hl(0, "TSConstant", {link = 'Constant'}) -- For constants
+    hl(0, "TSConstBuiltin", {link = 'Constant'}) -- For constant that are built in the language: `nil` in Lua
+    hl(0, "TSConstructor", {link = 'Type'}) -- For constructor calls and definitions: `= { }` in Lua, and Java constructors
+    hl(0, "TSType", {link = 'Type'}) -- For types
+    hl(0, "TSInclude", {link = 'Include'}) -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua
+    hl(0, "TSException", {link = 'Exception'}) -- For exception related keywords
+    hl(0, "TSKeyword", {link = 'Keyword'}) -- For keywords that don't fall in previous categories
+    hl(0, "TSKeywordReturn", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "TSKeywordOperator", {link = 'Keyword'}) -- For operators that are English words, e.g. and, as, or
+    hl(0, "TSKeywordFunction", {fg = c.green, bg = 'NONE'}) -- For keywords used to define a fuction
+    hl(0, "TSFunction", {link = 'Function'}) -- For function (calls and definitions)
+    hl(0, "TSFuncBuiltin", {link = 'Function'}) -- For builtin functions: `table.insert` in Lua
+    hl(0, "TSMethod", {link = 'Function'}) -- For method calls and definitions
+    hl(0, "TSFuncMacro", {link = 'Function'}) -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust
+    hl(0, "TSConditional", {link = 'Conditional'}) -- For keywords related to conditionnals
+    hl(0, "TSRepeat", {link = 'Repeat'}) -- For keywords related to loops
+    hl(0, "TSOperator", {link = 'Operator'}) -- For any operator: `+`, but also `->` and `*` in C
+    hl(0, "TSPreProc", {link = 'PreProc'})
+    hl(0, "TSStorageClass", {link = 'StorageClass'})
+    hl(0, "TSStructure", {link = 'Structure'})
+    hl(0, "TSTypeDefinition", {link = 'Typedef'})
+    hl(0, "TSDefine", {link = 'Define'})
+    hl(0, "TSNote", {link = 'Comment'}) -- Text representation of an informational note
+    hl(0, "TSTodo", {link = 'Todo'})
+    hl(0, "TSDebug", {link = 'Debug'})
+    hl(0, "TSDanger", {link = 'Error'}) -- Text representation of a danger note
+    hl(0, "TSTitle", {link = 'Title'}) -- Text that is part of a title
+    hl(0, "TSLabel", {link = 'Label'}) -- For labels: `label:` in C and `:label:` in Lua
+    hl(0, "TSPunctDelimiter", {link = 'Delimiter'}) -- For delimiters ie: `.`
+    hl(0, "TSTagDelimiter", {fg = c.blue, bg = 'NONE'}) -- Tag delimiter like `<` `>` `/`
+    hl(0, "TSPunctBracket", {link = 'Delimiter'}) -- For brackets and parens
+    hl(0, "TSPunctSpecial", {link = 'Delimiter'}) -- For special punctutation that does not fall in the catagories before
+    hl(0, "TSTag", {link = 'Tag'}) -- Tags like html tag names
+    hl(0, "TSStrong", {link = 'Bold'}) -- For text to be represented in bold
+    hl(0, "TSEmphasis", {link = 'Italic'}) -- For text to be represented with emphasis
+    hl(0, "TSUnderline", {link = 'Underline'}) -- For text to be represented with an underline
+    hl(0, "TSStrike", {fg = 'NONE', bg = 'NONE', strikethrough = true}) -- For strikethrough text
+    hl(0, "TSStringSpecial", {fg = c.fg, bg = 'NONE'})
+    -- hl(0, "TSEnvironment", {fg = c.cyan, bg = 'NONE'}) -- For text environments of markup languages
+    hl(0, "TSEnvironmentName", {fg = c.orange, bg = 'NONE'}) -- For the name/the string indicating the type of text environment
+    hl(0, "TSVariableBuiltin", {fg = c.red, bg = 'NONE'}) -- Variable names that are defined by the languages, like `this` or `self`
+    hl(0, "TSConstMacro", {link = 'Constant'}) -- For constants that are defined by macros: `NULL` in C
+    hl(0, "TSTypeBuiltin", {fg = c.orange, bg = 'NONE'}) -- For builtin types
+    hl(0, "TSAnnotation", {fg = c.blue, bg = 'NONE'}) -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information
+    hl(0, "TSNamespace", {fg = c.cyan, bg = 'NONE'}) -- For identifiers referring to modules and namespaces
+    hl(0, "TSSymbol", {fg = c.fg, bg = 'NONE'}) -- For identifiers referring to symbols or atoms
+    hl(0, "TSField", {fg = c.fg, bg = 'NONE'}) -- For fields
+    hl(0, "TSProperty", {fg = c.blue, bg = 'NONE'}) -- Same as `TSField`
+    hl(0, "TSParameter", {link = 'Variable'}) -- For parameters of a function
+    hl(0, "TSParameterReference", {link = 'Variable'}) -- For references to parameters of a function
+    hl(0, "TSAttribute", {link = 'Variable'}) -- (unstable) TODO: docs
+    hl(0, "TSText", {fg = c.alt_fg, bg = 'NONE'}) -- For strings considered text in a markup language
+    -- hl(0, "TSTextReference", {fg = c.yellow}) -- For footnotes, text references, citations
+    hl(0, "TSTagAttribute", {fg = c.yellow, bg = 'NONE', italic = true})
+    hl(0, "TSError", {link = 'Error'}) -- For syntax/parser errors
+    hl(0, "TSWarning", {link = 'WarningMsg'})
+    hl(0, "TSQueryLinterError", {fg = c.error, bg = 'NONE'})
+    hl(0, "TSURI", {fg = c.cyan, bg = 'NONE', underline = true}) -- Any URI like a link or email
+    hl(0, "TSMath", {fg = c.yellow, bg = 'NONE'}) -- For LaTeX-like math environments
+    hl(0, "TSLiteral", {fg = c.orange, bg = 'NONE'}) -- Literal text
+    -- hl(0, "TSNone", {}) -- For no highlighting
 
-        Identifier = {fg = sunflower.yellow}, -- any variable name
-        Function = {fg = sunflower.yellow}, -- function name (also: methods for classes)
+    -- markdown
+    hl(0, "markdownBlockquote", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownCode", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownCodeBlock", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownCodeDelimiter", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownH1", {link = 'Title'})
+    hl(0, "markdownH2", {link = 'Title'})
+    hl(0, "markdownH3", {link = 'Title'})
+    hl(0, "markdownH4", {link = 'Title'})
+    hl(0, "markdownH5", {link = 'Title'})
+    hl(0, "markdownH6", {link = 'Title'})
+    hl(0, "markdownHeadingDelimiter", {fg = c.blue, bg = 'NONE'})
+    hl(0, "markdownHeadingRule", {fg = c.fg, bg = 'NONE', bold = true})
+    hl(0, "markdownId", {link = 'Identifier'})
+    hl(0, "markdownIdDeclaration", {fg = c.blue, bg = 'NONE'})
+    hl(0, "markdownIdDelimiter", {fg = c.light_gray, bg = 'NONE'})
+    hl(0, "markdownLinkDelimiter", {fg = c.light_gray, bg = 'NONE'})
+    hl(0, "markdownBold", {fg = c.blue, bg = 'NONE', bold = true})
+    hl(0, "markdownItalic", {link = 'Italic'})
+    hl(0, "markdownBoldItalic",
+       {fg = c.yellow, bg = 'NONE', bold = true, italic = true})
+    hl(0, "markdownListMarker", {fg = c.blue, bg = 'NONE'})
+    hl(0, "markdownOrderedListMarker", {fg = c.purple, bg = 'NONE'})
+    hl(0, "markdownRule", {fg = c.gray, bg = 'NONE'})
+    hl(0, "markdownUrl", {fg = c.cyan, bg = 'NONE', underdotted = true})
+    hl(0, "markdownLinkText", {fg = c.blue, bg = 'NONE'})
+    hl(0, "markdownFootnote", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownFootnoteDefinition", {fg = c.orange, bg = 'NONE'})
+    hl(0, "markdownEscape", {fg = c.yellow, bg = 'NONE'})
+    -- markdownH1Delimiter = {fg = sunflower.cyan},
+    -- markdownH2Delimiter = {fg = sunflower.red},
+    -- markdownH3Delimiter = {fg = sunflower.green}
 
-        Statement = {fg = sunflower.pink}, -- any statement
-        Conditional = {fg = sunflower.orange, style = 'bold'}, -- if, then, else, endif, switch, etc.
-        Repeat = {fg = sunflower.orange, style = 'bold'}, -- for, do, while, etc.
-        Label = {fg = sunflower.cyan}, -- case, default, etc.
-        Operator = {fg = sunflower.cyan}, -- sizeof, +, *, etc.
-        Keyword = {fg = sunflower.orange, style = 'bold'}, -- any other keyword
-        Exception = {fg = sunflower.cyan}, -- try, catch, throw
+    -- Whichkey
+    hl(0, "WhichKey", {fg = c.purple, bg = 'NONE'})
+    hl(0, "WhichKeySeperator", {fg = c.green, bg = 'NONE'})
+    hl(0, "WhichKeyGroup", {fg = c.blue, bg = 'NONE'})
+    hl(0, "WhichKeyDesc", {fg = c.fg, bg = 'NONE'})
+    hl(0, "WhichKeyFloat", {fg = 'NONE', bg = c.alt_bg})
 
-        PreProc = {fg = sunflower.purple}, -- generic preprocessor
-        Include = {fg = sunflower.orange, style = 'bold'}, -- preprocessor #include
-        Define = {fg = sunflower.pink}, -- preprocessor #define
-        Macro = {fg = sunflower.cyan}, -- same as Define
-        PreCondit = {fg = sunflower.cyan}, -- preprocessor #if, #else, #endif, etc.
+    -- Git
+    hl(0, "SignAdd", {fg = c.sign_add, bg = 'NONE'})
+    hl(0, "SignChange", {fg = c.sign_change, bg = 'NONE'})
+    hl(0, "SignDelete", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "GitSignsAdd", {fg = c.sign_add, bg = 'NONE'})
+    hl(0, "GitSignsChange", {fg = c.sign_change, bg = 'NONE'})
+    hl(0, "GitSignsDelete", {fg = c.sign_delete, bg = 'NONE'})
 
-        Type = {fg = sunflower.yellow}, -- int, long, char, etc.
-        StorageClass = {fg = sunflower.cyan}, -- static, register, volatile, etc.
-        Structure = {fg = sunflower.purple, style = 'bold'}, -- struct, union, enum, etc.
-        Typedef = {fg = sunflower.red}, -- a typedef
+    -- LSP
+    hl(0, "DiagnosticHint", {fg = c.hint, bg = 'NONE'})
+    hl(0, "DiagnosticInfo", {fg = c.info, bg = 'NONE'})
+    hl(0, "DiagnosticWarn", {fg = c.warn, bg = 'NONE'})
+    hl(0, "DiagnosticError", {fg = c.error, bg = 'NONE'})
+    hl(0, "DiagnosticOther", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "DiagnosticSignHint", {link = 'DiagnosticHint'})
+    hl(0, "DiagnosticSignInfo", {link = 'DiagnosticInfo'})
+    hl(0, "DiagnosticSignWarn", {link = 'DiagnosticWarn'})
+    hl(0, "DiagnosticSignError", {link = 'DiagnosticError'})
+    hl(0, "DiagnosticSignOther", {link = 'DiagnosticOther'})
+    hl(0, "DiagnosticSignWarning", {link = 'DiagnosticWarn'})
+    hl(0, "DiagnosticFloatingHint", {link = 'DiagnosticHint'})
+    hl(0, "DiagnosticFloatingInfo", {link = 'DiagnosticInfo'})
+    hl(0, "DiagnosticFloatingWarn", {link = 'DiagnosticWarn'})
+    hl(0, "DiagnosticFloatingError", {link = 'DiagnosticError'})
+    hl(0, "DiagnosticUnderlineHint",
+       {fg = 'NONE', bg = 'NONE', sp = c.hint, undercurl = true})
+    hl(0, "DiagnosticUnderlineInfo",
+       {fg = 'NONE', bg = 'NONE', sp = c.info, undercurl = true})
+    hl(0, "DiagnosticUnderlineWarn",
+       {fg = 'NONE', bg = 'NONE', sp = c.warn, undercurl = true})
+    hl(0, "DiagnosticUnderlineError",
+       {fg = 'NONE', bg = 'NONE', sp = c.error, undercurl = true})
+    hl(0, "DiagnosticSignInformation", {link = 'DiagnosticInfo'})
+    hl(0, "DiagnosticVirtualTextHint", {fg = c.hint, bg = c.hint_bg})
+    hl(0, "DiagnosticVirtualTextInfo", {fg = c.info, bg = c.info_bg})
+    hl(0, "DiagnosticVirtualTextWarn", {fg = c.warn, bg = c.warn_bg})
+    hl(0, "DiagnosticVirtualTextError", {fg = c.error, bg = c.error_bg})
+    hl(0, "LspDiagnosticsError", {fg = c.error, bg = 'NONE'})
+    hl(0, "LspDiagnosticsWarning", {fg = c.warn, bg = 'NONE'})
+    hl(0, "LspDiagnosticsInfo", {fg = c.info, bg = 'NONE'})
+    hl(0, "LspDiagnosticsInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsHint", {fg = c.hint, bg = 'NONE'})
+    hl(0, "LspDiagnosticsDefaultError", {link = 'LspDiagnosticsError'})
+    hl(0, "LspDiagnosticsDefaultWarning", {link = 'LspDiagnosticsWarning'})
+    hl(0, "LspDiagnosticsDefaultInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsDefaultInfo", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsDefaultHint", {link = 'LspDiagnosticsHint'})
+    hl(0, "LspDiagnosticsVirtualTextError",
+       {link = 'DiagnosticVirtualTextError'})
+    hl(0, "LspDiagnosticsVirtualTextWarning",
+       {link = 'DiagnosticVirtualTextWarn'})
+    hl(0, "LspDiagnosticsVirtualTextInformation",
+       {link = 'DiagnosticVirtualTextInfo'})
+    hl(0, "LspDiagnosticsVirtualTextInfo", {link = 'DiagnosticVirtualTextInfo'})
+    hl(0, "LspDiagnosticsVirtualTextHint", {link = 'DiagnosticVirtualTextHint'})
+    hl(0, "LspDiagnosticsFloatingError", {link = 'LspDiagnosticsError'})
+    hl(0, "LspDiagnosticsFloatingWarning", {link = 'LspDiagnosticsWarning'})
+    hl(0, "LspDiagnosticsFloatingInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsFloatingInfo", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsFloatingHint", {link = 'LspDiagnosticsHint'})
+    hl(0, "LspDiagnosticsSignError", {link = 'LspDiagnosticsError'})
+    hl(0, "LspDiagnosticsSignWarning", {link = 'LspDiagnosticsWarning'})
+    hl(0, "LspDiagnosticsSignInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsSignInfo", {link = 'LspDiagnosticsInfo'})
+    hl(0, "LspDiagnosticsSignHint", {link = 'LspDiagnosticsHint'})
+    hl(0, "NvimTreeLspDiagnosticsError", {link = 'LspDiagnosticsError'})
+    hl(0, "NvimTreeLspDiagnosticsWarning", {link = 'LspDiagnosticsWarning'})
+    hl(0, "NvimTreeLspDiagnosticsInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "NvimTreeLspDiagnosticsInfo", {link = 'LspDiagnosticsInfo'})
+    hl(0, "NvimTreeLspDiagnosticsHint", {link = 'LspDiagnosticsHint'})
+    hl(0, "LspDiagnosticsUnderlineError", {link = 'DiagnosticUnderlineError'})
+    hl(0, "LspDiagnosticsUnderlineWarning", {link = 'DiagnosticUnderlineWarn'})
+    hl(0, "LspDiagnosticsUnderlineInformation",
+       {link = 'DiagnosticUnderlineInfo'})
+    hl(0, "LspDiagnosticsUnderlineInfo", {link = 'DiagnosticUnderlineInfo'})
+    hl(0, "LspDiagnosticsUnderlineHint", {link = 'DiagnosticUnderlineHint'})
+    hl(0, "LspReferenceRead", {fg = 'NONE', bg = c.reference})
+    hl(0, "LspReferenceText", {fg = 'NONE', bg = c.reference})
+    hl(0, "LspReferenceWrite", {fg = 'NONE', bg = c.reference})
+    hl(0, "LspCodeLens", {fg = c.context, bg = 'NONE', italic = true})
+    hl(0, "LspCodeLensSeparator", {fg = c.context, bg = 'NONE', italic = true})
 
-        Special = {fg = sunflower.red}, -- any special symbol
-        SpecialChar = {fg = sunflower.pink}, -- special character in a constant
-        Tag = {fg = sunflower.red}, -- you can use CTRL-] on this
-        Delimiter = {fg = sunflower.cyan}, -- character that needs attention like , or .
-        SpecialComment = {fg = sunflower.gray}, -- special things inside a comment
-        Debug = {fg = sunflower.red}, -- debugging statements
+    -- Quickscope
+    hl(0, "QuickScopePrimary", {fg = '#ff007c', bg = 'NONE', underline = true})
+    hl(0, "QuickScopeSecondary", {fg = '#00dfff', bg = 'NONE', underline = true})
 
-        Underlined = {
-            fg = sunflower.paleblue,
-            bg = sunflower.none,
-            style = 'underline'
-        }, -- text that stands out, HTML links
+    -- Telescope
+    hl(0, "TelescopeSelection", {fg = 'NONE', bg = c.ui2_blue})
+    hl(0, "TelescopeSelectionCaret", {fg = c.red, bg = c.ui2_blue})
+    hl(0, "TelescopeMatching",
+       {fg = c.yellow, bg = 'NONE', bold = true, italic = true})
+    hl(0, "TelescopeBorder", {fg = c.alt_fg, bg = 'NONE'})
+    hl(0, "TelescopeNormal", {fg = c.fg, bg = c.alt_bg})
+    hl(0, "TelescopePromptTitle", {fg = c.orange, bg = 'NONE'})
+    hl(0, "TelescopePromptPrefix", {fg = c.hint, bg = 'NONE'})
+    hl(0, "TelescopeResultsTitle", {fg = c.orange, bg = 'NONE'})
+    hl(0, "TelescopePreviewTitle", {fg = c.orange, bg = 'NONE'})
+    hl(0, "TelescopePromptCounter", {fg = c.red, bg = 'NONE'})
+    hl(0, "TelescopePreviewHyphen", {fg = c.red, bg = 'NONE'})
 
-        Ignore = {fg = sunflower.disabled}, -- left blank, hidden
+    -- NvimTree
+    hl(0, "NvimTreeFolderIcon", {link = 'Directory'})
+    hl(0, "NvimTreeIndentMarker", {fg = c.context, bg = 'NONE'})
+    hl(0, "NvimTreeNormal", {fg = c.fg, bg = c.alt_bg})
+    hl(0, "NvimTreeVertSplit", {fg = c.alt_bg, bg = c.alt_bg})
+    hl(0, "NvimTreeFolderName", {link = 'Directory'})
+    hl(0, "NvimTreeOpenedFolderName",
+       {fg = c.folder_blue, bg = 'NONE', bold = true, italic = true})
+    hl(0, "NvimTreeEmptyFolderName", {fg = c.gray, bg = 'NONE', italic = true})
+    hl(0, "NvimTreeGitIgnored", {fg = c.gray, bg = 'NONE', italic = true})
+    hl(0, "NvimTreeImageFile", {fg = c.light_gray, bg = 'NONE'})
+    hl(0, "NvimTreeSpecialFile", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NvimTreeEndOfBuffer", {fg = c.alt_bg, bg = 'NONE'})
+    hl(0, "NvimTreeCursorLine", {fg = 'NONE', bg = c.line})
+    hl(0, "NvimTreeGitStaged", {fg = c.sign_add_alt, bg = 'NONE'})
+    hl(0, "NvimTreeGitNew", {fg = c.sign_add_alt, bg = 'NONE'})
+    hl(0, "NvimTreeGitRenamed", {fg = c.sign_add_alt, bg = 'NONE'})
+    hl(0, "NvimTreeGitDeleted", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "NvimTreeGitMerge", {fg = c.sign_change_alt, bg = 'NONE'})
+    hl(0, "NvimTreeGitDirty", {fg = c.sign_change_alt, bg = 'NONE'})
+    hl(0, "NvimTreeSymlink", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NvimTreeRootFolder", {fg = c.fg, bg = 'NONE', bold = true})
+    hl(0, "NvimTreeExecFile", {fg = '#9FBA89', bg = 'NONE'})
 
-        Error = {
-            fg = sunflower.error,
-            bg = sunflower.none,
-            style = 'bold,underline'
-        }, -- any erroneous construct
+    -- Lir
+    hl(0, "LirFloatNormal", {fg = c.fg, bg = c.alt_bg})
+    hl(0, "LirDir", {link = 'Directory'})
+    hl(0, "LirSymLink", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "LirEmptyDirText", {fg = c.gray, bg = 'NONE', italic = true})
 
-        Todo = {
-            fg = sunflower.yellow,
-            bg = sunflower.none,
-            style = 'bold,italic'
-        }, -- anything that needs extra attention; mostly the keywords TODO FIXME and XXX
+    -- Buffer
+    hl(0, "BufferCurrent", {fg = c.fg, bg = c.bg})
+    hl(0, "BufferCurrentIndex", {fg = c.fg, bg = c.bg})
+    hl(0, "BufferCurrentMod", {fg = c.info, bg = c.bg})
+    hl(0, "BufferCurrentSign", {fg = c.hint, bg = c.bg})
+    hl(0, "BufferCurrentTarget", {fg = c.red, bg = c.bg, bold = true})
+    hl(0, "BufferVisible", {fg = c.fg, bg = c.bg})
+    hl(0, "BufferVisibleIndex", {fg = c.fg, bg = c.bg})
+    hl(0, "BufferVisibleMod", {fg = c.info, bg = c.bg})
+    hl(0, "BufferVisibleSign", {fg = c.gray, bg = c.bg})
+    hl(0, "BufferVisibleTarget", {fg = c.red, bg = c.bg, bold = true})
+    hl(0, "BufferInactive", {fg = c.gray, bg = c.alt_bg})
+    hl(0, "BufferInactiveIndex", {fg = c.gray, bg = c.alt_bg})
+    hl(0, "BufferInactiveMod", {fg = c.info, bg = c.alt_bg})
+    hl(0, "BufferInactiveSign", {fg = c.gray, bg = c.alt_bg})
+    hl(0, "BufferInactiveTarget", {fg = c.red, bg = c.alt_bg, bold = true})
 
-        htmlLink = {fg = sunflower.paleblue, style = 'underline'},
-        htmlH1 = {fg = sunflower.cyan, style = 'bold'},
-        htmlH2 = {fg = sunflower.red, style = 'bold'},
-        htmlH3 = {fg = sunflower.green, style = 'bold'},
-        htmlH4 = {fg = sunflower.yellow, style = 'bold'},
-        htmlH5 = {fg = sunflower.purple, style = 'bold'},
-        markdownH1 = {fg = sunflower.cyan, style = 'bold'},
-        markdownH2 = {fg = sunflower.red, style = 'bold'},
-        markdownH3 = {fg = sunflower.green, style = 'bold'},
-        markdownH1Delimiter = {fg = sunflower.cyan},
-        markdownH2Delimiter = {fg = sunflower.red},
-        markdownH3Delimiter = {fg = sunflower.green}
-    }
+    -- StatusLine
+    hl(0, "StatusLine", {fg = c.context, bg = c.bg})
+    hl(0, "StatusLineNC", {fg = c.line, bg = c.bg})
+    hl(0, "StatusLineSeparator", {fg = c.line, bg = 'NONE'})
+    hl(0, "StatusLineTerm", {fg = c.line, bg = 'NONE'})
+    hl(0, "StatusLineTermNC", {fg = c.line, bg = 'NONE'})
 
-    return syntax
-end
+    -- IndentBlankline
+    hl(0, "IndentBlanklineContextChar", {fg = c.context, bg = 'NONE'})
+    hl(0, "IndentBlanklineContextStart",
+       {fg = 'NONE', bg = 'NONE', underline = true})
+    hl(0, "IndentBlanklineChar", {fg = c.dark_gray, bg = 'NONE'})
 
-theme.loadTerminal = function()
-    vim.g.terminal_color_0 = sunflower.black
-    vim.g.terminal_color_1 = sunflower.red
-    vim.g.terminal_color_2 = sunflower.green
-    vim.g.terminal_color_3 = sunflower.yellow
-    vim.g.terminal_color_4 = sunflower.blue
-    vim.g.terminal_color_5 = sunflower.purple
-    vim.g.terminal_color_6 = sunflower.cyan
-    vim.g.terminal_color_7 = sunflower.white
-    vim.g.terminal_color_8 = sunflower.gray
-    vim.g.terminal_color_9 = sunflower.red
-    vim.g.terminal_color_10 = sunflower.green
-    vim.g.terminal_color_11 = sunflower.yellow
-    vim.g.terminal_color_12 = sunflower.blue
-    vim.g.terminal_color_13 = sunflower.purple
-    vim.g.terminal_color_14 = sunflower.cyan
-    vim.g.terminal_color_15 = sunflower.white
-end
+    -- Dashboard
+    hl(0, "DashboardHeader", {fg = c.blue, bg = 'NONE'})
+    hl(0, "DashboardCenter", {fg = c.purple, bg = 'NONE'})
+    hl(0, "DashboardFooter", {fg = c.cyan, bg = 'NONE'})
 
-theme.loadTreeSitter = function()
-    local treesitter = {
-        TSAnnotation = {fg = sunflower.yellow}, -- For C++/Dart attributes, annotations that can be attached to the code to denote some kind of meta information
-        TSAttribute = {fg = sunflower.yellow}, -- (unstable) TODO: docs
-        TSBoolean = {fg = sunflower.orange, style = 'bold'}, -- For booleans
-        TSCharacter = {fg = sunflower.darkblue}, -- For characters
-        TSComment = {fg = sunflower.green}, -- For comment blocks
-        TSConditional = {fg = sunflower.orange, style = 'bold'}, -- For keywords related to conditionnals
-        TSConstant = {fg = sunflower.green}, -- For constants
-        TSConstBuiltin = {fg = sunflower.orange, style = 'bold'}, -- For constant that are built in the language: `nil` in Lua
-        TSConstMacro = {fg = sunflower.orange, style = 'bold'}, -- For constants that are defined by macros: `NULL` in C
-        TSConstructor = {fg = sunflower.yellow}, -- For constructor calls and definitions: `= { }` in Lua, and Java constructors
-        TSError = {fg = sunflower.error}, -- For syntax/parser errors
-        TSException = {fg = sunflower.orange, style = 'bold'}, -- For exception related keywords
-        TSField = {fg = sunflower.green}, -- For fields
-        TSFloat = {fg = sunflower.blue}, -- For floats
-        TSFunction = {fg = sunflower.yellow}, -- For function (calls and definitions)
-        TSFuncBuiltin = {fg = sunflower.green}, -- For builtin functions: `table.insert` in Lua
-        TSFuncMacro = {fg = sunflower.green}, -- For macro defined fuctions (calls and definitions): each `macro_rules` in Rust
-        TSInclude = {fg = sunflower.orange, style = 'bold'}, -- For includes: `#include` in C, `use` or `extern crate` in Rust, or `require` in Lua
-        TSKeyword = {fg = sunflower.orange, style = 'bold'}, -- For keywords that don't fall in previous categories
-        TSKeywordFunction = {fg = sunflower.orange, style = 'bold'}, -- For keywords used to define a fuction
-        TSKeywordOperator = {fg = sunflower.orange, style = 'bold'}, -- For operators that are English words, e.g. and, as, or
-        TSLabel = {fg = sunflower.red}, -- For labels: `label:` in C and `:label:` in Lua
-        TSMethod = {fg = sunflower.yellow}, -- For method calls and definitions
-        TSNamespace = {fg = sunflower.yellow}, -- For identifiers referring to modules and namespaces
-        -- TSNone = { }, -- For no highlighting
-        TSNumber = {fg = sunflower.purple}, -- For all numbers
-        TSOperator = {fg = sunflower.gray}, -- For any operator: `+`, but also `->` and `*` in C
-        TSParameter = {fg = sunflower.paleblue}, -- For parameters of a function
-        TSParameterReference = {fg = sunflower.paleblue}, -- For references to parameters of a function
-        TSProperty = {fg = sunflower.green}, -- Same as `TSField`
-        TSPunctDelimiter = {fg = sunflower.gray}, -- For delimiters ie: `.`
-        TSPunctBracket = {fg = sunflower.gray}, -- For brackets and parens
-        TSPunctSpecial = {fg = sunflower.gray}, -- For special punctutation that does not fall in the catagories before
-        TSRepeat = {fg = sunflower.orange, style = 'bold'}, -- For keywords related to loops
-        TSString = {fg = sunflower.darkblue}, -- For strings
-        TSStringRegex = {fg = sunflower.darkblue}, -- For regexes
-        TSStringEscape = {fg = sunflower.orange, style = 'bold'}, -- For escape characters within a string
-        TSSymbol = {fg = sunflower.yellow}, -- For identifiers referring to symbols or atoms
-        TSTag = {fg = sunflower.orange, style = 'bold'}, -- Tags like html tag names
-        TSTagDelimiter = {fg = sunflower.orange, style = 'bold'}, -- Tag delimiter like `<` `>` `/`
-        TSText = {fg = sunflower.darkblue}, -- For strings considered text in a markup language
-        TSStrong = {fg = sunflower.paleblue, style = 'bold'}, -- For text to be represented in bold
-        TSEmphasis = {fg = sunflower.paleblue, style = 'italic'}, -- For text to be represented with emphasis
-        TSUnderline = {fg = sunflower.fg, style = 'underline'}, -- For text to be represented with an underline
-        TSStrike = {}, -- For strikethrough text
-        TSTitle = {fg = sunflower.paleblue, style = 'bold'}, -- Text that is part of a title
-        TSLiteral = {fg = sunflower.fg}, -- Literal text
-        TSURI = {fg = sunflower.link}, -- Any URI like a link or email
-        TSMath = {fg = sunflower.paleblue}, -- For LaTeX-like math environments
-        TSTextReference = {fg = sunflower.yellow}, -- For footnotes, text references, citations
-        TSEnviroment = {fg = sunflower.blue}, -- For text environments of markup languages
-        TSEnviromentName = {fg = sunflower.orange}, -- For the name/the string indicating the type of text environment
-        TSNote = {fg = sunflower.gray}, -- Text representation of an informational note
-        TSWarning = {fg = sunflower.yellow}, -- Text representation of a warning note
-        TSDanger = {fg = sunflower.error}, -- Text representation of a danger note
-        TSType = {fg = sunflower.yellow}, -- For types
-        TSTypeBuiltin = {fg = sunflower.orange, style = 'bold'}, -- For builtin types
-        TSVariable = {fg = sunflower.fg}, -- Any variable name that does not have another highlight
-        TSVariableBuiltin = {fg = sunflower.orange, style = 'bold'} -- Variable names that are defined by the languages, like `this` or `self`
-    }
+    -- DiffView
+    hl(0, "DiffViewNormal", {fg = c.gray, bg = c.alt_bg})
+    hl(0, "DiffviewStatusAdded", {fg = c.sign_add, bg = 'NONE'})
+    hl(0, "DiffviewStatusModified", {fg = c.sign_change, bg = 'NONE'})
+    hl(0, "DiffviewStatusRenamed", {fg = c.sign_change, bg = 'NONE'})
+    hl(0, "DiffviewStatusDeleted", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "DiffviewFilePanelInsertion", {fg = c.sign_add, bg = 'NONE'})
+    hl(0, "DiffviewFilePanelDeletion", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "DiffviewVertSplit", {fg = 'NONE', bg = c.bg})
 
-    return treesitter
-end
+    -- Bookmarks
+    hl(0, "BookmarkSign", {fg = c.sign_change, bg = 'NONE'})
+    hl(0, "BookmarkAnnotationSign", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "BookmarkLine", {fg = c.ui2_blue, bg = 'NONE'})
+    hl(0, "BookmarkAnnotationLine", {fg = c.ui2_blue, bg = 'NONE'})
 
-theme.loadLSP = function()
-    local lsp = {
-        LspReferenceText = {fg = sunflower.purple}, -- used for highlighting "text" references
-        LspReferenceRead = {fg = sunflower.purple}, -- used for highlighting "read" references
-        LspReferenceWrite = {fg = sunflower.purple}, -- used for highlighting "write" references
+    -- Bqf
+    hl(0, "BqfPreviewBorder", {fg = c.fg, bg = 'NONE'})
+    hl(0, "BqfPreviewRange", {fg = 'NONE', bg = c.ui2_blue})
 
-        LspDiagnosticsDefaultError = {fg = sunflower.error}, -- used as the base "Error" highlight group (except Underline)
-        LspDiagnosticsDefaultWarning = {fg = sunflower.yellow}, -- used as the base "Warning" highlight group (except Underline)
-        LspDiagnosticsDefaultInformation = {fg = sunflower.paleblue}, -- used as the base "Information" highlight group (except Underline)
-        LspDiagnosticsDefaultHint = {fg = sunflower.purple}, -- used as the base "Hint" highlight group (except Underline)
+    -- Cmp
+    hl(0, "CmpItemAbbrDeprecated",
+       {fg = c.gray, bg = 'NONE', strikethrough = true})
+    hl(0, "CmpItemAbbrMatch", {fg = c.ui3_blue, bg = 'NONE'})
+    hl(0, "CmpItemAbbrMatchFuzzy", {fg = c.ui3_blue, bg = 'NONE'})
+    hl(0, "CmpItemKindFunction", {fg = c.blue, bg = 'NONE'})
+    hl(0, "CmpItemKindMethod", {fg = c.blue, bg = 'NONE'})
+    hl(0, "CmpItemKindConstructor", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindClass", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindEnum", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindEvent", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "CmpItemKindInterface", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindStruct", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindVariable", {fg = c.red, bg = 'NONE'})
+    hl(0, "CmpItemKindField", {fg = c.red, bg = 'NONE'})
+    hl(0, "CmpItemKindProperty", {fg = c.red, bg = 'NONE'})
+    hl(0, "CmpItemKindEnumMember", {fg = c.orange, bg = 'NONE'})
+    hl(0, "CmpItemKindConstant", {fg = c.orange, bg = 'NONE'})
+    hl(0, "CmpItemKindKeyword", {fg = c.purple, bg = 'NONE'})
+    hl(0, "CmpItemKindModule", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "CmpItemKindValue", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindUnit", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindText", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindSnippet", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "CmpItemKindFile", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindFolder", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindColor", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindReference", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindOperator", {fg = c.fg, bg = 'NONE'})
+    hl(0, "CmpItemKindTypeParameter", {fg = c.red, bg = 'NONE'})
 
-        LspDiagnosticsVirtualTextError = {fg = sunflower.error}, -- used for "Error" diagnostic virtual text
-        LspDiagnosticsVirtualTextWarning = {fg = sunflower.yellow}, -- used for "Warning" diagnostic virtual text
-        LspDiagnosticsVirtualTextInformation = {fg = sunflower.paleblue}, -- used for "Information" diagnostic virtual text
-        LspDiagnosticsVirtualTextHint = {fg = sunflower.purple}, -- used for "Hint" diagnostic virtual text
+    -- Navic
+    hl(0, "NavicIconsFile", {fg = c.fg, bg = 'NONE'})
+    hl(0, "NavicIconsModule", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsNamespace", {fg = c.fg, bg = 'NONE'})
+    hl(0, "NavicIconsPackage", {fg = c.fg, bg = 'NONE'})
+    hl(0, "NavicIconsClass", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsMethod", {fg = c.blue, bg = 'NONE'})
+    hl(0, "NavicIconsProperty", {fg = c.red, bg = 'NONE'})
+    hl(0, "NavicIconsField", {fg = c.red, bg = 'NONE'})
+    hl(0, "NavicIconsConstructor", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsEnum", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsInterface", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsFunction", {fg = c.blue, bg = 'NONE'})
+    hl(0, "NavicIconsVariable", {fg = c.red, bg = 'NONE'})
+    hl(0, "NavicIconsConstant", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NavicIconsString", {fg = c.green, bg = 'NONE'})
+    hl(0, "NavicIconsNumber", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NavicIconsBoolean", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NavicIconsArray", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsObject", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsKey", {fg = c.purple, bg = 'NONE'})
+    hl(0, "NavicIconsKeyword", {fg = c.purple, bg = 'NONE'})
+    hl(0, "NavicIconsNull", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NavicIconsEnumMember", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NavicIconsStruct", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "NavicIconsEvent", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "NavicIconsOperator", {fg = c.fg, bg = 'NONE'})
+    hl(0, "NavicIconsTypeParameter", {fg = c.red, bg = 'NONE'})
+    hl(0, "NavicText", {fg = c.context, bg = 'NONE'})
+    hl(0, "NavicSeparator", {fg = c.context, bg = 'NONE'})
 
-        LspDiagnosticsUnderlineError = {
-            style = 'undercurl',
-            sp = sunflower.error
-        }, -- used to underline "Error" diagnostics
-        LspDiagnosticsUnderlineWarning = {
-            style = 'undercurl',
-            sp = sunflower.yellow
-        }, -- used to underline "Warning" diagnostics
-        LspDiagnosticsUnderlineInformation = {
-            style = 'undercurl',
-            sp = sunflower.paleblue
-        }, -- used to underline "Information" diagnostics
-        LspDiagnosticsUnderlineHint = {
-            style = 'undercurl',
-            sp = sunflower.purple
-        }, -- used to underline "Hint" diagnostics
+    -- Gps
+    hl(0, "GpsNormal", {fg = c.gray, bg = '#1d1d1d'})
+    hl(0, "GpsItemKindFunction", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "GpsItemKindMethod", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "GpsItemKindConstructor", {fg = c.ui_orange, bg = 'NONE'})
+    hl(0, "GpsItemKindClass", {fg = c.ui_orange, bg = 'NONE'})
+    hl(0, "GpsItemKindEnum", {fg = c.ui_orange, bg = 'NONE'})
+    hl(0, "GpsItemKindEvent", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "GpsItemKindInterface", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindStruct", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "GpsItemKindVariable", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "GpsItemKindField", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "GpsItemKindProperty", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "GpsItemKindEnumMember", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindConstant", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "GpsItemKindKeyword", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindModule", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindValue", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindUnit", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindText", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindSnippet", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindFile", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindFolder", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindColor", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindReference", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindOperator", {fg = c.fg, bg = 'NONE'})
+    hl(0, "GpsItemKindTypeParameter", {fg = c.fg, bg = 'NONE'})
 
-        LspDiagnosticsFloatingError = {fg = sunflower.error}, -- used for "Error" diagnostic messages in the diagnostics float
-        LspDiagnosticsFloatingWarning = {fg = sunflower.yellow}, -- used for "Warning" diagnostic messages in the diagnostics float
-        LspDiagnosticsFloatingInformation = {fg = sunflower.paleblue}, -- used for "Information" diagnostic messages in the diagnostics float
-        LspDiagnosticsFloatingHint = {fg = sunflower.purple}, -- used for "Hint" diagnostic messages in the diagnostics float
+    -- Packer
+    hl(0, "packerString", {fg = c.ui_orange, bg = 'NONE'})
+    hl(0, "packerHash", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "packerOutput", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "packerRelDate", {fg = c.gray, bg = 'NONE'})
+    hl(0, "packerSuccess", {fg = c.success_green, bg = 'NONE'})
+    hl(0, "packerStatusSuccess", {fg = c.ui4_blue, bg = 'NONE'})
 
-        LspDiagnosticsSignError = {fg = sunflower.error}, -- used for "Error" diagnostic signs in sign column
-        LspDiagnosticsSignWarning = {fg = sunflower.yellow}, -- used for "Warning" diagnostic signs in sign column
-        LspDiagnosticsSignInformation = {fg = sunflower.paleblue}, -- used for "Information" diagnostic signs in sign column
-        LspDiagnosticsSignHint = {fg = sunflower.purple} -- used for "Hint" diagnostic signs in sign column
-    }
+    -- SymbolOutline
+    hl(0, "SymbolsOutlineConnector", {fg = c.gray, bg = 'NONE'})
+    hl(0, "FocusedSymbol", {fg = 'NONE', bg = '#36383F'})
 
-    return lsp
-end
+    -- Notify
+    hl(0, "NotifyERRORBorder", {fg = '#8A1F1F', bg = 'NONE'})
+    hl(0, "NotifyWARNBorder", {fg = '#79491D', bg = 'NONE'})
+    hl(0, "NotifyINFOBorder", {fg = c.ui_blue, bg = 'NONE'})
+    hl(0, "NotifyDEBUGBorder", {fg = c.gray, bg = 'NONE'})
+    hl(0, "NotifyTRACEBorder", {fg = '#4F3552', bg = 'NONE'})
+    hl(0, "NotifyERRORIcon", {fg = c.error, bg = 'NONE'})
+    hl(0, "NotifyWARNIcon", {fg = c.warn, bg = 'NONE'})
+    hl(0, "NotifyINFOIcon", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "NotifyDEBUGIcon", {fg = c.gray, bg = 'NONE'})
+    hl(0, "NotifyTRACEIcon", {fg = c.ui_purple, bg = 'NONE'})
+    hl(0, "NotifyERRORTitle", {fg = c.error, bg = 'NONE'})
+    hl(0, "NotifyWARNTitle", {fg = c.warn, bg = 'NONE'})
+    hl(0, "NotifyINFOTitle", {fg = c.ui4_blue, bg = 'NONE'})
+    hl(0, "NotifyDEBUGTitle", {fg = c.gray, bg = 'NONE'})
+    hl(0, "NotifyTRACETitle", {fg = c.ui_purple, bg = 'NONE'})
 
-theme.loadPlugins = function()
-    local plugins = {
+    -- TreesitterContext
+    hl(0, "TreesitterContext", {fg = 'NONE', bg = c.alt_bg})
 
-        -- LspTrouble
-        LspTroubleSignError = {fg = sunflower.error},
-        LspTroubleWarning = {fg = sunflower.yellow},
-        LspTroubleInformation = {fg = sunflower.paleblue},
-        LspTroubleHint = {fg = sunflower.purple},
-        LspTroubleText = {fg = sunflower.darkblue},
-        LspTroubleTextError = {fg = sunflower.error},
-        LspTroubleTextWarning = {fg = sunflower.yellow},
-        LspTroubleTextInformation = {fg = sunflower.paleblue},
-        LspTroubleTextHint = {fg = sunflower.purple},
-        LspTroubleSignOther = {fg = sunflower.paleblue},
-        LspTroubleSignInformation = {fg = sunflower.paleblue},
-        LspTroubleFoldIcon = {fg = sunflower.purple},
-        LspTroubleNormal = {fg = sunflower.fg, bg = sunflower.bg},
-        LspTroubleCount = {fg = sunflower.purple, bg = sunflower.darkblue},
-        LspTroubleLocation = {fg = sunflower.darkblue},
-        LspTroubleFile = {fg = sunflower.blue},
-        LspTroublePreview = {fg = sunflower.purple},
-        LspTroubleIndent = {fg = sunflower.darkblue},
-        LspTroubleCode = {fg = sunflower.white},
-        LspTroubleError = {fg = sunflower.error},
-        LspTroubleSignWarning = {fg = sunflower.yellow},
-        LspTroubleSignHint = {fg = sunflower.purple},
-        LspTroubleSource = {fg = sunflower.green},
-        TroubleCount = {fg = sunflower.bg, bg = sunflower.purple},
-        TroubleError = {fg = sunflower.error},
-        TroubleNormal = {fg = sunflower.fg, bg = sunflower.bg},
-        TroubleTextInformation = {fg = sunflower.paleblue},
-        TroubleSignWarning = {fg = sunflower.yellow},
-        TroubleLocation = {fg = sunflower.darkblue},
-        TroubleWarning = {fg = sunflower.yellow},
-        TroublePreview = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        },
-        TroubleTextError = {fg = sunflower.fg, bg = sunflower.bg},
-        TroubleSignInformation = {fg = sunflower.paleblue},
-        TroubleIndent = {fg = sunflower.darkblue},
-        TroubleSource = {fg = sunflower.green},
-        TroubleSignHint = {fg = sunflower.purple},
-        TroubleSignOther = {fg = sunflower.paleblue},
-        TroubleFoldIcon = {fg = sunflower.purple},
-        TroubleTextWarning = {fg = sunflower.fg, bg = sunflower.bg},
-        TroubleCode = {fg = sunflower.green},
-        TroubleInformation = {fg = sunflower.paleblue},
-        TroubleSignError = {fg = sunflower.error},
-        TroubleFile = {fg = sunflower.blue},
-        TroubleHint = {fg = sunflower.purple},
-        TroubleTextHint = {fg = sunflower.fg, bg = sunflower.bg},
-        TroubleText = {fg = sunflower.fg, bg = sunflower.bg},
+    -- Hop
+    hl(0, "HopNextKey", {fg = '#4ae0ff', bg = 'NONE'})
+    hl(0, "HopNextKey1", {fg = '#d44eed', bg = 'NONE'})
+    hl(0, "HopNextKey2", {fg = '#b42ecd', bg = 'NONE'})
+    hl(0, "HopUnmatched", {fg = c.gray, bg = 'NONE'})
+    hl(0, "HopPreview", {fg = '#c7ba7d', bg = 'NONE'})
 
-        -- Neogit
-        NeogitBranch = {fg = sunflower.paleblue},
-        NeogitRemote = {fg = sunflower.purple},
-        NeogitHunkHeader = {fg = sunflower.fg, bg = sunflower.purple},
-        NeogitHunkHeaderHighlight = {fg = sunflower.blue, bg = sunflower.purple},
-        NeogitDiffContextHighlight = {
-            fg = sunflower.darkblue,
-            bg = sunflower.purple
-        },
-        NeogitDiffDeleteHighlight = {fg = sunflower.red},
-        NeogitDiffAddHighlight = {fg = sunflower.green},
-        NeogitObjectId = {fg = sunflower.green},
-        NeogitCommitMessage = {fg = sunflower.yellow},
-        NeogitDiffAdd = {fg = sunflower.green},
-        NeogitDiffDelete = {fg = sunflower.red},
-        NeogitStash = {fg = sunflower.green},
-        NeogitUnmergedInto = {fg = sunflower.yellow},
-        NeogitUnpulledFrom = {fg = sunflower.yellow},
-        NeogitUntrackedfiles = {fg = sunflower.yellow},
-        NeogitUntrackedfilesRegion = {fg = sunflower.yellow},
-        NeogitUnstagedchanges = {fg = sunflower.yellow},
-        NeogitUnstagedchangesRegion = {fg = sunflower.yellow},
-        NeogitUnmergedchanges = {fg = sunflower.yellow},
-        NeogitUnmergedchangesRegion = {fg = sunflower.yellow},
-        NeogitUnpulledchanges = {fg = sunflower.yellow},
-        NeogitUnpulledchangesRegion = {fg = sunflower.yellow},
-        NeogitStagedchanges = {fg = sunflower.yellow},
-        NeogitStagedchangesRegion = {fg = sunflower.yellow},
-        NeogitStashes = {fg = sunflower.yellow},
-        NeogitStashesRegion = {fg = sunflower.yellow},
-        NeogitHeadRegion = {fg = sunflower.yellow},
-        NeogitPushRegion = {fg = sunflower.yellow},
-        NeogitUnmergedIntoRegion = {fg = sunflower.yellow},
-        NeogitUnpulledFromRegion = {fg = sunflower.yellow},
-        NeogitDiffAddRegion = {fg = sunflower.yellow},
-        NeogitDiffDeleteRegion = {fg = sunflower.yellow},
-        NeogitFold = {fg = sunflower.none},
+    -- Crates
+    hl(0, "CratesNvimLoading", {fg = c.hint, bg = 'NONE'})
+    hl(0, "CratesNvimVersion", {fg = c.hint, bg = 'NONE'})
 
-        -- GitGutter
-        GitGutterAdd = {fg = sunflower.green}, -- diff mode: Added line |diff.txt|
-        GitGutterChange = {fg = sunflower.yellow}, -- diff mode: Changed line |diff.txt|
-        GitGutterDelete = {fg = sunflower.red}, -- diff mode: Deleted line |diff.txt|
+    -- Misc
+    hl(0, "diffAdded", {fg = c.sign_add, bg = 'NONE'})
+    hl(0, "diffRemoved", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "diffFileId", {fg = c.blue, bg = 'NONE', bold = true, reverse = true})
+    hl(0, "diffFile", {fg = c.alt_bg, bg = 'NONE'})
+    hl(0, "diffNewFile", {fg = c.green, bg = 'NONE'})
+    hl(0, "diffOldFile", {fg = c.red, bg = 'NONE'})
+    hl(0, "debugPc", {fg = 'NONE', bg = c.ui5_blue})
+    hl(0, "debugBreakpoint", {fg = c.red, bg = 'NONE', reverse = true})
+    hl(0, "CodiVirtualText", {fg = c.hint, bg = 'NONE'})
+    hl(0, "SniprunVirtualTextOk", {fg = c.hint, bg = 'NONE'})
+    hl(0, "SniprunFloatingWinOk", {fg = c.hint, bg = 'NONE'})
+    hl(0, "SniprunVirtualTextErr", {fg = c.error, bg = 'NONE'})
+    hl(0, "SniprunFloatingWinErr", {fg = c.error, bg = 'NONE'})
+    hl(0, "DapBreakpoint", {fg = c.error, bg = 'NONE'})
 
-        -- GitSigns
-        GitSignsAdd = {fg = sunflower.green}, -- diff mode: Added line |diff.txt|
-        GitSignsAddNr = {fg = sunflower.green}, -- diff mode: Added line |diff.txt|
-        GitSignsAddLn = {fg = sunflower.green}, -- diff mode: Added line |diff.txt|
-        GitSignsChange = {fg = sunflower.yellow}, -- diff mode: Changed line |diff.txt|
-        GitSignsChangeNr = {fg = sunflower.yellow}, -- diff mode: Changed line |diff.txt|
-        GitSignsChangeLn = {fg = sunflower.yellow}, -- diff mode: Changed line |diff.txt|
-        GitSignsDelete = {fg = sunflower.red}, -- diff mode: Deleted line |diff.txt|
-        GitSignsDeleteNr = {fg = sunflower.red}, -- diff mode: Deleted line |diff.txt|
-        GitSignsDeleteLn = {fg = sunflower.red}, -- diff mode: Deleted line |diff.txt|
-
-        -- Telescope
-        TelescopeSelection = {fg = sunflower.orange},
-        TelescopeSelectionCaret = {fg = sunflower.error},
-        TelescopeMultiSelection = {fg = sunflower.gray},
-        TelescopeNormal = {fg = sunflower.fg, bg = sunflower.bg},
-        TelescopeMatching = {fg = sunflower.cyan},
-        TelescopeBorder = {fg = sunflower.white},
-        TelescopePromptBorder = {fg = sunflower.white},
-        TelescopePreviewBorder = {fg = sunflower.white},
-        TelescopePreviewNormal = {fg = sunflower.fg, bg = sunflower.bg},
-        TelescopePreviewLine = {fg = sunflower.none, bg = sunflower.selection},
-        TelescopePreviewMatch = {
-            fg = sunflower.purple,
-            bg = sunflower.white,
-            style = 'reverse'
-        },
-        TelescopePreviewPipe = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewCharDev = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewDirectory = {fg = sunflower.blue},
-        TelescopePreviewBlock = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewLink = {fg = sunflower.red},
-        TelescopePreviewSocket = {fg = sunflower.pink},
-        TelescopePreviewRead = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewWrite = {fg = sunflower.pink},
-        TelescopePreviewExecute = {fg = sunflower.darkblue},
-        TelescopePreviewHyphen = {fg = sunflower.disabled},
-        TelescopePreviewSticky = {fg = sunflower.orange, style = 'bold'},
-        TelescopePreviewSize = {fg = sunflower.darkblue},
-        TelescopePreviewUser = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewGroup = {fg = sunflower.green, style = 'bold'},
-        TelescopePreviewDate = {fg = sunflower.blue},
-        TelescopePromptPrefix = {fg = sunflower.error},
-        TelescopeResultsBorder = {fg = sunflower.white},
-        TelescopeResultsClass = {fg = sunflower.yellow},
-        TelescopeResultsConstant = {fg = sunflower.green, style = 'bold'},
-        TelescopeResultsField = {fg = sunflower.yellow},
-        TelescopeResultsFunction = {fg = sunflower.yellow},
-        TelescopeResultsMethod = {fg = sunflower.yellow},
-        TelescopeResultsOperator = {fg = sunflower.cyan},
-        TelescopeResultsStruct = {fg = sunflower.purple, style = 'bold'},
-        TelescopeResultsVariable = {fg = sunflower.pink},
-        TelescopeResultsLineNr = {fg = sunflower.darkblue},
-        TelescopeResultsIdentifier = {fg = sunflower.yellow},
-        TelescopeResultsNumber = {fg = sunflower.blue},
-        TelescopeResultsComment = {fg = sunflower.green},
-        TelescopeResultsSpecialComment = {fg = sunflower.gray},
-        TelescopeResultsDiffChange = {fg = sunflower.yellow, style = 'reverse'},
-        TelescopeResultsDiffAdd = {fg = sunflower.green},
-        TelescopeResultsDiffDelete = {fg = sunflower.red, style = 'reverse'},
-        TelescopeResultsDiffUntracked = {fg = sunflower.disabled},
-
-        -- NvimTree
-        NvimTreeRootFolder = {fg = sunflower.blue, style = 'bold'},
-        NvimTreeGitDirty = {fg = sunflower.yellow},
-        NvimTreeGitNew = {fg = sunflower.green},
-        NvimTreeImageFile = {fg = sunflower.yellow},
-        NvimTreeExecFile = {fg = sunflower.green},
-        NvimTreeSpecialFile = {fg = sunflower.purple, style = 'underline'},
-        NvimTreeFolderName = {fg = sunflower.paleblue},
-        NvimTreeEmptyFolderName = {fg = sunflower.disabled},
-        NvimTreeFolderIcon = {fg = sunflower.purple},
-        NvimTreeIndentMarker = {fg = sunflower.disabled},
-        NvimTreeLspDiagnosticsError = {fg = sunflower.error},
-        NvimTreeLspDiagnosticsWarning = {fg = sunflower.yellow},
-        NvimTreeLspDiagnosticsInformation = {fg = sunflower.paleblue},
-        NvimTreeLspDiagnosticsHint = {fg = sunflower.purple},
-        NvimTreeOpenedFile = {fg = sunflower.orange, style = 'bold'},
-        NvimTreeGitDeleted = {fg = sunflower.orange},
-        NvimTreeGitStaged = {fg = sunflower.orange},
-        NvimTreeGitMerge = {fg = sunflower.blue},
-        NvimTreeGitRenamed = {fg = sunflower.pink},
-        NvimTreeWindowPicker = {
-            fg = sunflower.gray,
-            bg = sunflower.blue,
-            style = 'bold'
-        },
-        NvimTreeSymlink = {fg = sunflower.orange, style = 'bold'},
-        NvimTreeVertSplit = {fg = sunflower.bg},
-        NvimTreeStatusLine = {fg = sunflower.fg, bg = sunflower.bg},
-        NvimTreeStatusLineNC = {
-            fg = sunflower.darkblue,
-            bg = sunflower.disabled
-        },
-        NvimTreeFileNew = {fg = sunflower.green},
-        NvimTreeFileMerge = {fg = sunflower.blue},
-        NvimTreeOpenedFolderName = {fg = sunflower.blue},
-        NvimTreeFileDirty = {fg = sunflower.yellow},
-        NvimTreeNormal = {fg = sunflower.fg, bg = sunflower.bg},
-        NvimTreeFileRenamed = {fg = sunflower.pink},
-        NvimTreeCursorColumn = {fg = sunflower.cursor, style = 'reverse'},
-        NvimTreeCursorLine = {fg = sunflower.purple, style = 'reverse'},
-        NvimTreeFileDeleted = {fg = sunflower.orange},
-        NvimTreePopup = {fg = sunflower.fg, bg = sunflower.bg},
-        NvimTreeGitIgnored = {fg = sunflower.green},
-        NvimTreeEndOfBuffer = {fg = sunflower.disabled},
-        NvimTreeFileStaged = {fg = sunflower.orange},
-
-        -- LspSaga
-        LspSagaFinderSelection = {fg = sunflower.green},
-        LspFloatWinNormal = {bg = sunflower.purple},
-        LspFloatWinBorder = {fg = sunflower.purple},
-        LspSagaBorderTitle = {fg = sunflower.cyan},
-        LspSagaHoverBorder = {fg = sunflower.paleblue},
-        TargetWord = {fg = sunflower.cyan},
-        ReferencesCount = {fg = sunflower.purple},
-        DefinitionCount = {fg = sunflower.purple},
-        TargetFileName = {fg = sunflower.green},
-        DefinitionIcon = {fg = sunflower.blue},
-        ReferencesIcon = {fg = sunflower.blue},
-        ProviderTruncateLine = {fg = sunflower.black},
-        SagaShadow = {fg = sunflower.black},
-        DiagnosticTruncateLine = {fg = sunflower.fg},
-        DiagnosticError = {fg = sunflower.error},
-        DiagnosticWarning = {fg = sunflower.yellow},
-        DiagnosticInformation = {fg = sunflower.paleblue},
-        DiagnosticHint = {fg = sunflower.purple},
-        DefinitionPreviewTitle = {fg = sunflower.green, style = 'bold'},
-        LspSagaShTruncateLine = {fg = sunflower.black},
-        LspSagaDocTruncateLine = {fg = sunflower.black},
-        LineDiagTuncateLine = {fg = sunflower.gray},
-        LspSagaCodeActionTitle = {fg = sunflower.paleblue},
-        LspSagaCodeActionTruncateLine = {fg = sunflower.black},
-        LspSagaCodeActionContent = {fg = sunflower.purple},
-        LspSagaRenamePromptPrefix = {fg = sunflower.green},
-        LspSagaRenameBorder = {fg = sunflower.green},
-        LspSagaHoverBorder = {fg = sunflower.paleblue},
-        LspSagaSignatureHelpBorder = {fg = sunflower.pink},
-        LspSagaCodeActionBorder = {fg = sunflower.blue},
-        LspSagaAutoPreview = {fg = sunflower.pink},
-        LspSagaDefPreviewBorder = {fg = sunflower.green},
-        LspLinesDiagBorder = {fg = sunflower.yellow},
-
-        -- Indent Blankline
-        IndentBlanklineChar = {fg = sunflower.paleblue},
-        IndentBlanklineSpaceChar = {fg = sunflower.paleblue},
-        IndentBlanklineSpaceCharBlankline = {fg = sunflower.paleblue},
-        IndentBlanklineContextChar = {fg = sunflower.cyan}
-    }
-
-    return plugins
+    -- Language
+    hl(0, "xmlTag", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "xmlTagName", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "xmlEndTag", {fg = c.cyan, bg = 'NONE'})
+    hl(0, "yamlPlainScalar", {fg = c.orange, bg = 'NONE'})
+    hl(0, "yamlTSField", {fg = c.blue, bg = 'NONE'})
+    hl(0, "luaFunc", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "luaFunction", {fg = c.blue, bg = 'NONE'})
+    hl(0, "hclTSPunctSpecial", {fg = c.alt_fg, bg = 'NONE'})
+    hl(0, "htmlH1", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlH2", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlH3", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlH4", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlH5", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlH6", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlHead", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlTitle", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlArg", {fg = c.fg, bg = 'NONE'})
+    hl(0, "htmlTag", {fg = c.blue, bg = 'NONE'})
+    hl(0, "htmlTagN", {fg = c.blue, bg = 'NONE'})
+    hl(0, "htmlTagName", {fg = c.blue, bg = 'NONE'})
+    hl(0, "htmlComment", {fg = c.green, bg = 'NONE'})
+    hl(0, "htmlLink", {fg = c.orange, bg = 'NONE', underline = true})
+    hl(0, "cssBraces", {fg = c.fg, bg = 'NONE'})
+    hl(0, "cssInclude", {fg = c.purple, bg = 'NONE'})
+    hl(0, "cssTagName", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssClassName", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssPseudoClass", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssPseudoClassId", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssPseudoClassLang", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssIdentifier", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssProp", {fg = c.fg, bg = 'NONE'})
+    hl(0, "cssDefinition", {fg = c.fg, bg = 'NONE'})
+    hl(0, "cssAttr", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssAttrRegion", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssColor", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssFunction", {fg = c.purple, bg = 'NONE'})
+    hl(0, "cssFunctionName", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "cssVendor", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssValueNumber", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssValueLength", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssUnitDecorators", {fg = c.orange, bg = 'NONE'})
+    hl(0, "cssStyle", {fg = c.fg, bg = 'NONE'})
+    hl(0, "cssImportant", {fg = c.blue, bg = 'NONE'})
+    hl(0, "jsonKeyword", {fg = c.blue, bg = 'NONE'})
+    hl(0, "yamlBlockMappingKey", {fg = c.blue, bg = 'NONE'})
+    hl(0, "tomlTSProperty", {fg = c.blue, bg = 'NONE'})
 end
 
 return theme

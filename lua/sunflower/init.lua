@@ -1,6 +1,16 @@
-local util = require('sunflower.util')
+local M = {}
+local theme = require('sunflower.theme')
 
--- Load the theme
-local set = function() util.load() end
+M.setup = function()
+    vim.cmd('hi clear')
 
-return {set = set}
+    vim.o.background = 'dark'
+    if vim.fn.exists('syntax_on') then vim.cmd('syntax reset') end
+
+    vim.o.termguicolors = true
+    vim.g.colors_name = 'sunflower'
+
+    theme.set_highlights()
+end
+
+return M
