@@ -66,18 +66,17 @@ theme.set_highlights = function()
     hl(0, "TabLine", {fg = c.light_gray, bg = c.line}) -- tab pages line, not active tab page label
     hl(0, "TabLineSel", {fg = c.fg, bg = c.line}) -- tab pages line, active tab page label
     hl(0, "TabLineFill", {fg = c.line, bg = c.line}) -- tab pages line, where there are no labels
-
-    -- ToolbarLine = {fg = sunflower.fg, bg = sunflower.bg},
-    -- ToolbarButton = {fg = sunflower.fg, style = 'bold'},
-    -- NormalMode = {fg = sunflower.blue, style = 'reverse'},
-    -- InsertMode = {fg = sunflower.green, style = 'reverse'},
-    -- ReplacelMode = {fg = sunflower.red, style = 'reverse'},
-    -- VisualMode = {fg = sunflower.yellow, style = 'reverse'},
-    -- CommandMode = {fg = sunflower.gray, style = 'reverse'},
-    -- Warnings = {fg = sunflower.yellow},
-    -- healthError = {fg = sunflower.error},
-    -- healthWarning = {fg = sunflower.yellow},
-    -- healthSuccess = {fg = sunflower.green}
+    -- ToolbarLine = {fg = c.fg, bg = c.bg},
+    -- ToolbarButton = {fg = c.fg, style = 'bold'},
+    -- NormalMode = {fg = c.blue, style = 'reverse'},
+    -- InsertMode = {fg = c.green, style = 'reverse'},
+    -- ReplacelMode = {fg = c.red, style = 'reverse'},
+    -- VisualMode = {fg = c.yellow, style = 'reverse'},
+    -- CommandMode = {fg = c.gray, style = 'reverse'},
+    -- Warnings = {fg = c.yellow},
+    -- healthError = {fg = c.error},
+    -- healthWarning = {fg = c.yellow},
+    -- healthSuccess = {fg = c.green}
 
     -- Code
     hl(0, "Comment", {fg = c.green, bg = 'NONE', italic = true}) -- any comment
@@ -222,9 +221,9 @@ theme.set_highlights = function()
     hl(0, "markdownFootnote", {fg = c.orange, bg = 'NONE'})
     hl(0, "markdownFootnoteDefinition", {fg = c.orange, bg = 'NONE'})
     hl(0, "markdownEscape", {fg = c.yellow, bg = 'NONE'})
-    -- markdownH1Delimiter = {fg = sunflower.cyan},
-    -- markdownH2Delimiter = {fg = sunflower.red},
-    -- markdownH3Delimiter = {fg = sunflower.green}
+    -- markdownH1Delimiter = {fg = c.cyan},
+    -- markdownH2Delimiter = {fg = c.red},
+    -- markdownH3Delimiter = {fg = c.green}
 
     -- Whichkey
     hl(0, "WhichKey", {fg = c.purple, bg = 'NONE'})
@@ -237,15 +236,24 @@ theme.set_highlights = function()
     hl(0, "SignAdd", {fg = c.sign_add, bg = 'NONE'})
     hl(0, "SignChange", {fg = c.sign_change, bg = 'NONE'})
     hl(0, "SignDelete", {fg = c.sign_delete, bg = 'NONE'})
-    hl(0, "GitSignsAdd", {fg = c.sign_add, bg = 'NONE'})
-    hl(0, "GitSignsChange", {fg = c.sign_change, bg = 'NONE'})
-    hl(0, "GitSignsDelete", {fg = c.sign_delete, bg = 'NONE'})
+    hl(0, "GitSignsAdd", {link = 'SignAdd'}) -- diff mode: Added line |diff.txt|
+    hl(0, "GitSignsAddNr", {link = 'GitSignsAdd'}) -- diff mode: Added line |diff.txt|
+    hl(0, "GitSignsAddLn", {link = 'GitSignsAdd'}) -- diff mode: Added line |diff.txt|
+    hl(0, "GitSignsChange", {link = 'SignChange'}) -- diff mode: Changed line |diff.txt|
+    hl(0, "GitSignsChangeNr", {link = 'GitSignsChange'}) -- diff mode: Changed line |diff.txt|
+    hl(0, "GitSignsChangeLn", {link = 'GitSignsChange'}) -- diff mode: Changed line |diff.txt|
+
+    hl(0, "GitSignsDelete", {link = 'SignDelete'}) -- diff mode: Deleted line |diff.txt|
+    hl(0, "GitSignsDeleteNr", {link = 'GitSignsDelete'}) -- diff mode: Deleted line |diff.txt|
+    hl(0, "GitSignsDeleteLn", {link = 'GitSignsDelete'}) -- diff mode: Deleted line |diff.txt|
 
     -- LSP
     hl(0, "DiagnosticHint", {fg = c.hint, bg = 'NONE'})
     hl(0, "DiagnosticInfo", {fg = c.info, bg = 'NONE'})
-    hl(0, "DiagnosticWarn", {fg = c.warn, bg = 'NONE'})
-    hl(0, "DiagnosticError", {fg = c.error, bg = 'NONE'})
+    hl(0, "DiagnosticInformation", {link = 'DiagnosticInfo'})
+    hl(0, "DiagnosticWarn", {link = 'TSWarning'})
+    hl(0, "DiagnosticWarning", {link = 'DiagnosticWarn'})
+    hl(0, "DiagnosticError", {link = 'TSError'})
     hl(0, "DiagnosticOther", {fg = c.ui_purple, bg = 'NONE'})
     hl(0, "DiagnosticSignHint", {link = 'DiagnosticHint'})
     hl(0, "DiagnosticSignInfo", {link = 'DiagnosticInfo'})
@@ -275,87 +283,256 @@ theme.set_highlights = function()
     hl(0, "LspDiagnosticsInfo", {fg = c.info, bg = 'NONE'})
     hl(0, "LspDiagnosticsInformation", {link = 'LspDiagnosticsInfo'})
     hl(0, "LspDiagnosticsHint", {fg = c.hint, bg = 'NONE'})
-    hl(0, "LspDiagnosticsDefaultError", {link = 'LspDiagnosticsError'})
-    hl(0, "LspDiagnosticsDefaultWarning", {link = 'LspDiagnosticsWarning'})
-    hl(0, "LspDiagnosticsDefaultInformation", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsDefaultInfo", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsDefaultHint", {link = 'LspDiagnosticsHint'})
+    hl(0, "LspDiagnosticsDefaultError", {link = 'LspDiagnosticsError'}) -- used as the base "Error" highlight group (except Underline)
+    hl(0, "LspDiagnosticsDefaultWarning", {link = 'LspDiagnosticsWarning'}) -- used as the base "Warning" highlight group (except Underline)
+    hl(0, "LspDiagnosticsDefaultInformation", {link = 'LspDiagnosticsInfo'}) -- used as the base "Information" highlight group (except Underline)
+    hl(0, "LspDiagnosticsDefaultInfo", {link = 'LspDiagnosticsInfo'}) -- used as the base "Information" highlight group (except Underline)
+    hl(0, "LspDiagnosticsDefaultHint", {link = 'LspDiagnosticsHint'}) -- used as the base "Hint" highlight group (except Underline)
     hl(0, "LspDiagnosticsVirtualTextError",
-       {link = 'DiagnosticVirtualTextError'})
+       {link = 'DiagnosticVirtualTextError'}) -- used for "Error" diagnostic virtual text
     hl(0, "LspDiagnosticsVirtualTextWarning",
-       {link = 'DiagnosticVirtualTextWarn'})
+       {link = 'DiagnosticVirtualTextWarn'}) -- used for "Warning" diagnostic virtual text
     hl(0, "LspDiagnosticsVirtualTextInformation",
-       {link = 'DiagnosticVirtualTextInfo'})
-    hl(0, "LspDiagnosticsVirtualTextInfo", {link = 'DiagnosticVirtualTextInfo'})
-    hl(0, "LspDiagnosticsVirtualTextHint", {link = 'DiagnosticVirtualTextHint'})
-    hl(0, "LspDiagnosticsFloatingError", {link = 'LspDiagnosticsError'})
-    hl(0, "LspDiagnosticsFloatingWarning", {link = 'LspDiagnosticsWarning'})
-    hl(0, "LspDiagnosticsFloatingInformation", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsFloatingInfo", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsFloatingHint", {link = 'LspDiagnosticsHint'})
-    hl(0, "LspDiagnosticsSignError", {link = 'LspDiagnosticsError'})
-    hl(0, "LspDiagnosticsSignWarning", {link = 'LspDiagnosticsWarning'})
-    hl(0, "LspDiagnosticsSignInformation", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsSignInfo", {link = 'LspDiagnosticsInfo'})
-    hl(0, "LspDiagnosticsSignHint", {link = 'LspDiagnosticsHint'})
-    hl(0, "NvimTreeLspDiagnosticsError", {link = 'LspDiagnosticsError'})
-    hl(0, "NvimTreeLspDiagnosticsWarning", {link = 'LspDiagnosticsWarning'})
-    hl(0, "NvimTreeLspDiagnosticsInformation", {link = 'LspDiagnosticsInfo'})
-    hl(0, "NvimTreeLspDiagnosticsInfo", {link = 'LspDiagnosticsInfo'})
-    hl(0, "NvimTreeLspDiagnosticsHint", {link = 'LspDiagnosticsHint'})
-    hl(0, "LspDiagnosticsUnderlineError", {link = 'DiagnosticUnderlineError'})
-    hl(0, "LspDiagnosticsUnderlineWarning", {link = 'DiagnosticUnderlineWarn'})
+       {link = 'DiagnosticVirtualTextInfo'}) -- used for "Information" diagnostic virtual text
+    hl(0, "LspDiagnosticsVirtualTextInfo", {link = 'DiagnosticVirtualTextInfo'}) -- used for "Information" diagnostic virtual text
+    hl(0, "LspDiagnosticsVirtualTextHint", {link = 'DiagnosticVirtualTextHint'}) -- used for "Hint" diagnostic virtual text
+    hl(0, "LspDiagnosticsFloatingError", {link = 'LspDiagnosticsError'}) -- used for "Error" diagnostic messages in the diagnostics float
+    hl(0, "LspDiagnosticsFloatingWarning", {link = 'LspDiagnosticsWarning'}) -- used for "Warning" diagnostic messages in the diagnostics float
+    hl(0, "LspDiagnosticsFloatingInformation", {link = 'LspDiagnosticsInfo'}) -- used for "Information" diagnostic messages in the diagnostics float
+    hl(0, "LspDiagnosticsFloatingInfo", {link = 'LspDiagnosticsInfo'}) -- used for "Information" diagnostic messages in the diagnostics float
+    hl(0, "LspDiagnosticsFloatingHint", {link = 'LspDiagnosticsHint'}) -- used for "Hint" diagnostic messages in the diagnostics float
+    hl(0, "LspDiagnosticsSignError", {link = 'LspDiagnosticsError'}) -- used for "Error" diagnostic signs in sign column
+    hl(0, "LspDiagnosticsSignWarning", {link = 'LspDiagnosticsWarning'}) -- used for "Warning" diagnostic signs in sign column
+    hl(0, "LspDiagnosticsSignInformation", {link = 'LspDiagnosticsInfo'}) -- used for "Information" diagnostic signs in sign column
+    hl(0, "LspDiagnosticsSignInfo", {link = 'LspDiagnosticsInfo'}) -- used for "Information" diagnostic signs in sign column
+    hl(0, "LspDiagnosticsSignHint", {link = 'LspDiagnosticsHint'}) -- used for "Hint" diagnostic signs in sign column
+    hl(0, "LspDiagnosticsUnderlineError", {link = 'DiagnosticUnderlineError'}) -- used to underline "Error" diagnostics
+    hl(0, "LspDiagnosticsUnderlineWarning", {link = 'DiagnosticUnderlineWarn'}) -- used to underline "Warning" diagnostics
     hl(0, "LspDiagnosticsUnderlineInformation",
-       {link = 'DiagnosticUnderlineInfo'})
-    hl(0, "LspDiagnosticsUnderlineInfo", {link = 'DiagnosticUnderlineInfo'})
-    hl(0, "LspDiagnosticsUnderlineHint", {link = 'DiagnosticUnderlineHint'})
-    hl(0, "LspReferenceRead", {fg = 'NONE', bg = c.reference})
-    hl(0, "LspReferenceText", {fg = 'NONE', bg = c.reference})
-    hl(0, "LspReferenceWrite", {fg = 'NONE', bg = c.reference})
+       {link = 'DiagnosticUnderlineInfo'}) -- used to underline "Information" diagnostics
+    hl(0, "LspDiagnosticsUnderlineInfo", {link = 'DiagnosticUnderlineInfo'}) -- used to underline "Information" diagnostics
+    hl(0, "LspDiagnosticsUnderlineHint", {link = 'DiagnosticUnderlineHint'}) -- used to underline "Hint" diagnostics
+    hl(0, "LspReferenceRead", {fg = c.purple, bg = c.reference}) -- used for highlighting "read" references
+    hl(0, "LspReferenceText", {fg = c.purple, bg = c.reference}) -- used for highlighting "text" references
+    hl(0, "LspReferenceWrite", {fg = c.purple, bg = c.reference}) -- used for highlighting "write" references
     hl(0, "LspCodeLens", {fg = c.context, bg = 'NONE', italic = true})
     hl(0, "LspCodeLensSeparator", {fg = c.context, bg = 'NONE', italic = true})
 
+    -- LSP Trouble
+    hl(0, "LspTroubleSignError", {fg = c.error})
+    hl(0, "LspTroubleWarning", {fg = c.yellow})
+    hl(0, "LspTroubleInformation", {fg = c.paleblue})
+    hl(0, "LspTroubleHint", {fg = c.purple})
+    hl(0, "LspTroubleText", {fg = c.darkblue})
+    hl(0, "LspTroubleTextError", {fg = c.error})
+    hl(0, "LspTroubleTextWarning", {fg = c.error})
+    hl(0, "LspTroubleTextInformation", {fg = c.paleblue})
+    hl(0, "LspTroubleTextHint", {fg = c.purple})
+    hl(0, "LspTroubleSignOther", {fg = c.paleblue})
+    hl(0, "LspTroubleSignInformation", {fg = c.paleblue})
+    hl(0, "LspTroubleFoldIcon", {fg = c.purple})
+    hl(0, "LspTroubleNormal", {fg = c.fg, bg = c.bg})
+    hl(0, "LspTroubleCount", {fg = c.purple, bg = c.darkblue})
+    hl(0, "LspTroubleLocation", {fg = c.darkblue})
+    hl(0, "LspTroubleFile", {fg = c.blue})
+    hl(0, "LspTroublePreview", {fg = c.purple})
+    hl(0, "LspTroubleIndent", {fg = c.darkblue})
+    hl(0, "LspTroubleCode", {fg = c.white})
+    hl(0, "LspTroubleError", {fg = c.error})
+    hl(0, "LspTroubleSignWarning", {fg = c.yellow})
+    hl(0, "LspTroubleSignHint", {fg = c.purple})
+    hl(0, "LspTroubleSource", {fg = c.green})
+    hl(0, "TroubleCount", {link = 'LspTroubleCount'})
+    hl(0, "TroubleError", {link = 'LspTroubleError'})
+    hl(0, "TroubleNormal", {link = 'LspTroubleNormal'})
+    hl(0, "TroubleTextInformation", {link = 'LspTroubleTextInformation'})
+    hl(0, "TroubleSignWarning", {link = 'LspTroubleSignWarning'})
+    hl(0, "TroubleLocation", {link = 'LspTroubleLocation'})
+    hl(0, "TroubleWarning", {link = 'LspTroubleWarning'})
+    hl(0, "TroublePreview", {link = 'LspTroublePreview'})
+    hl(0, "TroubleTextError", {link = 'LspTroubleTextError'})
+    hl(0, "TroubleSignInformation", {link = 'LspTroubleSignInformation'})
+    hl(0, "TroubleIndent", {link = 'LspTroubleIndent'})
+    hl(0, "TroubleSource", {link = 'LspTroubleSource'})
+    hl(0, "TroubleSignHint", {link = 'LspTroubleSignHint'})
+    hl(0, "TroubleSignOther", {link = 'LspTroubleSignOther'})
+    hl(0, "TroubleFoldIcon", {link = 'LspTroubleFoldIcon'})
+    hl(0, "TroubleTextWarning", {link = 'LspTroubleTextWarning'})
+    hl(0, "TroubleCode", {link = 'LspTroubleCode'})
+    hl(0, "TroubleInformation", {link = 'LspTroubleInformation'})
+    hl(0, "TroubleSignError", {link = 'LspTroubleSignError'})
+    hl(0, "TroubleFile", {link = 'LspTroubleFile'})
+    hl(0, "TroubleHint", {link = 'LspTroubleHint'})
+    hl(0, "TroubleTextHint", {link = 'LspTroubleTextHint'})
+    hl(0, "TroubleText", {link = 'LspTroubleText'})
+
+    -- LspSaga
+    hl(0, "LspSagaFinderSelection", {fg = c.green})
+    hl(0, "LspFloatWinNormal", {fg = c.purple})
+    hl(0, "LspFloatWinBorder", {fg = c.purple})
+    hl(0, "LspSagaBorderTitle", {fg = c.cyan})
+    hl(0, "LspSagaHoverBorder", {fg = c.paleblue})
+    hl(0, "TargetWord", {fg = c.cyan})
+    hl(0, "ReferencesCount", {fg = c.purple})
+    hl(0, "DefinitionCount", {fg = c.purple})
+    hl(0, "TargetFileName", {fg = c.green})
+    hl(0, "DefinitionIcon", {fg = c.blue})
+    hl(0, "ReferencesIcon", {fg = c.blue})
+    hl(0, "ProviderTruncateLine", {fg = c.black})
+    hl(0, "SagaShadow", {fg = c.black})
+    hl(0, "DiagnosticTruncateLine", {fg = c.fg})
+    hl(0, "DefinitionPreviewTitle", {fg = c.green, bold = true})
+    hl(0, "LspSagaShTruncateLine", {fg = c.black})
+    hl(0, "LspSagaDocTruncateLine", {fg = c.black})
+    hl(0, "LineDiagTruncateLine", {fg = c.gray})
+    hl(0, "LspSagaCodeActionTitle", {fg = c.paleblue})
+    hl(0, "LspSagaCodeActionTruncateLine", {fg = c.black})
+    hl(0, "LspSagaCodeActionContent", {fg = c.purple})
+    hl(0, "LspSagaRenamePromptPrefix", {fg = c.green})
+    hl(0, "LspSagaRenameBorder", {fg = c.green})
+    hl(0, "LspSagaHoverBorder", {fg = c.paleblue})
+    hl(0, "LspSagaSignatureHelpBorder", {fg = c.pink})
+    hl(0, "LspSagaCodeActionBorder", {fg = c.blue})
+    hl(0, "LspSagaAutoPreview", {fg = c.pink})
+    hl(0, "LspSagaDefPreviewBorder", {fg = c.green})
+    hl(0, "LspLinesDiagBorder", {fg = c.yellow})
+
+    -- Neogit
+    hl(0, "NeogitBranch", {fg = c.paleblue})
+    hl(0, "NeogitRemote", {fg = c.purple})
+    hl(0, "NeogitHunkHeader", {fg = c.fg, bg = c.purple})
+    hl(0, "NeogitHunkHeaderHighlight", {fg = c.blue, bg = c.purple})
+    hl(0, "NeogitDiffContextHighlight", {fg = c.darkblue, bg = c.purple})
+    hl(0, "NeogitDiffDeleteHighlight", {fg = c.red})
+    hl(0, "NeogitDiffAddHighlight", {fg = c.green})
+    hl(0, "NeogitObjectId", {fg = c.green})
+    hl(0, "NeogitCommitMessage", {fg = c.yellow})
+    hl(0, "NeogitDiffAdd", {link = 'NeogitDiffAddHighlight'})
+    hl(0, "NeogitDiffDelete", {link = 'NeogitDiffDeleteHighlight'})
+    hl(0, "NeogitStash", {fg = c.green})
+    hl(0, "NeogitUnmergedInto", {fg = c.yellow})
+    hl(0, "NeogitUnpulledFrom", {fg = c.yellow})
+    hl(0, "NeogitUntrackedfiles", {fg = c.yellow})
+    hl(0, "NeogitUntrackedfilesRegion", {fg = c.yellow})
+    hl(0, "NeogitUnstagedchanges", {fg = c.yellow})
+    hl(0, "NeogitUnstagedchangesRegion", {fg = c.yellow})
+    hl(0, "NeogitUnmergedchanges", {fg = c.yellow})
+    hl(0, "NeogitUnmergedchangesRegion", {fg = c.yellow})
+    hl(0, "NeogitUnpulledchanges", {fg = c.yellow})
+    hl(0, "NeogitUnpulledchangesRegion", {fg = c.yellow})
+    hl(0, "NeogitStagedchanges", {fg = c.yellow})
+    hl(0, "NeogitStagedchangesRegion", {fg = c.yellow})
+    hl(0, "NeogitStashes", {fg = c.yellow})
+    hl(0, "NeogitStashesRegion", {fg = c.yellow})
+    hl(0, "NeogitHeadRegion", {fg = c.yellow})
+    hl(0, "NeogitPushRegion", {fg = c.yellow})
+    hl(0, "NeogitUnmergedIntoRegion", {fg = c.yellow})
+    hl(0, "NeogitUnpulledFromRegion", {fg = c.yellow})
+    hl(0, "NeogitDiffAddRegion", {fg = c.yellow})
+    hl(0, "NeogitDiffDeleteRegion", {fg = c.yellow})
+    hl(0, "NeogitFold", {fg = c.none})
+
+    -- GitGutter
+    hl(0, "GitGutterAdd", {fg = c.green}) -- diff mode: Added line |diff.txt|
+    hl(0, "GitGutterChange", {fg = c.yellow}) -- diff mode: Changed line |diff.txt|
+    hl(0, "GitGutterDelete", {fg = c.red}) -- diff mode: Deleted line |diff.txt|
+
     -- Quickscope
-    hl(0, "QuickScopePrimary", {fg = '#ff007c', bg = 'NONE', underline = true})
-    hl(0, "QuickScopeSecondary", {fg = '#00dfff', bg = 'NONE', underline = true})
+    -- hl(0, "QuickScopePrimary", {fg = '#ff007c', bg = 'NONE', underline = true})
+    -- hl(0, "QuickScopeSecondary", {fg = '#00dfff', bg = 'NONE', underline = true})
 
     -- Telescope
-    hl(0, "TelescopeSelection", {fg = 'NONE', bg = c.ui2_blue})
-    hl(0, "TelescopeSelectionCaret", {fg = c.red, bg = c.ui2_blue})
+    hl(0, "TelescopeSelection", {fg = c.orange})
+    hl(0, "TelescopeSelectionCaret", {fg = c.error})
+    hl(0, "TelescopeMultiSelection", {fg = c.gray})
     hl(0, "TelescopeMatching",
-       {fg = c.yellow, bg = 'NONE', bold = true, italic = true})
+       {fg = c.cyan, bg = 'NONE', bold = true, italic = true})
     hl(0, "TelescopeBorder", {fg = c.alt_fg, bg = 'NONE'})
     hl(0, "TelescopeNormal", {fg = c.fg, bg = c.alt_bg})
     hl(0, "TelescopePromptTitle", {fg = c.orange, bg = 'NONE'})
+    hl(0, "TelescopePromptBorder", {fg = c.alt_fg, bg = 'NONE'})
+    hl(0, "TelescopePromptCounter", {fg = c.red, bg = 'NONE'})
+    hl(0, "TelescopePreviewBorder", {fg = c.alt_fg, bg = 'NONE'})
+    hl(0, "TelescopePreviewTitle", {fg = c.orange, bg = 'NONE'})
+    hl(0, "TelescopePreviewNormal", {fg = c.fg, bg = c.alt_bg})
+    hl(0, "TelescopePreviewLine", {fg = c.none, bg = c.selection})
+    hl(0, "TelescopePreviewMatch", {fg = c.purple, bg = c.white, reverse = true})
+    hl(0, "TelescopePreviewPipe", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewCharDev", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewDirectory", {fg = c.blue})
+    hl(0, "TelescopePreviewBlock", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewLink", {fg = c.red})
+    hl(0, "TelescopePreviewSocket", {fg = c.pink})
+    hl(0, "TelescopePreviewRead", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewWrite", {fg = c.pink})
+    hl(0, "TelescopePreviewExecute", {fg = c.darkblue})
+    hl(0, "TelescopePreviewHyphen", {fg = c.red, bg = 'NONE'})
+    hl(0, "TelescopePreviewSticky", {fg = c.orange, bold = true})
+    hl(0, "TelescopePreviewSize", {fg = c.darkblue})
+    hl(0, "TelescopePreviewUser", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewGroup", {fg = c.green, bold = true})
+    hl(0, "TelescopePreviewDate", {fg = c.blue})
     hl(0, "TelescopePromptPrefix", {fg = c.hint, bg = 'NONE'})
     hl(0, "TelescopeResultsTitle", {fg = c.orange, bg = 'NONE'})
-    hl(0, "TelescopePreviewTitle", {fg = c.orange, bg = 'NONE'})
-    hl(0, "TelescopePromptCounter", {fg = c.red, bg = 'NONE'})
-    hl(0, "TelescopePreviewHyphen", {fg = c.red, bg = 'NONE'})
+    hl(0, "TelescopeResultsBorder", {fg = c.white})
+    hl(0, "TelescopeResultsClass", {fg = c.yellow})
+    hl(0, "TelescopeResultsConstant", {fg = c.green, bold = true})
+    hl(0, "TelescopeResultsField", {fg = c.yellow})
+    hl(0, "TelescopeResultsFunction", {fg = c.yellow})
+    hl(0, "TelescopeResultsMethod", {fg = c.yellow})
+    hl(0, "TelescopeResultsOperator", {fg = c.cyan})
+    hl(0, "TelescopeResultsStruct", {fg = c.purple, bold = true})
+    hl(0, "TelescopeResultsVariable", {fg = c.pink})
+    hl(0, "TelescopeResultsLineNr", {fg = c.darkblue})
+    hl(0, "TelescopeResultsIdentifier", {fg = c.yellow})
+    hl(0, "TelescopeResultsNumber", {fg = c.blue})
+    hl(0, "TelescopeResultsComment", {fg = c.green})
+    hl(0, "TelescopeResultsSpecialComment", {fg = c.gray})
+    hl(0, "TelescopeResultsDiffChange", {fg = c.yellow, reverse = true})
+    hl(0, "TelescopeResultsDiffAdd", {fg = c.green})
+    hl(0, "TelescopeResultsDiffDelete", {fg = c.red, reverse = true})
+    hl(0, "TelescopeResultsDiffUntracked", {fg = c.diabled})
 
     -- NvimTree
     hl(0, "NvimTreeFolderIcon", {link = 'Directory'})
     hl(0, "NvimTreeIndentMarker", {fg = c.context, bg = 'NONE'})
     hl(0, "NvimTreeNormal", {fg = c.fg, bg = c.alt_bg})
-    hl(0, "NvimTreeVertSplit", {fg = c.alt_bg, bg = c.alt_bg})
+    hl(0, "NvimTreeVertSplit", {fg = c.alt_fg, bg = c.alt_bg})
     hl(0, "NvimTreeFolderName", {link = 'Directory'})
     hl(0, "NvimTreeOpenedFolderName",
        {fg = c.folder_blue, bg = 'NONE', bold = true, italic = true})
     hl(0, "NvimTreeEmptyFolderName", {fg = c.gray, bg = 'NONE', italic = true})
     hl(0, "NvimTreeGitIgnored", {fg = c.gray, bg = 'NONE', italic = true})
-    hl(0, "NvimTreeImageFile", {fg = c.light_gray, bg = 'NONE'})
-    hl(0, "NvimTreeSpecialFile", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NvimTreeImageFile", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "NvimTreeSpecialFile", {fg = c.purple, bg = 'NONE', underline = true})
     hl(0, "NvimTreeEndOfBuffer", {fg = c.alt_bg, bg = 'NONE'})
     hl(0, "NvimTreeCursorLine", {fg = 'NONE', bg = c.line})
-    hl(0, "NvimTreeGitStaged", {fg = c.sign_add_alt, bg = 'NONE'})
-    hl(0, "NvimTreeGitNew", {fg = c.sign_add_alt, bg = 'NONE'})
-    hl(0, "NvimTreeGitRenamed", {fg = c.sign_add_alt, bg = 'NONE'})
-    hl(0, "NvimTreeGitDeleted", {fg = c.sign_delete, bg = 'NONE'})
-    hl(0, "NvimTreeGitMerge", {fg = c.sign_change_alt, bg = 'NONE'})
-    hl(0, "NvimTreeGitDirty", {fg = c.sign_change_alt, bg = 'NONE'})
-    hl(0, "NvimTreeSymlink", {fg = c.cyan, bg = 'NONE'})
-    hl(0, "NvimTreeRootFolder", {fg = c.fg, bg = 'NONE', bold = true})
-    hl(0, "NvimTreeExecFile", {fg = '#9FBA89', bg = 'NONE'})
+    hl(0, "NvimTreeGitStaged", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NvimTreeGitNew", {fg = c.green, bg = 'NONE'})
+    hl(0, "NvimTreeGitRenamed", {fg = c.pink, bg = 'NONE'})
+    hl(0, "NvimTreeGitDeleted", {fg = c.orange, bg = 'NONE'})
+    hl(0, "NvimTreeGitMerge", {fg = c.blue, bg = 'NONE'})
+    hl(0, "NvimTreeGitDirty", {fg = c.yellow, bg = 'NONE'})
+    hl(0, "NvimTreeSymlink", {fg = c.cyan, bg = 'NONE', bold = true})
+    hl(0, "NvimTreeRootFolder", {fg = c.blue, bg = 'NONE', bold = true})
+    hl(0, "NvimTreeExecFile", {fg = c.green, bg = 'NONE'})
+    hl(0, "NvimTreeLspDiagnosticsError", {link = 'LspDiagnosticsError'})
+    hl(0, "NvimTreeLspDiagnosticsWarning", {link = 'LspDiagnosticsWarning'})
+    hl(0, "NvimTreeLspDiagnosticsInformation", {link = 'LspDiagnosticsInfo'})
+    hl(0, "NvimTreeLspDiagnosticsInfo", {link = 'LspDiagnosticsInfo'})
+    hl(0, "NvimTreeLspDiagnosticsHint", {link = 'LspDiagnosticsHint'})
+    -- hl(0, "NvimTreeOpenedFile", {fg = c.orange, bg = 'NONE', bold = true})
+    -- hl(0, "NvimTreeWindowPicker", {fg = c.gray, bg = c.blue, bold = true})
+    -- hl(0, "NvimTreeStatusLine", {fg = c.fg, bg = c.bg})
+    -- hl(0, "NvimTreeStatusLineNC", {fg = c.darkblue, bg = c.bg})
+    -- hl(0, "NvimTreeFileNew", {fg = c.green})
+    -- hl(0, "NvimTreeFileMerge", {fg = c.blue})
+    -- hl(0, "NvimTreeFileDirty", {link = 'NvimTreeGitDirty'})
+    -- hl(0, "NvimTreeFileRenamed", {link = 'NvimTreeGitRenamed'})
+    -- hl(0, "NvimTreeCursorColumn", {link = 'CursorColumn'})
+    -- hl(0, "NvimTreeFileDeleted", {link = 'NvimTreeGitDeleted'})
+    -- hl(0, "NvimTreePopup", {fg = c.fg, bg = c.bg})
+    -- hl(0, "NvimTreeFileStaged", {link = 'NvimTreeGitStaged'})
 
     -- Lir
     hl(0, "LirFloatNormal", {fg = c.fg, bg = c.alt_bg})
@@ -392,6 +569,8 @@ theme.set_highlights = function()
     hl(0, "IndentBlanklineContextStart",
        {fg = 'NONE', bg = 'NONE', underline = true})
     hl(0, "IndentBlanklineChar", {fg = c.dark_gray, bg = 'NONE'})
+    hl(0, "IndentBlanklineSpaceChar", {fg = c.dark_gray, bg = 'NONE'})
+    hl(0, "IndentBlanklineSpaceCharBlankline", {fg = c.dark_gray, bg = 'NONE'})
 
     -- Dashboard
     hl(0, "DashboardHeader", {fg = c.blue, bg = 'NONE'})
