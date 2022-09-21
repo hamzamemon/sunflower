@@ -1,370 +1,366 @@
 local c = require("sunflower.colors")
 
-local hl = vim.api.nvim_set_hl
 local theme = {}
 
-theme.set_highlights = function()
+theme.setHighlights = {
     -- Editor
-    hl(0, "Normal", {fg = c.fg, bg = c.bg}) -- normal text
-    hl(0, "SignColumn", {fg = c.fg, bg = c.bg}) -- column where signs are displayed
-    hl(0, "CursorLineSign", {link = 'SignColumn'})
-    hl(0, "MsgArea", {fg = c.fg, bg = c.bg}) -- area for messages and cmdline
-    hl(0, "ModeMsg", {fg = c.fg, bg = c.alt_bg}) -- 'showmode' message (e.g., "-- INSERT --")
-    hl(0, "MsgSeparator", {link = 'StatusLine'}) -- separator for scrolled messages, msgsep flag of 'display'
-    hl(0, "SpellBad", {fg = "NONE", bg = "NONE", sp = c.red, undercurl = true}) -- word that is not recognized by the spellchecker. 'spell'
-    hl(0, "SpellCap",
-       {fg = "NONE", bg = "NONE", sp = c.yellow, undercurl = true}) -- word that should start with a capital. 'spell'
-    hl(0, "SpellLocal",
-       {fg = "NONE", bg = "NONE", sp = c.green, underline = true}) -- word that is recognized by the spellchecker as one that is used in another region. 'spell'
-    hl(0, "SpellRare",
-       {fg = "NONE", bg = "NONE", sp = c.purple, underline = true}) -- word that is recognized by the spellchecker as one that is hardly ever used. 'spell'
-    hl(0, "NormalNC", {fg = c.fg, bg = c.bg}) -- normal text in non-current windows
-    hl(0, "Pmenu", {fg = c.darkblue, bg = c.purple}) -- popup menu: normal item
-    hl(0, "PmenuSel", {fg = c.purple, bg = c.darkblue}) -- popup menu: selected item
-    hl(0, "WildMenu", {fg = c.orange, bold = true}) -- current match in 'wildmenu' completion
-    hl(0, "CursorLineNr", {fg = c.purple, bg = "NONE", bold = true}) -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line
-    hl(0, "Folded", {fg = c.gray, bg = c.alt_bg, italic = true}) -- line used for closed folds
-    hl(0, "FoldColumn", {fg = c.gray, bg = c.alt_bg}) -- 'foldcolumn'
-    -- hl(0, "CursorLineFold", {link = 'FoldColumn'})
-    hl(0, "LineNr", {fg = c.gray, bg = "NONE"}) -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set
-    hl(0, "LineNrAbove", {link = 'LineNr'})
-    hl(0, "LineNrBelow", {link = 'LineNr'})
-    hl(0, "FloatBorder", {fg = c.gray, bg = c.alt_bg})
-    hl(0, "FloatShadow", {fg = 'NONE', bg = c.black, blend = 80})
-    hl(0, "FloatShadowThrough", {fg = 'NONE', bg = c.black, blend = 100})
-    hl(0, "Whitespace", {link = 'NonText'}) -- "nbsp", "space", "tab" and "trail" in 'listchars'
-    hl(0, "VertSplit", {link = 'Normal'}) -- the column separating vertically split windows
-    hl(0, "WinSeparator", {link = 'VertSplit'})
-    hl(0, "WinBar", {fg = c.fg, bg = c.bg, bold = true})
-    hl(0, "WinBarNC", {link = 'WinBar'})
-    hl(0, "CursorLine", {fg = "NONE", bg = c.alt_bg}) -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set
-    hl(0, "CursorColumn", {fg = "NONE", bg = c.alt_bg}) -- Screen-column at the cursor, when 'cursorcolumn' is set
-    hl(0, "ColorColumn", {fg = "NONE", bg = c.alt_bg}) --  used for the columns set with 'colorcolumn'
-    hl(0, "NormalFloat", {fg = c.fg, bg = c.alt_bg}) -- normal text in floating windows
-    hl(0, "Visual", {fg = "NONE", bg = c.dark_gray}) -- visual mode selection
-    hl(0, "VisualNC", {link = 'Visual'})
-    -- hl(0, "VisualNOS", {fg = "NONE", bg = c.dark_gray}) -- visual mode selection when Vim is "Not Owning the Selection"
-    hl(0, "WarningMsg", {fg = c.warn, bg = "NONE"}) -- warning messages
-    hl(0, "DiffText", {fg = c.orange, bg = c.sign_delete}) -- diff mode: Changed text within a changed line
-    hl(0, "DiffAdd", {fg = c.green, bg = c.sign_add}) -- diff mode: Added line
-    hl(0, "DiffChange", {fg = c.yellow, bg = c.sign_change, underline = true}) --  diff mode: Changed line
-    hl(0, "DiffDelete", {fg = c.red, bg = c.sign_delete}) -- diff mode: Deleted line
-    hl(0, "QuickFixLine", {fg = c.purple, bg = c.ui2_blue, reverse = true}) -- current 'quickfix' item in the quickfix window. Combined with 'hl-CursorLine' when the cursor is there
-    hl(0, "PmenuSbar", {fg = "NONE", bg = c.alt_bg}) -- popup menu: scrollbar
-    hl(0, "PmenuThumb", {fg = c.fg, bg = c.gray}) -- popup menu: thumb of the scrollbar
-    hl(0, "MatchWord", {link = 'MatchParen'})
-    hl(0, "MatchParen", {fg = c.hint, bg = "NONE", underline = true})
-    -- hl(0, "MatchWordCur", {fg = "NONE", bg = "NONE", underline = true})
-    hl(0, "MatchParenCur", {link = 'MatchParen'})
-    hl(0, "Cursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- character under the cursor
-    hl(0, "lCursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- the character under the cursor when language-mapping is used (see 'guicursor')
-    -- hl(0, "CursorIM", {fg = c.cursor_fg, bg = c.cursor_bg}) -- like Cursor, but used when in IME mode
-    hl(0, "TermCursor", {fg = c.cursor_fg, bg = c.cursor_bg}) -- cursor in a focused terminal
-    hl(0, "TermCursorNC", {fg = c.cursor_fg, bg = c.cursor_bg}) -- cursor in an unfocused terminal
-    hl(0, "Conceal", {fg = c.gray, bg = "NONE"}) -- placeholder characters substituted for concealed text (see 'conceallevel')
-    hl(0, "Directory", {fg = c.folder_blue, bg = "NONE"}) -- directory names (and other special names in listings)
-    hl(0, "SpecialKey", {fg = c.blue, bg = "NONE", bold = true}) -- unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. 'hl-Whitespace'
-    hl(0, "ErrorMsg", {fg = c.error, bg = c.bg, bold = true}) -- error messages on the command line
-    hl(0, "Search", {fg = "NONE", bg = c.ui5_blue, reverse = true}) -- last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out
-    hl(0, "CurSearch", {link = 'Search'})
-    hl(0, "IncSearch", {fg = "NONE", bg = c.ui2_orange}) -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
-    hl(0, "Substitute", {fg = "NONE", bg = c.ui2_orange}) -- :substitute replacement text highlighting
-    hl(0, "MoreMsg", {fg = c.orange, bg = "NONE"}) -- 'more-prompt'
-    hl(0, "Question", {fg = c.orange, bg = "NONE"}) -- 'hit-efnter' prompt and yes/no questions
-    hl(0, "EndOfBuffer", {link = 'NonText'}) -- filler lines (~) after the end of the buffer
-    hl(0, "NonText", {fg = c.bg, bg = "NONE"}) -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line)
-    hl(0, "TabLine", {fg = c.light_gray, bg = c.line}) -- tab pages line, not active tab page label
-    hl(0, "TabLineSel", {fg = c.fg, bg = c.line}) -- tab pages line, active tab page label
-    hl(0, "TabLineFill", {fg = c.line, bg = c.line}) -- tab pages line, where there are no labels
-    hl(0, "RedrawDebugNormal", {fg = 'NONE', bg = 'NONE', reverse = true})
-    hl(0, "RedrawDebugClear", {fg = 'NONE', bg = c.yellow})
-    hl(0, "RedrawDebugComposed", {fg = 'NONE', bg = c.green})
-    hl(0, "RedrawDebugRecompose", {fg = 'NONE', bg = c.red})
-    -- hl(0, "MatchBackground", {link = 'ColorColumn'})
-    -- ToolbarLine = {fg = c.fg, bg = c.bg},
-    -- ToolbarButton = {fg = c.fg, style = 'bold'},
-    -- NormalMode = {fg = c.blue, style = 'reverse'},
-    -- InsertMode = {fg = c.green, style = 'reverse'},
-    -- ReplacelMode = {fg = c.red, style = 'reverse'},
-    -- VisualMode = {fg = c.yellow, style = 'reverse'},
-    -- CommandMode = {fg = c.gray, style = 'reverse'},
-    -- Warnings = {fg = c.yellow},
-    -- healthError = {fg = c.error},
-    -- healthWarning = {fg = c.yellow},
-    -- healthSuccess = {fg = c.green}
+    Normal = {fg = c.fg, bg = c.bg}, -- normal text
+    NormalNC = {fg = c.fg, bg = c.bg}, -- normal text in non-current windows
+    NormalFloat = {fg = c.fg, bg = c.alt_bg}, -- normal text in floating windows
+    SignColumn = {fg = c.fg, bg = c.bg}, -- column where signs are displayed
+    CursorLineSign = {link = 'SignColumn'}, -- column where signs are displayed
+    MsgArea = {fg = c.fg, bg = c.bg}, -- area for messages and cmdline
+    ModeMsg = {fg = c.fg, bg = c.alt_bg}, -- 'showmode' message (e.g., "-- INSERT --")
+    MsgSeparator = {link = 'StatusLine'}, -- separator for scrolled messages, msgsep flag of 'display'
+    SpellBad = {fg = "NONE", bg = "NONE", sp = c.red, undercurl = true}, -- word that is not recognized by the spellchecker. 'spell'
+    SpellCap = {fg = "NONE", bg = "NONE", sp = c.yellow, undercurl = true}, -- word that should start with a capital. 'spell'
+    SpellLocal = {fg = "NONE", bg = "NONE", sp = c.green, underline = true}, -- word that is recognized by the spellchecker as one that is used in another region. 'spell'
+    SpellRare = {fg = "NONE", bg = "NONE", sp = c.purple, underline = true}, -- word that is recognized by the spellchecker as one that is hardly ever used. 'spell'
+    Pmenu = {fg = c.darkblue, bg = c.purple}, -- popup menu: normal item
+    PmenuSel = {fg = c.purple, bg = c.darkblue}, -- popup menu: selected item
+    PmenuSbar = {fg = "NONE", bg = c.alt_bg}, -- popup menu: scrollbar
+    PmenuThumb = {fg = c.fg, bg = c.gray}, -- popup menu: thumb of the scrollbar
+    WildMenu = {fg = c.orange, bold = true}, -- current match in 'wildmenu' completion
+    CursorLineNr = {fg = c.purple, bg = "NONE", bold = true}, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line
+    Folded = {fg = c.gray, bg = c.alt_bg, italic = true}, -- line used for closed folds
+    FoldColumn = {fg = c.gray, bg = c.alt_bg}, -- 'foldcolumn'
+    LineNr = {fg = c.gray, bg = "NONE"}, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set
+    LineNrAbove = {link = 'LineNr'},
+    LineNrBelow = {link = 'LineNr'},
+    FloatBorder = {fg = c.gray, bg = c.alt_bg},
+    FloatShadow = {fg = 'NONE', bg = c.black, blend = 80},
+    FloatShadowThrough = {fg = 'NONE', bg = c.black, blend = 100},
+    Whitespace = {link = 'NonText'}, -- "nbsp", "space", "tab" and "trail" in 'listchars'
+    VertSplit = {link = 'Normal'}, -- the column separating vertically split windows
+    WinSeparator = {link = 'VertSplit'},
+    WinBar = {fg = c.fg, bg = c.bg, bold = true},
+    WinBarNC = {link = 'WinBar'},
+    CursorLine = {fg = "NONE", bg = c.alt_bg}, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set
+    CursorColumn = {fg = "NONE", bg = c.alt_bg}, -- Screen-column at the cursor, when 'cursorcolumn' is set
+    ColorColumn = {fg = "NONE", bg = c.alt_bg}, --  used for the columns set with 'colorcolumn'
+    Visual = {fg = "NONE", bg = c.dark_gray}, -- visual mode selection
+    VisualNC = {link = 'Visual'}, -- visual mode selection when Vim is "Not Owning the Selection"
+    WarningMsg = {fg = c.warn, bg = "NONE"}, -- warning messages
+    DiffText = {fg = c.orange, bg = c.sign_delete}, -- diff mode: Changed text within a changed line
+    DiffAdd = {fg = c.green, bg = c.sign_add}, -- diff mode: Added line
+    DiffChange = {fg = c.yellow, bg = c.sign_change, underline = true}, --  diff mode: Changed line
+    DiffDelete = {fg = c.red, bg = c.sign_delete}, -- diff mode: Deleted line
+    QuickFixLine = {fg = c.purple, bg = c.ui2_blue, reverse = true}, -- current 'quickfix' item in the quickfix window. Combined with 'hl-CursorLine' when the cursor is there
+    MatchParen = {fg = c.hint, bg = "NONE", underline = true}, -- the character under the cursor or just before it, if it is a paired bracket, and its match
+    MatchWord = {link = 'MatchParen'},
+    MatchParenCur = {link = 'MatchParen'},
+    Cursor = {fg = c.cursor_fg, bg = c.cursor_bg}, -- character under the cursor
+    lCursor = {link = 'Cursor'}, -- the character under the cursor when language-mapping is used (see 'guicursor')
+    CursorIM = {link = 'Cursor'}, -- like Cursor, but used when in IME mode
+    TermCursor = {link = 'Cursor'}, -- cursor in a focused terminal
+    TermCursorNC = {link = 'Cursor'}, -- cursor in an unfocused terminal
+    Conceal = {fg = c.gray, bg = "NONE"}, -- placeholder characters substituted for concealed text (see 'conceallevel')
+    Directory = {fg = c.folder_blue, bg = "NONE"}, -- directory names (and other special names in listings)
+    SpecialKey = {fg = c.blue, bg = "NONE", bold = true}, -- unprintable characters: text displayed differently from what it really is. But not 'listchars' whitespace. 'hl-Whitespace'
+    ErrorMsg = {fg = c.error, bg = c.bg, bold = true}, -- error messages on the command line
+    Search = {fg = "NONE", bg = c.ui5_blue, reverse = true}, -- last search pattern highlighting (see 'hlsearch'). Also used for similar items that need to stand out
+    CurSearch = {link = 'Search'},
+    IncSearch = {fg = "NONE", bg = c.ui2_orange}, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
+    Substitute = {fg = "NONE", bg = c.ui2_orange}, -- :substitute replacement text highlighting
+    MoreMsg = {fg = c.orange, bg = "NONE"}, -- 'more-prompt'
+    Question = {fg = c.orange, bg = "NONE"}, -- 'hit-enter' prompt and yes/no questions
+    EndOfBuffer = {link = 'NonText'}, -- filler lines (~) after the end of the buffer
+    NonText = {fg = c.bg, bg = "NONE"}, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line)
+    TabLine = {fg = c.light_gray, bg = c.line}, -- tab pages line, not active tab page label
+    TabLineSel = {fg = c.fg, bg = c.line}, -- tab pages line, active tab page label
+    TabLineFill = {fg = c.line, bg = c.line}, -- tab pages line, where there are no labels
+    RedrawDebugNormal = {fg = 'NONE', bg = 'NONE', reverse = true},
+    RedrawDebugClear = {fg = 'NONE', bg = c.yellow},
+    RedrawDebugComposed = {fg = 'NONE', bg = c.green},
+    RedrawDebugRecompose = {fg = 'NONE', bg = c.red},
+    ToolbarLine = {fg = c.fg, bg = c.bg},
+    ToolbarButton = {fg = c.fg, style = 'bold'},
+    NormalMode = {fg = c.blue, style = 'reverse'},
+    InsertMode = {fg = c.green, style = 'reverse'},
+    ReplacelMode = {fg = c.red, style = 'reverse'},
+    VisualMode = {fg = c.yellow, style = 'reverse'},
+    CommandMode = {fg = c.gray, style = 'reverse'},
+    Warnings = {fg = c.yellow},
+    healthError = {fg = c.error},
+    healthWarning = {fg = c.yellow},
+    healthSuccess = {fg = c.green},
+    None = {},
 
     -- Neovim
-    hl(0, "NvimInternalError", {fg = c.red, bg = c.red})
-    hl(0, "NvimAssignment", {link = 'Operator'})
-    hl(0, "NvimPlainAssignment", {link = 'NvimAssignment'})
-    hl(0, "NvimAugmentedAssignment", {link = 'NvimAssignment'})
-    hl(0, "NvimAssignmentWithAddition", {link = 'NvimAugmentedAssignment'})
-    hl(0, "NvimAssignmentWithSubtraction", {link = 'NvimAugmentedAssignment'})
-    hl(0, "NvimAssignmentWithConcatenation", {link = 'NvimAugmentedAssignment'})
-    hl(0, "NvimOperator", {link = 'Operator'})
-    hl(0, "NvimUnaryOperator", {link = 'Operator'})
-    hl(0, "NvimUnaryPlus", {link = 'Operator'})
-    hl(0, "NvimUnaryMinus", {link = 'Operator'})
-    hl(0, "NvimNot", {link = 'Operator'})
-    hl(0, "NvimBinaryOperator", {link = 'Operator'})
-    hl(0, "NvimComparison", {link = 'Operator'})
-    hl(0, "NvimComparisonModifier", {link = 'NvimComparison'})
-    hl(0, "NvimBinaryPlus", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimBinaryMinus", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimConcat", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimConcatOrSubscript", {link = 'NvimConcat'})
-    hl(0, "NvimOr", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimAnd", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimMultiplication", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimDivision", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimMod", {link = 'NvimBinaryOperator'})
-    hl(0, "NvimTernary", {link = 'Operator'})
-    hl(0, "NvimTernaryColon", {link = 'NvimTernary'})
-    hl(0, "NvimParenthesis", {link = 'Delimiter'})
-    hl(0, "NvimLambda", {link = 'NvimParenthesis'})
-    hl(0, "NvimNestingParenthesis", {link = 'NvimParenthesis'})
-    hl(0, "NvimCallingParenthesis", {link = 'NvimParenthesis'})
-    hl(0, "NvimSubscript", {link = 'NvimParenthesis'})
-    hl(0, "NvimSubscriptBracket", {link = 'NvimSubscript'})
-    hl(0, "NvimSubscriptColon", {link = 'NvimSubscript'})
-    hl(0, "NvimContainer", {link = 'NvimParenthesis'})
-    hl(0, "NvimDict", {link = 'NvimContainer'})
-    hl(0, "NvimList", {link = 'NvimContainer'})
-    hl(0, "NvimIdentifier", {link = 'Identifier'})
-    hl(0, "NvimIdentifierScope", {link = 'NvimIdentifier'})
-    hl(0, "NvimIdentifierScopeDelimiter", {link = 'NvimIdentifier'})
-    hl(0, "NvimIdentifierName", {link = 'NvimIdentifier'})
-    hl(0, "NvimIdentifierKey", {link = 'NvimIdentifier'})
-    hl(0, "NvimColon", {link = 'Delimiter'})
-    hl(0, "NvimComma", {link = 'Delimiter'})
-    hl(0, "NvimArrow", {link = 'Delimiter'})
-    hl(0, "NvimRegister", {link = 'SpecialChar'})
-    hl(0, "NvimNumber", {link = 'Number'})
-    hl(0, "NvimFloat", {link = 'NvimNumber'})
-    hl(0, "NvimNumberPrefix", {link = 'Type'})
-    hl(0, "NvimOptionSigil", {link = 'Type'})
-    hl(0, "NvimOptionName", {link = 'NvimIdentifier'})
-    hl(0, "NvimOptionScope", {link = 'NvimIdentifierScope'})
-    hl(0, "NvimOptionScopeDelimiter", {link = 'NvimIdentifierScopeDelimiter'})
-    hl(0, "NvimEnvironmentSigil", {link = 'NvimOptionSigil'})
-    hl(0, "NvimEnvironmentName", {link = 'NvimIdentifier'})
-    hl(0, "NvimString", {link = 'String'})
-    hl(0, "NvimStringBody", {link = 'NvimString'})
-    hl(0, "NvimStringQuote", {link = 'NvimString'})
-    hl(0, "NvimStringSpecial", {link = 'SpecialChar'})
-    hl(0, "NvimSingleQuote", {link = 'NvimStringQuote'})
-    hl(0, "NvimSingleQuotedBody", {link = 'NvimStringBody'})
-    hl(0, "NvimSingleQuotedQuote", {link = 'NvimStringSpecial'})
-    hl(0, "NvimDoubleQuote", {link = 'NvimStringQuote'})
-    hl(0, "NvimDoubleQuotedBody", {link = 'NvimStringBody'})
-    hl(0, "NvimDoubleQuotedEscape", {link = 'NvimStringSpecial'})
-    hl(0, "NvimFigureBrace", {link = 'NvimInternalError'})
-    hl(0, "NvimSingleQuotedUnknownEscape", {link = 'NvimInternalError'})
-    hl(0, "NvimSpacing", {link = 'Normal'})
-    hl(0, "NvimInvalidSingleQuotedUnknownEscape", {link = 'NvimInternalError'})
-    hl(0, "NvimInvalid", {link = 'Error'})
-    hl(0, "NvimInvalidAssignment", {link = 'NvimInvalid'})
-    hl(0, "NvimInvalidPlainAssignment", {link = 'NvimInvalidAssignment'})
-    hl(0, "NvimInvalidAugmentedAssignment", {link = 'NvimInvalidAssignment'})
-    hl(0, "NvimInvalidAssignmentWithAddition",
-       {link = 'NvimInvalidAugmentedAssignment'})
-    hl(0, "NvimInvalidAssignmentWithSubtraction",
-       {link = 'NvimInvalidAugmentedAssignment'})
-    hl(0, "NvimInvalidAssignmentWithConcatenation",
-       {link = 'NvimInvalidAugmentedAssignment'})
-    hl(0, "NvimInvalidOperator", {link = 'NvimInvalid'})
-    hl(0, "NvimInvalidUnaryOperator", {link = 'NvimInvalidOperator'})
-    hl(0, "NvimInvalidUnaryPlus", {link = 'NvimInvalidUnaryOperator'})
-    hl(0, "NvimInvalidUnaryMinus", {link = 'NvimInvalidUnaryOperator'})
-    hl(0, "NvimInvalidNot", {link = 'NvimInvalidUnaryOperator'})
-    hl(0, "NvimInvalidBinaryOperator", {link = 'NvimInvalidOperator'})
-    hl(0, "NvimInvalidComparison", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidComparisonModifier", {link = 'NvimInvalidComparison'})
-    hl(0, "NvimInvalidBinaryPlus", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidBinaryMinus", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidConcat", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidConcatOrSubscript", {link = 'NvimInvalidConcat'})
-    hl(0, "NvimInvalidOr", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidAnd", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidMultiplication", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidDivision", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidMod", {link = 'NvimInvalidBinaryOperator'})
-    hl(0, "NvimInvalidTernary", {link = 'NvimInvalidOperator'})
-    hl(0, "NvimInvalidTernaryColon", {link = 'NvimInvalidTernary'})
-    hl(0, "NvimInvalidDelimiter", {link = 'NvimInvalid'})
-    hl(0, "NvimInvalidParenthesis", {link = 'NvimInvalidDelimiter'})
-    hl(0, "NvimInvalidLambda", {link = 'NvimInvalidParenthesis'})
-    hl(0, "NvimInvalidNestingParenthesis", {link = 'NvimInvalidParenthesis'})
-    hl(0, "NvimInvalidCallingParenthesis", {link = 'NvimInvalidParenthesis'})
-    hl(0, "NvimInvalidSubscript", {link = 'NvimInvalidParenthesis'})
-    hl(0, "NvimInvalidSubscriptBracket", {link = 'NvimInvalidSubscript'})
-    hl(0, "NvimInvalidSubscriptColon", {link = 'NvimInvalidSubscript'})
-    hl(0, "NvimInvalidCurly", {link = 'NvimInvalidSubscript'})
-    hl(0, "NvimInvalidContainer", {link = 'NvimInvalidParenthesis'})
-    hl(0, "NvimInvalidDict", {link = 'NvimInvalidContainer'})
-    hl(0, "NvimInvalidList", {link = 'NvimInvalidContainer'})
-    hl(0, "NvimInvalidValue", {link = 'NvimInvalid'})
-    hl(0, "NvimInvalidIdentifier", {link = 'NvimInvalidValue'})
-    hl(0, "NvimInvalidIdentifierScope", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidIdentifierScopeDelimiter",
-       {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidIdentifierName", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidIdentifierKey", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidColon", {link = 'NvimInvalidDelimiter'})
-    hl(0, "NvimInvalidComma", {link = 'NvimInvalidDelimiter'})
-    hl(0, "NvimInvalidArrow", {link = 'NvimInvalidDelimiter'})
-    hl(0, "NvimInvalidRegister", {link = 'NvimInvalidValue'})
-    hl(0, "NvimInvalidNumber", {link = 'NvimInvalidValue'})
-    hl(0, "NvimInvalidFloat", {link = 'NvimInvalidNumber'})
-    hl(0, "NvimInvalidNumberPrefix", {link = 'NvimInvalidNumber'})
-    hl(0, "NvimInvalidOptionSigil", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidOptionName", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidOptionScope", {link = 'NvimInvalidIdentifierScope'})
-    hl(0, "NvimInvalidOptionScopeDelimiter",
-       {link = 'NvimInvalidIdentifierScopeDelimiter'})
-    hl(0, "NvimInvalidEnvironmentSigil", {link = 'NvimInvalidOptionSigil'})
-    hl(0, "NvimInvalidEnvironmentName", {link = 'NvimInvalidIdentifier'})
-    hl(0, "NvimInvalidString", {link = 'NvimInvalidValue'})
-    hl(0, "NvimInvalidStringBody", {link = 'NvimStringBody'})
-    hl(0, "NvimInvalidStringQuote", {link = 'NvimInvalidString'})
-    hl(0, "NvimInvalidStringSpecial", {link = 'NvimStringSpecial'})
-    hl(0, "NvimInvalidSingleQuote", {link = 'NvimInvalidStringQuote'})
-    hl(0, "NvimInvalidSingleQuotedBody", {link = 'NvimInvalidStringBody'})
-    hl(0, "NvimInvalidSingleQuotedQuote", {link = 'NvimInvalidStringSpecial'})
-    hl(0, "NvimInvalidDoubleQuote", {link = 'NvimInvalidStringQuote'})
-    hl(0, "NvimInvalidDoubleQuotedBody", {link = 'NvimInvalidStringBody'})
-    hl(0, "NvimInvalidDoubleQuotedEscape", {link = 'NvimInvalidStringSpecial'})
-    hl(0, "NvimInvalidDoubleQuotedUnknownEscape", {link = 'NvimInvalidValue'})
-    hl(0, "NvimInvalidFigureBrace", {link = 'NvimInvalidDelimiter'})
-    hl(0, "NvimInvalidSpacing", {link = 'ErrorMsg'})
-    hl(0, "NvimDoubleQuotedUnknownEscape", {link = 'NvimInvalidValue'})
+    NvimInternalError = {fg = c.red, bg = c.red},
+    NvimAssignment = {link = 'Operator'},
+    NvimPlainAssignment = {link = 'NvimAssignment'},
+    NvimAugmentedAssignment = {link = 'NvimAssignment'},
+    NvimAssignmentWithAddition = {link = 'NvimAugmentedAssignment'},
+    NvimAssignmentWithSubtraction = {link = 'NvimAugmentedAssignment'},
+    NvimAssignmentWithConcatenation = {link = 'NvimAugmentedAssignment'},
+    NvimOperator = {link = 'Operator'},
+    NvimUnaryOperator = {link = 'Operator'},
+    NvimUnaryPlus = {link = 'Operator'},
+    NvimUnaryMinus = {link = 'Operator'},
+    NvimNot = {link = 'Operator'},
+    NvimBinaryOperator = {link = 'Operator'},
+    NvimComparison = {link = 'Operator'},
+    NvimComparisonModifier = {link = 'NvimComparison'},
+    NvimBinaryPlus = {link = 'NvimBinaryOperator'},
+    NvimBinaryMinus = {link = 'NvimBinaryOperator'},
+    NvimConcat = {link = 'NvimBinaryOperator'},
+    NvimConcatOrSubscript = {link = 'NvimConcat'},
+    NvimOr = {link = 'NvimBinaryOperator'},
+    NvimAnd = {link = 'NvimBinaryOperator'},
+    NvimMultiplication = {link = 'NvimBinaryOperator'},
+    NvimDivision = {link = 'NvimBinaryOperator'},
+    NvimMod = {link = 'NvimBinaryOperator'},
+    NvimTernary = {link = 'Operator'},
+    NvimTernaryColon = {link = 'NvimTernary'},
+    NvimParenthesis = {link = 'Delimiter'},
+    NvimLambda = {link = 'NvimParenthesis'},
+    NvimNestingParenthesis = {link = 'NvimParenthesis'},
+    NvimCallingParenthesis = {link = 'NvimParenthesis'},
+    NvimSubscript = {link = 'NvimParenthesis'},
+    NvimSubscriptBracket = {link = 'NvimSubscript'},
+    NvimSubscriptColon = {link = 'NvimSubscript'},
+    NvimContainer = {link = 'NvimParenthesis'},
+    NvimDict = {link = 'NvimContainer'},
+    NvimList = {link = 'NvimContainer'},
+    NvimIdentifier = {link = 'Identifier'},
+    NvimIdentifierScope = {link = 'NvimIdentifier'},
+    NvimIdentifierScopeDelimiter = {link = 'NvimIdentifier'},
+    NvimIdentifierName = {link = 'NvimIdentifier'},
+    NvimIdentifierKey = {link = 'NvimIdentifier'},
+    NvimColon = {link = 'Delimiter'},
+    NvimComma = {link = 'Delimiter'},
+    NvimArrow = {link = 'Delimiter'},
+    NvimRegister = {link = 'SpecialChar'},
+    NvimNumber = {link = 'Number'},
+    NvimFloat = {link = 'NvimNumber'},
+    NvimNumberPrefix = {link = 'Type'},
+    NvimOptionSigil = {link = 'Type'},
+    NvimOptionName = {link = 'NvimIdentifier'},
+    NvimOptionScope = {link = 'NvimIdentifierScope'},
+    NvimOptionScopeDelimiter = {link = 'NvimIdentifierScopeDelimiter'},
+    NvimEnvironmentSigil = {link = 'NvimOptionSigil'},
+    NvimEnvironmentName = {link = 'NvimIdentifier'},
+    NvimString = {link = 'String'},
+    NvimStringBody = {link = 'NvimString'},
+    NvimStringQuote = {link = 'NvimString'},
+    NvimStringSpecial = {link = 'SpecialChar'},
+    NvimSingleQuote = {link = 'NvimStringQuote'},
+    NvimSingleQuotedBody = {link = 'NvimStringBody'},
+    NvimSingleQuotedQuote = {link = 'NvimStringSpecial'},
+    NvimDoubleQuote = {link = 'NvimStringQuote'},
+    NvimDoubleQuotedBody = {link = 'NvimStringBody'},
+    NvimDoubleQuotedEscape = {link = 'NvimStringSpecial'},
+    NvimFigureBrace = {link = 'NvimInternalError'},
+    NvimSingleQuotedUnknownEscape = {link = 'NvimInternalError'},
+    NvimSpacing = {link = 'Normal'},
+    NvimInvalidSingleQuotedUnknownEscape = {link = 'NvimInternalError'},
+    NvimInvalid = {link = 'Error'},
+    NvimInvalidAssignment = {link = 'NvimInvalid'},
+    NvimInvalidPlainAssignment = {link = 'NvimInvalidAssignment'},
+    NvimInvalidAugmentedAssignment = {link = 'NvimInvalidAssignment'},
+    NvimInvalidAssignmentWithAddition = {
+        link = 'NvimInvalidAugmentedAssignment'
+    },
+    NvimInvalidAssignmentWithSubtraction = {
+        link = 'NvimInvalidAugmentedAssignment'
+    },
+    NvimInvalidAssignmentWithConcatenation = {
+        link = 'NvimInvalidAugmentedAssignment'
+    },
+    NvimInvalidOperator = {link = 'NvimInvalid'},
+    NvimInvalidUnaryOperator = {link = 'NvimInvalidOperator'},
+    NvimInvalidUnaryPlus = {link = 'NvimInvalidUnaryOperator'},
+    NvimInvalidUnaryMinus = {link = 'NvimInvalidUnaryOperator'},
+    NvimInvalidNot = {link = 'NvimInvalidUnaryOperator'},
+    NvimInvalidBinaryOperator = {link = 'NvimInvalidOperator'},
+    NvimInvalidComparison = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidComparisonModifier = {link = 'NvimInvalidComparison'},
+    NvimInvalidBinaryPlus = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidBinaryMinus = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidConcat = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidConcatOrSubscript = {link = 'NvimInvalidConcat'},
+    NvimInvalidOr = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidAnd = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidMultiplication = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidDivision = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidMod = {link = 'NvimInvalidBinaryOperator'},
+    NvimInvalidTernary = {link = 'NvimInvalidOperator'},
+    NvimInvalidTernaryColon = {link = 'NvimInvalidTernary'},
+    NvimInvalidDelimiter = {link = 'NvimInvalid'},
+    NvimInvalidParenthesis = {link = 'NvimInvalidDelimiter'},
+    NvimInvalidLambda = {link = 'NvimInvalidParenthesis'},
+    NvimInvalidNestingParenthesis = {link = 'NvimInvalidParenthesis'},
+    NvimInvalidCallingParenthesis = {link = 'NvimInvalidParenthesis'},
+    NvimInvalidSubscript = {link = 'NvimInvalidParenthesis'},
+    NvimInvalidSubscriptBracket = {link = 'NvimInvalidSubscript'},
+    NvimInvalidSubscriptColon = {link = 'NvimInvalidSubscript'},
+    NvimInvalidCurly = {link = 'NvimInvalidSubscript'},
+    NvimInvalidContainer = {link = 'NvimInvalidParenthesis'},
+    NvimInvalidDict = {link = 'NvimInvalidContainer'},
+    NvimInvalidList = {link = 'NvimInvalidContainer'},
+    NvimInvalidValue = {link = 'NvimInvalid'},
+    NvimInvalidIdentifier = {link = 'NvimInvalidValue'},
+    NvimInvalidIdentifierScope = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidIdentifierScopeDelimiter = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidIdentifierName = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidIdentifierKey = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidColon = {link = 'NvimInvalidDelimiter'},
+    NvimInvalidComma = {link = 'NvimInvalidDelimiter'},
+    NvimInvalidArrow = {link = 'NvimInvalidDelimiter'},
+    NvimInvalidRegister = {link = 'NvimInvalidValue'},
+    NvimInvalidNumber = {link = 'NvimInvalidValue'},
+    NvimInvalidFloat = {link = 'NvimInvalidNumber'},
+    NvimInvalidNumberPrefix = {link = 'NvimInvalidNumber'},
+    NvimInvalidOptionSigil = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidOptionName = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidOptionScope = {link = 'NvimInvalidIdentifierScope'},
+    NvimInvalidOptionScopeDelimiter = {
+        link = 'NvimInvalidIdentifierScopeDelimiter'
+    },
+    NvimInvalidEnvironmentSigil = {link = 'NvimInvalidOptionSigil'},
+    NvimInvalidEnvironmentName = {link = 'NvimInvalidIdentifier'},
+    NvimInvalidString = {link = 'NvimInvalidValue'},
+    NvimInvalidStringBody = {link = 'NvimStringBody'},
+    NvimInvalidStringQuote = {link = 'NvimInvalidString'},
+    NvimInvalidStringSpecial = {link = 'NvimStringSpecial'},
+    NvimInvalidSingleQuote = {link = 'NvimInvalidStringQuote'},
+    NvimInvalidSingleQuotedBody = {link = 'NvimInvalidStringBody'},
+    NvimInvalidSingleQuotedQuote = {link = 'NvimInvalidStringSpecial'},
+    NvimInvalidDoubleQuote = {link = 'NvimInvalidStringQuote'},
+    NvimInvalidDoubleQuotedBody = {link = 'NvimInvalidStringBody'},
+    NvimInvalidDoubleQuotedEscape = {link = 'NvimInvalidStringSpecial'},
+    NvimInvalidDoubleQuotedUnknownEscape = {link = 'NvimInvalidValue'},
+    NvimInvalidFigureBrace = {link = 'NvimInvalidDelimiter'},
+    NvimInvalidSpacing = {link = 'ErrorMsg'},
+    NvimDoubleQuotedUnknownEscape = {link = 'NvimInvalidValue'},
 
     -- Code
-    hl(0, "Boolean", {fg = c.orange, bg = "NONE"}) -- Boolean literals: `True` and `False` in Python.
-    hl(0, "Character", {fg = c.orange, bg = "NONE", bold = true}) -- Character literals: `'a'` in C.
-    hl(0, "SpecialChar", {fg = c.pink, bg = "NONE"}) -- Special characters.
-    hl(0, "Comment", {fg = c.green, bg = "NONE", italic = true}) -- Line comments and block comments.
-    hl(0, "Conditional", {fg = c.orange, bg = "NONE", bold = true}) -- Keywords related to conditionals: `if`, `when`, `cond`, etc.
-    hl(0, "Constant", {fg = c.green, bg = "NONE", bold = true}) -- -- Constants identifiers. These might not be semantically constant. E.g. uppercase variables in Python.
-    hl(0, "Debug", {fg = c.red, bg = "NONE"}) -- Debugging statements.
-    hl(0, "Define", {fg = c.pink, bg = "NONE"}) -- Preprocessor #define statements.
-    hl(0, "Error", {fg = c.error, bg = "NONE", bold = true}) -- Syntax/parser errors. This might highlight large sections of code while the user is typing still incomplete code, use a sensible highlight.
-    hl(0, "Exception", {fg = c.cyan, bg = "NONE"}) -- Exception related keywords: `try`, `except`, `finally` in Python.
-    hl(0, "Float", {fg = c.blue, bg = "NONE"}) -- Floating-point number literals.
-    hl(0, "Function", {link = 'Identifier'}) -- Function definitions.
-    hl(0, "Method", {link = "Function"})
-    hl(0, "Include", {link = 'PreProc'}) -- File or module inclusion keywords: `#include` in C, `use` or `extern crate` in Rust.
-    hl(0, "Keyword", {fg = c.orange, bg = "#312c37", bold = true}) -- Keywords that don't fit into other categories.
-    hl(0, "Label", {fg = c.cyan, bg = "NONE"}) -- GOTO labels: `label:` in C, and `::label::` in Lua.
-    hl(0, "Number", {fg = c.purple, bg = "NONE"}) -- Numeric literals that don't fit into other categories.
-    hl(0, "Operator", {fg = c.cyan, bg = "NONE"}) -- Binary or unary operators: `+`, and also `->` and `*` in C.
-    hl(0, "PreProc", {fg = c.orange, bg = "NONE", bold = true}) -- Preprocessor #if, #else, #endif, etc.
-    hl(0, "Repeat", {fg = c.orange, bg = "NONE", bold = true}) -- Keywords related to loops: `for`, `while`, etc.
-    hl(0, "StorageClass", {fg = c.cyan, bg = "NONE"}) -- Keywords that affect how a variable is stored: `static`, `comptime`, `extern`, etc.
-    hl(0, "String", {fg = c.purple, bg = "NONE"}) -- String literals.
-    hl(0, "Tag", {fg = c.red, bg = "NONE"}) -- Tags like HTML tag names.
-    -- hl(0, "Bold", {fg = "NONE", bg = "NONE", bold = true}) -- Text to be represented in bold.
-    -- hl(0, "Italic", {fg = "NONE", bg = "NONE", italic = true}) -- Text to be represented with emphasis.
-    hl(0, "Underlined", {fg = "NONE", bg = "NONE", underline = true}) -- Text to be represented with an underline.
-    hl(0, "Title", {fg = c.green, bg = "NONE", bold = true}) -- Text that is part of a title.
-    hl(0, "Todo", {fg = c.magenta, bg = "NONE", bold = true}) -- Anything that needs extra attention, such as keywords like TODO or FIXME.
-    hl(0, "Type", {fg = c.yellow, bg = "#342532", bold = true}) -- Type (and class) definitions and annotations.
-    hl(0, "Typedef", {fg = c.red, bg = "NONE"}) -- Type definitions, e.g. `typedef` in C.
-    -- hl(0, "Variable", {fg = c.yellow, bg = "NONE"}) -- Variable names that don't fit into other categories.
-    hl(0, "Structure", {fg = c.purple, bg = "NONE", bold = true}) -- struct, union, enum, etc.
-    hl(0, "Struct", {link = 'Structure'})
-    hl(0, "Macro", {link = 'Define'}) -- same as Define
-    hl(0, "Delimiter", {fg = c.cyan, bg = "NONE"}) -- character that needs attention like , or .
-    hl(0, "SpecialComment", {fg = c.gray, bg = "NONE"}) -- special things inside a comment
-    hl(0, "Ignore", {fg = c.magenta, bg = "NONE", bold = true}) -- left blank, hidden
-    hl(0, "Statement", {fg = c.pink, bg = "NONE"}) -- any statement
-    hl(0, "Identifier", {fg = c.yellow, bg = "NONE", bold = true}) -- any variable name
-    hl(0, "PreCondit", {fg = c.cyan, bg = "NONE"}) -- preprocessor #if, #else, #endif, etc.
-    hl(0, "Special", {fg = c.orange, bg = "NONE"}) -- any special symbol
+    Boolean = {fg = c.orange, bg = 'NONE', bold = true}, -- Boolean literals: `True` and `False` in Python.
+    Character = {fg = c.orange, bg = 'NONE', bold = true}, -- Character literals: `'a'` in C.
+    SpecialChar = {fg = c.pink, bg = 'NONE'}, -- Special characters.
+    Comment = {fg = c.green, bg = 'NONE', italic = true}, -- Line comments and block comments.
+    Conditional = {fg = c.orange, bg = 'NONE', bold = true}, -- Keywords related to conditionals: `if`, `when`, `cond`, etc.
+    Constant = {fg = c.green, bg = "NONE", bold = true}, -- Constants identifiers. These might not be semantically constant. E.g. uppercase variables in Python.
+    Debug = {fg = c.red, bg = "NONE"}, -- Debugging statements.
+    Define = {fg = c.pink, bg = 'NONE'}, -- Preprocessor #define statements.
+    Error = {fg = c.error, bg = c.none, bold = true, underline = true}, -- Syntax/parser errors. This might highlight large sections of code while the user is typing still incomplete code, use a sensible highlight.
+    Exception = {fg = c.cyan, bg = 'NONE'}, -- Exception related keywords: `try`, `except`, `finally` in Python.
+    Float = {fg = c.blue, bg = 'NONE'}, -- Floating-point number literals.
+    Function = {link = 'Identifier'}, -- Function definitions.
+    Method = {link = 'Function'},
+    Include = {link = 'PreProc'}, -- File or module inclusion keywords: `#include` in C, `use` or `extern crate` in Rust.
+    Keyword = {fg = c.orange, bg = "#312c37", bold = true}, -- Keywords that don't fit into other categories.
+    Label = {fg = c.cyan, bg = 'NONE'}, -- GOTO labels: `label:` in C, and `::label::` in Lua.
+    Number = {fg = c.purple, bg = "NONE"}, -- Numeric literals that don't fit into other categories.
+    Operator = {fg = c.cyan, bg = "NONE"}, -- Binary or unary operators: `+`, and also `->` and `*` in C.
+    PreProc = {fg = c.orange, bg = "NONE", bold = true}, -- Preprocessor #if, #else, #endif, etc.    Repeat = {fg = c.orange, bold = true}, -- for, do, while, etc.
+    Repeat = {fg = c.orange, bg = "NONE", bold = true}, -- Keywords related to loops: `for`, `while`, etc.
+    StorageClass = {fg = c.cyan, bg = "NONE"}, -- Keywords that affect how a variable is stored: `static`, `comptime`, `extern`, etc.
+    String = {fg = c.purple, bg = "NONE"}, -- String literals.
+    Tag = {fg = c.red, bg = 'NONE'}, -- Tags like HTML tag names.
+    -- Bold = {fg = "NONE", bg = "NONE", bold = true}, -- Text to be represented in bold.
+    -- Italic = {fg = "NONE", bg = "NONE", italic = true}, -- Text to be represented with emphasis.
+    Underlined = {fg = "NONE", bg = "NONE", underline = true}, -- Text to be represented with an underline.
+    Title = {fg = c.green, bg = "NONE", bold = true}, -- Text that is part of a title.
+    Todo = {fg = c.magenta, bg = "NONE", bold = true}, -- Anything that needs extra attention, such as keywords like TODO or FIXME.
+    Type = {fg = c.yellow, bg = "#342532", bold = true}, -- Type (and class) definitions and annotations.
+    Typedef = {fg = c.red, bg = "NONE"}, -- Type definitions, e.g. `typedef` in C.
+    -- Variable = {fg = c.yellow, bg = "NONE"}, -- Variable names that don't fit into other categories.
+    Structure = {fg = c.purple, bg = 'NONE', bold = true}, -- struct, union, enum, etc.
+    Struct = {link = 'Structure'},
+    Macro = {link = 'Define'}, -- same as Define
+    Delimiter = {fg = c.cyan, bg = "NONE"}, -- character that needs attention like , or .
+    SpecialComment = {fg = c.gray, bg = "NONE"}, -- special things inside a comment
+    Ignore = {fg = c.magenta, bg = "NONE", bold = true}, -- left blank, hidden
+    Statement = {fg = c.pink, bg = 'NONE'}, -- any statement
+    Identifier = {fg = c.yellow, bg = "NONE", bold = true}, -- any variable name
+    PreCondit = {fg = c.cyan, bg = "NONE"}, -- preprocessor #if, #else, #endif, etc.
+    Special = {fg = c.orange, bg = "NONE"}, -- any special symbol
 
     -- Treesitter
-    hl(0, "TSAnnotation", {link = "PreProc"}) -- Annotations that can be attached to the code to denote some kind of meta information. e.g. C++/Dart attributes.
-    hl(0, "TSAttribute", {link = "Variable"}) -- Annotations that can be attached to the code to denote some kind of meta information. e.g. C++/Dart attributes.
-    hl(0, "TSBoolean", {link = "Boolean"})
-    hl(0, "TSCharacter", {link = "Character"})
-    hl(0, "TSCharacterSpecial", {link = "SpecialChar"})
-    hl(0, "TSComment", {link = "Comment"})
-    hl(0, "TSConditional", {link = "Conditional"})
-    hl(0, "TSConstant", {link = "Constant"})
-    hl(0, "TSConstBuiltin", {link = "Constant"}) -- Built-in constant values: `nil` in Lua.
-    hl(0, "TSConstMacro", {link = "Constant"}) -- Constants defined by macros: `NULL` in C.
-    hl(0, "TSConstructor", {link = "Type"}) -- Constructor calls and definitions: `{}` in Lua, and Java constructors.
-    hl(0, "TSDebug", {link = "Debug"})
-    hl(0, "TSDefine", {link = "Define"})
-    hl(0, "TSError", {link = "Error"})
-    hl(0, "TSException", {link = "Exception"})
-    hl(0, "TSField", {link = "Identifier"}) -- Object and struct fields.
-    hl(0, "TSFloat", {link = "Float"})
-    hl(0, "TSFunction", {link = "Function"})
-    hl(0, "TSFunctionCall", {link = "Function"}) -- Function calls.
-    hl(0, "TSFuncBuiltin", {link = "Function"}) -- Built-in functions: `print` in Lua.
-    hl(0, "TSFuncMacro", {link = "Function"}) -- Macro defined functions (calls and definitions): each `macro_rules` in Rust.
-    hl(0, "TSInclude", {link = "Include"})
-    hl(0, "TSKeyword", {link = "Keyword"})
-    hl(0, "TSKeywordFunction", {fg = c.green, bg = "NONE"}) -- Keywords used to define a function: `function` in Lua, `def` and `lambda` in Python.
-    hl(0, "TSKeywordOperator", {link = "Keyword"}) -- Unary and binary operators that are English words: `and`, `or` in Python; `sizeof` in C.
-    hl(0, "TSKeywordReturn", {fg = c.yellow, bg = "NONE"}) -- Keywords like `return` and `yield`.
-    hl(0, "TSLabel", {link = "Label"})
-    hl(0, "TSMethod", {link = "Function"}) -- Method definitions.
-    hl(0, "TSMethodCall", {link = "Function"}) -- Method calls.
-    hl(0, "TSNamespace", {link = 'Include'}) -- Identifiers referring to modules and namespaces.
-    hl(0, "TSNone", {}) -- No highlighting (sets all highlight arguments to `NONE`). This group is used to clear certain ranges, for example, string interpolations. Don't change the values of this highlight group.
-    hl(0, "TSNumber", {link = "Number"})
-    hl(0, "TSOperator", {link = "Operator"})
-    hl(0, "TSParameter", {link = "Variable"}) -- Parameters of a function.
-    hl(0, "TSParameterReference", {link = "Variable"}) -- References to parameters of a function.
-    hl(0, "TSPreProc", {link = "PreProc"})
-    hl(0, "TSProperty", {link = 'TSField'}) -- Same as `TSField`.
-    hl(0, "TSPunctDelimiter", {link = "Delimiter"}) -- Punctuation delimiters: Periods, commas, semicolons, etc.
-    hl(0, "TSPunctBracket", {link = "Delimiter"}) -- Brackets, braces, parentheses, etc.
-    hl(0, "TSPunctSpecial", {link = "Delimiter"}) -- Special punctuation that doesn't fit into the previous categories.
-    hl(0, "TSRepeat", {link = "Repeat"})
-    hl(0, "TSStorageClass", {link = "StorageClass"})
-    hl(0, "TSString", {link = "String"})
-    hl(0, "TSStringRegex", {link = "String"}) -- Regular expression literals.
-    hl(0, "TSStringEscape", {link = "SpecialChar"}) -- Escape characters within a string: `\n`, `\t`, etc.
-    hl(0, "TSStringSpecial", {link = "SpecialChar"}) -- Strings with special meaning that don't fit into the previous categories.
-    hl(0, "TSSymbol", {link = 'Identifier'}) -- Identifiers referring to symbols or atoms.
-    hl(0, "TSTag", {link = "Tag"})
-    hl(0, "TSTagAttribute", {fg = c.yellow, bg = "NONE", italic = true}) -- HTML tag attributes.
-    hl(0, "TSTagDelimiter", {link = 'Delimiter'}) -- Tag delimiters like `<` `>` `/`.
-    hl(0, "TSText", {fg = c.alt_fg, bg = "NONE"}) -- Non-structured text. Like text in a markup language.
-    hl(0, "TSStrong", {link = "Bold"})
-    hl(0, "TSEmphasis", {link = "Italic"})
-    hl(0, "TSUnderline", {link = "Underlined"})
-    hl(0, "TSStrike", {fg = "NONE", bg = "NONE", strikethrough = true}) -- Strikethrough text.
-    hl(0, "TSTitle", {link = "Title"})
-    hl(0, "TSLiteral", {link = 'String'}) -- Literal or verbatim text.
-    hl(0, "TSURI", {fg = c.cyan, bg = "NONE", underline = true}) -- URIs like hyperlinks or email addresses.
-    hl(0, "TSMath", {fg = c.yellow, bg = "NONE"}) -- Math environments like LaTeX's `$ ... $`.
-    hl(0, "TSTextReference", {fg = c.yellow}) -- Footnotes, text references, citations, etc.
-    hl(0, "TSEnvironment", {fg = c.cyan, bg = 'NONE'}) -- Text environments of markup languages.
-    hl(0, "TSEnvironmentName", {fg = c.orange, bg = "NONE"}) -- Text/string indicating the type of text environment. Like the name of a `\begin` block in LaTeX.
-    hl(0, "TSNote", {link = "SpecialComment"}) -- Text representation of an informational note.
-    hl(0, "TSWarning", {link = "WarningMsg"}) -- Text representation of a warning note.
-    hl(0, "TSDanger", {link = "Error"}) -- Text representation of a danger note.
-    hl(0, "TSTodo", {link = "Todo"})
-    hl(0, "TSType", {link = "Type"})
-    hl(0, "TSTypeBuiltin", {fg = c.orange, bg = "NONE"}) -- Built-in types: `i32` in Rust.
-    hl(0, "TSTypeQualifier", {fg = c.orange, bg = "NONE"}) -- Qualifiers on types, e.g. `const` or `volatile` in C or `mut` in Rust.
-    hl(0, "TSTypeDefinition", {link = "Typedef"})
-    hl(0, "TSVariable", {link = "Variable"})
-    hl(0, "TSVariableBuiltin", {link = 'Special'}) -- Variable names defined by the language: `this` or `self` in Javascript.
-    hl(0, "TreesitterContext", {link = 'NormalFloat'})
-    hl(0, "TreesitterContextLineNumber", {link = 'LineNr'})
-    hl(0, "TSDefinitionUsage", {link = 'Visual'})
-    hl(0, "TSDefinition", {link = 'Search'})
-    hl(0, "TSCurrentScope", {link = 'CursorLine'})
-    hl(0, "TSQueryLinterError", {link = 'Error'})
-    hl(0, "TSPlaygroundLang", {link = 'String'})
-    hl(0, "TSPlaygroundFocus", {link = 'Visual'})
+    TSAnnotation = {link = "PreProc"}, -- Annotations that can be attached to the code to denote some kind of meta information. e.g. C++/Dart attributes.,
+    TSAttribute = {link = "Variable"}, -- Annotations that can be attached to the code to denote some kind of meta information. e.g. C++/Dart attributes.,
+    TSBoolean = {link = "Boolean"},
+    TSCharacter = {link = "Character"},
+    TSCharacterSpecial = {link = "SpecialChar"},
+    TSComment = {link = "Comment"},
+    TSConditional = {link = "Conditional"},
+    TSConstant = {link = "Constant"},
+    TSConstBuiltin = {link = "Constant"}, -- Built-in constant values: `nil` in Lua.,
+    TSConstMacro = {link = "Constant"}, -- Constants defined by macros: `NULL` in C.,
+    TSConstructor = {link = "Type"}, -- Constructor calls and definitions: `{}` in Lua, and Java constructors.,
+    TSDebug = {link = "Debug"},
+    TSDefine = {link = "Define"},
+    TSError = {link = "Error"},
+    TSException = {link = "Exception"},
+    TSField = {link = "Identifier"}, -- Object and struct fields.,
+    TSFloat = {link = "Float"},
+    TSFunction = {link = "Function"},
+    TSFunctionCall = {link = "Function"}, -- Function calls.,
+    TSFuncBuiltin = {link = "Function"}, -- Built-in functions: `print` in Lua.,
+    TSFuncMacro = {link = "Function"}, -- Macro defined functions (calls and definitions: each `macro_rules` in Rust.,
+    TSInclude = {link = "Include"},
+    TSKeyword = {link = "Keyword"},
+    TSKeywordFunction = {fg = c.green, bg = "NONE"}, -- Keywords used to define a function: `function` in Lua, `def` and `lambda` in Python.,
+    TSKeywordOperator = {link = "Keyword"}, -- Unary and binary operators that are English words: `and`, `or` in Python; `sizeof` in C.,
+    TSKeywordReturn = {fg = c.yellow, bg = "NONE"}, -- Keywords like `return` and `yield`.,
+    TSLabel = {link = "Label"},
+    TSMethod = {link = "Function"}, -- Method definitions.,
+    TSMethodCall = {link = "Function"}, -- Method calls.,
+    TSNamespace = {link = 'Include'}, -- Identifiers referring to modules and namespaces.,
+    TSNone = {}, -- No highlighting (sets all highlight arguments to `NONE`. This group is used to clear certain ranges, for example, string interpolations. Don't change the values of this highlight group.,
+    TSNumber = {link = "Number"},
+    TSOperator = {link = "Operator"},
+    TSParameter = {link = "Variable"}, -- Parameters of a function.,
+    TSParameterReference = {link = "Variable"}, -- References to parameters of a function.,
+    TSPreProc = {link = "PreProc"},
+    TSProperty = {link = 'TSField'}, -- Same as `TSField`.,
+    TSPunctDelimiter = {link = "Delimiter"}, -- Punctuation delimiters: Periods, commas, semicolons, etc.,
+    TSPunctBracket = {link = "Delimiter"}, -- Brackets, braces, parentheses, etc.,
+    TSPunctSpecial = {link = "Delimiter"}, -- Special punctuation that doesn't fit into the previous categories.,
+    TSRepeat = {link = "Repeat"},
+    TSStorageClass = {link = "StorageClass"},
+    TSString = {link = "String"},
+    TSStringRegex = {link = "String"}, -- Regular expression literals.,
+    TSStringEscape = {link = "SpecialChar"}, -- Escape characters within a string: `\n`, `\t`, etc.,
+    TSStringSpecial = {link = "SpecialChar"}, -- Strings with special meaning that don't fit into the previous categories.,
+    TSSymbol = {link = 'Identifier'}, -- Identifiers referring to symbols or atoms.,
+    TSTag = {link = "Tag"},
+    TSTagAttribute = {fg = c.yellow, bg = "NONE", italic = true}, -- HTML tag attributes.,
+    TSTagDelimiter = {link = 'Delimiter'}, -- Tag delimiters like `<` `>` `/`.,
+    TSText = {fg = c.alt_fg, bg = "NONE"}, -- Non-structured text. Like text in a markup language.,
+    TSStrong = {link = "Bold"},
+    TSEmphasis = {link = "Italic"},
+    TSUnderline = {link = "Underlined"},
+    TSStrike = {fg = "NONE", bg = "NONE", strikethrough = true}, -- Strikethrough text.,
+    TSTitle = {link = "Title"},
+    TSLiteral = {link = 'String'}, -- Literal or verbatim text.,
+    TSURI = {fg = c.cyan, bg = "NONE", underline = true}, -- URIs like hyperlinks or email addresses.,
+    TSMath = {fg = c.yellow, bg = "NONE"}, -- Math environments like LaTeX's `$ ... $`.,
+    TSTextReference = {fg = c.yellow}, -- Footnotes, text references, citations, etc.,
+    TSEnvironment = {fg = c.cyan, bg = 'NONE'}, -- Text environments of markup languages.,
+    TSEnvironmentName = {fg = c.orange, bg = "NONE"}, -- Text/string indicating the type of text environment. Like the name of a `\begin` block in LaTeX.,
+    TSNote = {link = "SpecialComment"}, -- Text representation of an informational note.,
+    TSWarning = {link = "WarningMsg"}, -- Text representation of a warning note.,
+    TSDanger = {link = "Error"}, -- Text representation of a danger note.,
+    TSTodo = {link = "Todo"},
+    TSType = {link = "Type"},
+    TSTypeBuiltin = {fg = c.orange, bg = "NONE"}, -- Built-in types: `i32` in Rust.,
+    TSTypeQualifier = {fg = c.orange, bg = "NONE"}, -- Qualifiers on types, e.g. `const` or `volatile` in C or `mut` in Rust.,
+    TSTypeDefinition = {link = "Typedef"},
+    TSVariable = {link = "Variable"},
+    TSVariableBuiltin = {link = 'Special'}, -- Variable names defined by the language: `this` or `self` in Javascript.,
+    TreesitterContext = {link = 'NormalFloat'},
+    TreesitterContextLineNumber = {link = 'LineNr'},
+    TSDefinitionUsage = {link = 'Visual'},
+    TSDefinition = {link = 'Search'},
+    TSCurrentScope = {link = 'CursorLine'},
+    TSQueryLinterError = {link = 'Error'},
+    TSPlaygroundLang = {link = 'String'},
+    TSPlaygroundFocus = {link = 'Visual'},
 
-    -- markdown
+    -- Markdown
     -- hl(0, "markdownBlockquote", {fg = c.orange, bg = "NONE"})
     -- hl(0, "markdownCode", {fg = c.orange, bg = "NONE"})
     -- hl(0, "markdownCodeBlock", {fg = c.orange, bg = "NONE"})
@@ -404,59 +400,395 @@ theme.set_highlights = function()
     -- hl(0, "WhichKeyDesc", {fg = c.fg, bg = "NONE"})
     -- hl(0, "WhichKeyFloat", {fg = "NONE", bg = c.alt_bg})
 
+    -- Dev Icons
+    DevIconFs = {fg = '#519aba'},
+    DevIconBat = {fg = '#c1f12e'},
+    DevIconDiff = {fg = '#41535b'},
+    DevIconCPlusPlus = {fg = '#f34b7d'},
+    DevIconBmp = {fg = '#a074c4'},
+    DevIconDefault = {fg = '#6d8086'},
+    DevIconCp = {fg = '#519aba'},
+    DevIconDoc = {fg = '#185abd'},
+    DevIconCobol = {fg = '#005ca5'},
+    DevIconEjs = {fg = '#cbcb41'},
+    DevIconJson = {fg = '#cbcb41'},
+    DevIconVim = {fg = '#019833'},
+    DevIconClojure = {fg = '#8dc149'},
+    DevIconClojureC = {fg = '#8dc149'},
+    DevIconClojureJS = {fg = '#519aba'},
+    DevIconEex = {fg = '#a074c4'},
+    DevIconClojureDart = {fg = '#519aba'},
+    DevIconHeex = {fg = '#a074c4'},
+    DevIconLua = {fg = '#51a0cf'},
+    DevIconFish = {fg = '#4d5a5e'},
+    DevIconCoffee = {fg = '#cbcb41'},
+    DevIconEdn = {fg = '#519aba'},
+    DevIconConfigRu = {fg = '#701516'},
+    DevIconCrystal = {fg = '#000000'},
+    DevIconEpp = {fg = '#ffa61a'},
+    DevIconSwift = {fg = '#e37933'},
+    DevIconBash = {fg = '#89e051'},
+    DevIconErb = {fg = '#701516'},
+    DevIconErl = {fg = '#b83998'},
+    DevIconCson = {fg = '#cbcb41'},
+    DevIconScala = {fg = '#cc3e44'},
+    DevIconExs = {fg = '#a074c4'},
+    DevIconHh = {fg = '#a074c4'},
+    DevIconFsharp = {fg = '#519aba'},
+    DevIconH = {fg = '#a074c4'},
+    DevIconFavicon = {fg = '#cbcb41'},
+    DevIconBashrc = {fg = '#89e051'},
+    DevIconJl = {fg = '#a270ba'},
+    DevIconEx = {fg = '#a074c4'},
+    DevIconRss = {fg = '#fb9d3b'},
+    DevIconNodeModules = {fg = '#e8274b'},
+    DevIconConf = {fg = '#6d8086'},
+    DevIconDb = {fg = '#dad8d8'},
+    DevIconCxx = {fg = '#519aba'},
+    DevIconGo = {fg = '#519aba'},
+    DevIconTor = {fg = '#519aba'},
+    DevIconFennel = {fg = '#fff3d7'},
+    DevIconDesktopEntry = {fg = '#563d7c'},
+    DevIconC = {fg = '#599eff'},
+    DevIconFsx = {fg = '#519aba'},
+    DevIconDrools = {fg = '#ffafaf'},
+    DevIconFsi = {fg = '#519aba'},
+    DevIconGemspec = {fg = '#701516'},
+    DevIconSh = {fg = '#4d5a5e'},
+    DevIconGif = {fg = '#a074c4'},
+    DevIconDropbox = {fg = '#0061fe'},
+    DevIconToml = {fg = '#6d8086'},
+    DevIconFsscript = {fg = '#519aba'},
+    DevIconDart = {fg = '#03589c'},
+    DevIconBinaryGLTF = {fg = '#ffb13b'},
+    DevIconLhs = {fg = '#a074c4'},
+    DevIconGitLogo = {fg = '#f14c28'},
+    DevIconNPMrc = {fg = '#e8274b'},
+    DevIconEnv = {fg = '#faf743'},
+    DevIconGodotProject = {fg = '#6d8086'},
+    DevIconCs = {fg = '#596706'},
+    DevIconGruntfile = {fg = '#e37933'},
+    DevIconElm = {fg = '#519aba'},
+    DevIconTwig = {fg = '#8dc149'},
+    DevIconProlog = {fg = '#e4b854'},
+    DevIconVHDL = {fg = '#019833'},
+    DevIconGulpfile = {fg = '#cc3e44'},
+    DevIconAi = {fg = '#cbcb41'},
+    DevIconCsh = {fg = '#4d5a5e'},
+    DevIconKsh = {fg = '#4d5a5e'},
+    DevIconPromptPs1 = {fg = '#4d5a5e'},
+    DevIconNix = {fg = '#7ebae4'},
+    DevIconHaml = {fg = '#eaeae1'},
+    DevIconXls = {fg = '#207245'},
+    DevIconDockerfile = {fg = '#384d54'},
+    DevIconCMake = {fg = '#6d8086'},
+    DevIconSuo = {fg = '#854cc7'},
+    DevIconZshenv = {fg = '#89e051'},
+    DevIconJpeg = {fg = '#a074c4'},
+    DevIconXul = {fg = '#e37933'},
+    DevIconHpp = {fg = '#a074c4'},
+    DevIconLicense = {fg = '#d0bf41'},
+    DevIconHtml = {fg = '#e44d26'},
+    DevIconPyd = {fg = '#ffe291'},
+    DevIconHs = {fg = '#a074c4'},
+    DevIconGDScript = {fg = '#6d8086'},
+    DevIconMdx = {fg = '#519aba'},
+    DevIconRake = {fg = '#701516'},
+    DevIconMakefile = {fg = '#6d8086'},
+    DevIconRakefile = {fg = '#701516'},
+    DevIconSml = {fg = '#e37933'},
+    DevIconPp = {fg = '#ffa61a'},
+    DevIconRlib = {fg = '#dea584'},
+    DevIconHxx = {fg = '#a074c4'},
+    DevIconSql = {fg = '#dad8d8'},
+    DevIconIco = {fg = '#cbcb41'},
+    DevIconLock = {fg = '#bbbbbb'},
+    DevIconImportConfiguration = {fg = '#ececec'},
+    DevIconMint = {fg = '#87c095'},
+    DevIconIni = {fg = '#6d8086'},
+    DevIconPm = {fg = '#519aba'},
+    DevIconSolidity = {fg = '#519aba'},
+    DevIconBabelrc = {fg = '#cbcb41'},
+    DevIconSln = {fg = '#854cc7'},
+    DevIconJava = {fg = '#cc3e44'},
+    DevIconGitIgnore = {fg = '#41535b'},
+    DevIconSystemVerilog = {fg = '#019833'},
+    DevIconSvg = {fg = '#ffb13b'},
+    DevIconJpg = {fg = '#a074c4'},
+    DevIconMl = {fg = '#e37933'},
+    DevIconRproj = {fg = '#358a5b'},
+    DevIconSig = {fg = '#e37933'},
+    DevIconRb = {fg = '#701516'},
+    DevIconCss = {fg = '#42a5f5'},
+    DevIconScss = {fg = '#f55385'},
+    DevIconLess = {fg = '#563d7c'},
+    DevIconKotlin = {fg = '#f88a02'},
+    DevIconTcl = {fg = '#1e5cb3'},
+    DevIconMustache = {fg = '#e37933'},
+    DevIconKotlinScript = {fg = '#f88a02'},
+    DevIconGitCommit = {fg = '#41535b'},
+    DevIconLeex = {fg = '#a074c4'},
+    DevIconTs = {fg = '#519aba'},
+    DevIconOpenTypeFont = {fg = '#ececec'},
+    DevIconSass = {fg = '#f55385'},
+    DevIconBashProfile = {fg = '#89e051'},
+    DevIconTextResource = {fg = '#cbcb41'},
+    DevIconSvelte = {fg = '#ff3e00'},
+    DevIconDump = {fg = '#dad8d8'},
+    DevIconD = {fg = '#427819'},
+    DevIconTextScene = {fg = '#a074c4'},
+    DevIconZig = {fg = '#f69a1b'},
+    DevIconDsStore = {fg = '#41535b'},
+    DevIconR = {fg = '#358a5b'},
+    DevIconMd = {fg = '#ffffff'},
+    DevIconPackageJson = {fg = '#e8274b'},
+    DevIconGitAttributes = {fg = '#41535b'},
+    DevIconTxt = {fg = '#89e051'},
+    DevIconTex = {fg = '#3d6117'},
+    DevIconGitConfig = {fg = '#41535b'},
+    DevIconVerilog = {fg = '#019833'},
+    DevIconJs = {fg = '#cbcb41'},
+    DevIconGitlabCI = {fg = '#e24329'},
+    DevIconPyo = {fg = '#ffe291'},
+    DevIconMjs = {fg = '#f1e05a'},
+    DevIconWebmanifest = {fg = '#f1e05a'},
+    DevIconGvimrc = {fg = '#019833'},
+    DevIconWebp = {fg = '#a074c4'},
+    DevIconCpp = {fg = '#519aba'},
+    DevIconWebpack = {fg = '#519aba'},
+    DevIconJsx = {fg = '#519aba'},
+    DevIconMotoko = {fg = '#9772fb'},
+    DevIconLog = {fg = '#ffffff'},
+    DevIconTsx = {fg = '#519aba'},
+    DevIconNPMIgnore = {fg = '#e8274b'},
+    DevIconPrisma = {fg = '#ffffff'},
+    DevIconTerminal = {fg = '#31b53e'},
+    DevIconNim = {fg = '#f3d400'},
+    DevIconPhp = {fg = '#a074c4'},
+    DevIconPsd = {fg = '#519aba'},
+    DevIconSettingsJson = {fg = '#854cc7'},
+    DevIconMixLock = {fg = '#a074c4'},
+    DevIconProcfile = {fg = '#a074c4'},
+    DevIconPng = {fg = '#a074c4'},
+    DevIconHrl = {fg = '#b83998'},
+    DevIconRmd = {fg = '#519aba'},
+    DevIconZshprofile = {fg = '#89e051'},
+    DevIconXml = {fg = '#e37933'},
+    DevIconOPUS = {fg = '#f88a02'},
+    DevIconMarkdown = {fg = '#519aba'},
+    DevIconVimrc = {fg = '#019833'},
+    DevIconZshrc = {fg = '#89e051'},
+    DevIconPsb = {fg = '#519aba'},
+    DevIconBrewfile = {fg = '#701516'},
+    DevIconPy = {fg = '#ffbc03'},
+    DevIconPyc = {fg = '#ffe291'},
+    DevIconPackageLockJson = {fg = '#7a0d21'},
+    DevIconCMakeLists = {fg = '#6d8086'},
+    DevIconConfiguration = {fg = '#ececec'},
+    DevIconPackedResource = {fg = '#6d8086'},
+    DevIconXcPlayground = {fg = '#e37933'},
+    DevIconPdf = {fg = '#b30b00'},
+    DevIconGitModules = {fg = '#41535b'},
+    DevIconRs = {fg = '#dea584'},
+    DevIconPl = {fg = '#519aba'},
+    DevIconMaterial = {fg = '#b83998'},
+    DevIconGemfile = {fg = '#701516'},
+    DevIconZsh = {fg = '#89e051'},
+    DevIconStyl = {fg = '#8dc149'},
+    DevIconPpt = {fg = '#cb4a32'},
+    DevIconYml = {fg = '#6d8086'},
+    DevIconVue = {fg = '#8dc149'},
+    DevIconMli = {fg = '#e37933'},
+    DevIconVagrantfile = {fg = '#1563ff'},
+    DevIconYaml = {fg = '#6d8086'},
+    DevIconHtm = {fg = '#e34c26'},
+    DevIconHbs = {fg = '#f0772b'},
+    DevIconSlim = {fg = '#e34c26'},
+    DevIconCsv = {fg = '#89e051'},
+    DevIconAwk = {fg = '#4d5a5e'},
+
     -- Git
-    -- hl(0, "SignAdd", {fg = c.sign_add, bg = "NONE"})
-    -- hl(0, "SignChange", {fg = c.sign_change, bg = "NONE"})
-    -- hl(0, "SignDelete", {fg = c.sign_delete, bg = "NONE"})
-    -- hl(0, "GitSignsAdd", {link = "SignAdd"}) -- diff mode: Added line |diff.txt|
-    -- hl(0, "GitSignsAddNr", {link = "GitSignsAdd"}) -- diff mode: Added line |diff.txt|
-    -- hl(0, "GitSignsAddLn", {link = "GitSignsAdd"}) -- diff mode: Added line |diff.txt|
-    -- hl(0, "GitSignsChange", {link = "SignChange"}) -- diff mode: Changed line |diff.txt|
-    -- hl(0, "GitSignsChangeNr", {link = "GitSignsChange"}) -- diff mode: Changed line |diff.txt|
-    -- hl(0, "GitSignsChangeLn", {link = "GitSignsChange"}) -- diff mode: Changed line |diff.txt|
-    -- hl(0, "GitSignsDelete", {link = "SignDelete"}) -- diff mode: Deleted line |diff.txt|
-    -- hl(0, "GitSignsDeleteNr", {link = "GitSignsDelete"}) -- diff mode: Deleted line |diff.txt|
-    -- hl(0, "GitSignsDeleteLn", {link = "GitSignsDelete"}) -- diff mode: Deleted line |diff.txt|
+    GitSignsAdd = {link = "DiffAdd"}, -- diff mode: Added line |diff.txt|
+    GitSignsAddNr = {link = "GitSignsAdd"}, -- diff mode: Added line |diff.txt|
+    GitSignsAddLn = {link = "GitSignsAdd"}, -- diff mode: Added line |diff.txt|
+    GitSignsChange = {link = "DiffChange"}, -- diff mode: Changed line |diff.txt|
+    GitSignsChangeNr = {link = "GitSignsChange"}, -- diff mode: Changed line |diff.txt|
+    GitSignsChangeLn = {link = "GitSignsChange"}, -- diff mode: Changed line |diff.txt|
+    GitSignsDelete = {link = "DiffDelete"}, -- diff mode: Deleted line |diff.txt|
+    GitSignsDeleteNr = {link = "GitSignsDelete"}, -- diff mode: Deleted line |diff.txt|
+    GitSignsDeleteLn = {link = "GitSignsDelete"}, -- diff mode: Deleted line |diff.txt|
+    GitSignsAddPreview = {link = 'DiffAdd'},
+    GitSignsDeletePreview = {link = 'DiffDelete'},
+    GitSignsCurrentLineBlame = {link = 'NonText'},
+    GitSignsAddInline = {link = 'TermCursor'},
+    GitSignsDeleteInline = {link = 'TermCursor'},
+    GitSignsChangeInline = {link = 'TermCursor'},
+    GitSignsAddLnInline = {link = 'GitSignsAddInline'},
+    GitSignsChangeLnInline = {link = 'GitSignsChangeInline'},
+    GitSignsDeleteLnInline = {link = 'GitSignsDeleteInline'},
+    GitSignsAddLnVirtLn = {link = 'GitSignsAddLn'},
+    GitSignsChangeVirtLn = {link = 'GitSignsChangeLn'},
+    GitSignsDeleteVirtLn = {link = 'DiffDelete'},
+    GitSignsAddLnVirtLnInLine = {link = 'GitSignsAddLnInline'},
+    GitSignsChangeVirtLnInLine = {link = 'GitSignsChangeLnInline'},
+    GitSignsDeleteVirtLnInLine = {link = 'GitSignsDeleteLnInline'},
+
+    -- Octo
+    OctoGreen = {fg = '#238636'},
+    OctoRed = {fg = '#da3633'},
+    OctoPurple = {fg = '#6f42c1'},
+    OctoYellow = {fg = '#d3c846'},
+    OctoBlue = {fg = '#58a6ff'},
+    OctoGrey = {fg = '#2a354c'},
+    OctoGreenFloat = {fg = '#238636', bg = '#ff00ff'},
+    OctoRedFloat = {fg = '#da3633', bg = '#ff00ff'},
+    OctoPurpleFloat = {fg = '#6f42c1', bg = '#ff00ff'},
+    OctoYellowFloat = {fg = '#d3c846', bg = '#ff00ff'},
+    OctoBlueFloat = {fg = '#58a6ff', bg = '#ff00ff'},
+    OctoGreyFloat = {fg = '#2a354c', bg = '#ff00ff'},
+    OctoBubblePurple = {fg = '#ffffff', bg = '#6f42c1'},
+    OctoBubbleYellow = {fg = '#2a354c', bg = '#d3c846'},
+    OctoBubbleBlue = {fg = '#2a354c', bg = '#0366d6'},
+    OctoBubbleGrey = {fg = '#ffffff', bg = '#2a354c'},
+    OctoBubbleDelimiterGreen = {fg = '#238636'},
+    OctoBubbleDelimiterRed = {fg = '#da3633'},
+    OctoBubbleDelimiterPurple = {fg = '#6f42c1'},
+    OctoBubbleDelimiterYellow = {fg = '#d3c846'},
+    OctoBubbleDelimiterBlue = {fg = '#0366d6'},
+    OctoBubbleDelimiterGrey = {fg = '#2a354c'},
+    OctoFilePanelTitle = {fg = '#58a6ff', bold = true},
+    OctoFilePanelCounter = {fg = '#40ffff', bold = true},
+    NormalFront = {fg = '#ffffff'},
+    OctoNormalFront = {link = 'NormalFront'},
+    OctoNormal = {link = 'Normal'},
+    OctoCursorLine = {link = 'CursorLine'},
+    OctoVertSplit = {link = 'VertSplit'},
+    OctoSignColumn = {link = 'Normal'},
+    OctoStatusLine = {link = 'StatusLine'},
+    OctoStatusLineNC = {link = 'StatusLineNC'},
+    OctoEndOfBuffer = {link = 'EndOfBuffer'},
+    OctoFilePanelFileName = {link = 'NormalFront'},
+    OctoFilePanelPath = {link = 'Comment'},
+    OctoStatusAdded = {link = 'OctoGreen'},
+    OctoStatusUntracked = {link = 'OctoGreen'},
+    OctoStatusModified = {link = 'OctoBlue'},
+    OctoStatusRenamed = {link = 'OctoBlue'},
+    OctoStatusCopied = {link = 'OctoBlue'},
+    OctoStatusTypeChange = {link = 'OctoBlue'},
+    OctoStatusUnmerged = {link = 'OctoBlue'},
+    OctoStatusUnknown = {link = 'OctoYellow'},
+    OctoStatusDeleted = {link = 'OctoRed'},
+    OctoStatusBroken = {link = 'OctoRed'},
+    OctoDirty = {link = 'OctoRed'},
+    OctoIssueId = {link = 'NormalFloat'},
+    OctoIssueTitle = {link = 'PreProc'},
+    OctoFloat = {link = 'NormalFloat'},
+    OctoTimelineItemHeading = {link = 'Comment'},
+    OctoTimelineMarker = {link = 'Identifier'},
+    OctoSymbol = {link = 'Comment'},
+    OctoDate = {link = 'Comment'},
+    OctoDetailsLabel = {link = 'Title'},
+    OctoDetailsValue = {link = 'Identifier'},
+    OctoMissingDetails = {link = 'Comment'},
+    OctoEmpty = {link = 'NormalFloat'},
+    OctoBubble = {link = 'NormalFloat'},
+    OctoUser = {link = 'OctoBubble'},
+    OctoUserViewer = {link = 'OctoViewer'},
+    OctoReaction = {link = 'OctoBubble'},
+    OctoReactionViewer = {link = 'OctoViewer'},
+    OctoPassingTest = {link = 'OctoGreen'},
+    OctoFailingTest = {link = 'OctoRed'},
+    OctoDiffstatAdditions = {link = 'OctoGreen'},
+    OctoDiffstatDeletions = {link = 'OctoRed'},
+    OctoDiffstatNeutral = {link = 'OctoGrey'},
+    OctoStateOpen = {link = 'OctoGreen'},
+    OctoStateClosed = {link = 'OctoRed'},
+    OctoStateMerge = {link = 'OctoGreen'},
+    OctoStatePending = {link = 'OctoYellow'},
+    OctoStateApproved = {link = 'OctoGreen'},
+    OctoStateChangesRequested = {link = 'OctoRed'},
+    OctoStateDismissed = {link = 'OctoRed'},
+    OctoStateCommented = {link = 'OctoBlue'},
+    OctoStateSubmitted = {link = 'OctoGreen'},
+    OctoStateOpenBubble = {link = 'OctoBubbleGreen'},
+    OctoStateClosedBubble = {link = 'OctoBubbleRed'},
+    OctoStateMergedBubble = {link = 'OctoBubblePurple'},
+    OctoStatePendingBubble = {link = 'OctoBubbleYellow'},
+    OctoStateApprovedBubble = {link = 'OctoBubbleGreen'},
+    OctoStateChangesRequestedBubble = {link = 'OctoBubbleRed'},
+    OctoStateDismissedBubble = {link = 'OctoBubbleRed'},
+    OctoStateCommentedBubble = {link = 'OctoBubbleBlue'},
+    OctoStateSubmittedBubble = {link = 'OctoBubbleGreen'},
+    OctoStateOpenFloat = {link = 'OctoGreenFloat'},
+    OctoStateClosedFloat = {link = 'OctoRedFloat'},
+    OctoStateMergedFloat = {link = 'OctoPurpleFloat'},
+    OctoStateMergedFloat = {link = 'OctoPurpleFloat'},
+    OctoDiffHunkPosition = {link = 'NormalFloat'},
+    OctoCommentLine = {link = 'TabLineSel'},
+    OctoEditable = {bg = '#ff00ff'},
+    OctoViewer = {fg = '#000000', bg = '#58a6ff'},
+    OctoBubbleGreen = {fg = '#2a354c', bg = '#238636'},
+    OctoBubbleRed = {fg = '#2a354c', bg = '#da3633'},
+    OctoPullAdditions = {link = 'OctoGreen'},
+    OctoPullDeletions = {link = 'OctoRed'},
+    OctoPullModifications = {link = 'OctoYellow'},
+    OctoStateMerged = {link = 'OctoPurple'},
 
     -- Git Blame
     -- hl(0, "gitblame", {link = "Comment"})
 
     -- LSP Config
-    hl(0, "LspInfoTitle", {link = 'Title'}) -- Client name
-    hl(0, "LspInfoList", {link = 'Function'}) -- Server name list
-    hl(0, "LspInfoFiletype", {link = 'Type'}) -- `filetypes` area
-    hl(0, "LspInfoTip", {link = 'Comment'}) -- Tip
-    hl(0, "LspInfoBorder", {link = 'Label'}) -- Window border
+    LspInfoTitle = {link = 'Title'}, -- Client name
+    LspInfoList = {link = 'Function'}, -- Server name list
+    LspInfoFiletype = {link = 'Type'}, -- `filetypes` area
+    LspInfoTip = {link = 'Comment'}, -- Tip
+    LspInfoBorder = {link = 'Label'}, -- Window border
 
     -- LSP
-    hl(0, "DiagnosticHint", {fg = c.hint, bg = "NONE"})
-    hl(0, "DiagnosticInfo", {fg = c.info, bg = "NONE"})
-    hl(0, "DiagnosticWarn", {link = "TSWarning"})
-    hl(0, "DiagnosticError", {link = "TSError"})
-    -- hl(0, "DiagnosticOther", {fg = c.ui_purple, bg = "NONE"})
-    hl(0, "DiagnosticSignHint", {link = 'DiagnosticHint'})
-    hl(0, "DiagnosticSignInfo", {link = 'DiagnosticInfo'})
-    hl(0, "DiagnosticSignWarn", {link = 'DiagnosticWarn'})
-    hl(0, "DiagnosticSignError", {link = 'DiagnosticError'})
-    -- hl(0, "DiagnosticSignOther", {link = "DiagnosticOther"})
-    -- hl(0, "DiagnosticSignWarning", {link = "DiagnosticWarn"})
-    hl(0, "DiagnosticFloatingHint", {link = 'DiagnosticHint'})
-    hl(0, "DiagnosticFloatingInfo", {link = 'DiagnosticInfo'})
-    hl(0, "DiagnosticFloatingWarn", {link = 'DiagnosticWarn'})
-    hl(0, "DiagnosticFloatingError", {link = 'DiagnosticError'})
-    hl(0, "DiagnosticUnderlineHint",
-       {fg = "NONE", bg = "NONE", sp = c.hint, undercurl = true})
-    hl(0, "DiagnosticUnderlineInfo",
-       {fg = "NONE", bg = "NONE", sp = c.info, undercurl = true})
-    hl(0, "DiagnosticUnderlineWarn",
-       {fg = "NONE", bg = "NONE", sp = c.warn, undercurl = true})
-    hl(0, "DiagnosticUnderlineError",
-       {fg = "NONE", bg = "NONE", sp = c.error, undercurl = true})
-    -- hl(0, "DiagnosticSignInformation", {link = "DiagnosticInfo"})
-    hl(0, "DiagnosticVirtualTextHint", {link = 'DiagnosticHint'})
-    hl(0, "DiagnosticVirtualTextInfo", {link = 'DiagnosticInfo'})
-    hl(0, "DiagnosticVirtualTextWarn", {link = 'DiagnosticWarn'})
-    hl(0, "DiagnosticVirtualTextError", {link = 'DiagnosticError'})
+    DiagnosticHint = {fg = c.hint, bg = "NONE"},
+    DiagnosticInfo = {fg = c.info, bg = "NONE"},
+    DiagnosticWarn = {link = "TSWarning"},
+    DiagnosticError = {link = "TSError"},
+    DiagnosticOther = {fg = c.ui_purple, bg = "NONE"},
+    DiagnosticSignHint = {link = 'DiagnosticHint'},
+    DiagnosticSignInfo = {link = 'DiagnosticInfo'},
+    DiagnosticSignWarn = {link = 'DiagnosticWarn'},
+    DiagnosticSignError = {link = 'DiagnosticError'},
+    DiagnosticSignOther = {link = "DiagnosticOther"},
+    DiagnosticSignWarning = {link = "DiagnosticWarn"},
+    DiagnosticFloatingHint = {link = 'DiagnosticHint'},
+    DiagnosticFloatingInfo = {link = 'DiagnosticInfo'},
+    DiagnosticFloatingWarn = {link = 'DiagnosticWarn'},
+    DiagnosticFloatingError = {link = 'DiagnosticError'},
+    DiagnosticUnderlineHint = {
+        fg = "NONE",
+        bg = "NONE",
+        sp = c.hint,
+        undercurl = true
+    },
+    DiagnosticUnderlineInfo = {
+        fg = "NONE",
+        bg = "NONE",
+        sp = c.info,
+        undercurl = true
+    },
+    DiagnosticUnderlineWarn = {
+        fg = "NONE",
+        bg = "NONE",
+        sp = c.warn,
+        undercurl = true
+    },
+    DiagnosticUnderlineError = {
+        fg = "NONE",
+        bg = "NONE",
+        sp = c.error,
+        undercurl = true
+    },
+    -- DiagnosticSignInformation = {link = "DiagnosticInfo"},
+    DiagnosticVirtualTextHint = {link = 'DiagnosticHint'},
+    DiagnosticVirtualTextInfo = {link = 'DiagnosticInfo'},
+    DiagnosticVirtualTextWarn = {link = 'DiagnosticWarn'},
+    DiagnosticVirtualTextError = {link = 'DiagnosticError'},
     -- hl(0, "LspDiagnosticsError", {fg = c.error, bg = "NONE"})
     -- hl(0, "LspDiagnosticsWarning", {fg = c.warn, bg = "NONE"})
     -- hl(0, "LspDiagnosticsInfo", {fg = c.info, bg = "NONE"})
@@ -498,53 +830,56 @@ theme.set_highlights = function()
     -- hl(0, "LspCodeLensSeparator", {fg = c.context, bg = "NONE", italic = true})
     -- hl(0, "LspSignatureActiveParameter", {link = 'Search'})
 
+    -- LSP Inlay Hints
+    LspInlayHint = {fg = '#80a0ff', bg = '#666666'},
+
     -- LSP Trouble
-    -- hl(0, "LspTroubleSignError", {fg = c.error})
-    -- hl(0, "LspTroubleWarning", {fg = c.yellow})
-    -- hl(0, "LspTroubleInformation", {fg = c.paleblue})
-    -- hl(0, "LspTroubleHint", {fg = c.purple})
-    -- hl(0, "LspTroubleText", {fg = c.darkblue})
-    -- hl(0, "LspTroubleTextError", {fg = c.error})
-    -- hl(0, "LspTroubleTextWarning", {fg = c.error})
-    -- hl(0, "LspTroubleTextInformation", {fg = c.paleblue})
-    -- hl(0, "LspTroubleTextHint", {fg = c.purple})
-    -- hl(0, "LspTroubleSignOther", {fg = c.paleblue})
-    -- hl(0, "LspTroubleSignInformation", {fg = c.paleblue})
-    -- hl(0, "LspTroubleFoldIcon", {fg = c.purple})
-    -- hl(0, "LspTroubleNormal", {fg = c.fg, bg = c.bg})
-    -- hl(0, "LspTroubleCount", {fg = c.purple, bg = c.darkblue})
-    -- hl(0, "LspTroubleLocation", {fg = c.darkblue})
-    -- hl(0, "LspTroubleFile", {fg = c.blue})
-    -- hl(0, "LspTroublePreview", {fg = c.purple})
-    -- hl(0, "LspTroubleIndent", {fg = c.darkblue})
-    -- hl(0, "LspTroubleCode", {fg = c.white})
-    -- hl(0, "LspTroubleError", {fg = c.error})
-    -- hl(0, "LspTroubleSignWarning", {fg = c.yellow})
-    -- hl(0, "LspTroubleSignHint", {fg = c.purple})
-    -- hl(0, "LspTroubleSource", {fg = c.green})
-    -- hl(0, "TroubleCount", {link = "LspTroubleCount"})
-    -- hl(0, "TroubleError", {link = "LspTroubleError"})
-    -- hl(0, "TroubleNormal", {link = "LspTroubleNormal"})
-    -- hl(0, "TroubleTextInformation", {link = "LspTroubleTextInformation"})
-    -- hl(0, "TroubleSignWarning", {link = "LspTroubleSignWarning"})
-    -- hl(0, "TroubleLocation", {link = "LspTroubleLocation"})
-    -- hl(0, "TroubleWarning", {link = "LspTroubleWarning"})
-    -- hl(0, "TroublePreview", {link = "LspTroublePreview"})
-    -- hl(0, "TroubleTextError", {link = "LspTroubleTextError"})
-    -- hl(0, "TroubleSignInformation", {link = "LspTroubleSignInformation"})
-    -- hl(0, "TroubleIndent", {link = "LspTroubleIndent"})
-    -- hl(0, "TroubleSource", {link = "LspTroubleSource"})
-    -- hl(0, "TroubleSignHint", {link = "LspTroubleSignHint"})
-    -- hl(0, "TroubleSignOther", {link = "LspTroubleSignOther"})
-    -- hl(0, "TroubleFoldIcon", {link = "LspTroubleFoldIcon"})
-    -- hl(0, "TroubleTextWarning", {link = "LspTroubleTextWarning"})
-    -- hl(0, "TroubleCode", {link = "LspTroubleCode"})
-    -- hl(0, "TroubleInformation", {link = "LspTroubleInformation"})
-    -- hl(0, "TroubleSignError", {link = "LspTroubleSignError"})
-    -- hl(0, "TroubleFile", {link = "LspTroubleFile"})
-    -- hl(0, "TroubleHint", {link = "LspTroubleHint"})
-    -- hl(0, "TroubleTextHint", {link = "LspTroubleTextHint"})
-    -- hl(0, "TroubleText", {link = "LspTroubleText"})
+    LspTroubleCount = {fg = c.purple, bg = c.darkblue},
+    LspTroubleError = {link = 'LspDiagnosticsDefaultError'},
+    LspTroubleNormal = {link = 'Normal'},
+    LspTroubleTextInformation = {link = 'LspTroubleText'},
+    LspTroubleSignWarning = {link = 'LspDiagnosticsSignWarning'},
+    LspTroubleLocation = {fg = c.darkblue},
+    LspTroubleWarning = {link = 'LspDiagnosticsDefaultWarning'},
+    LspTroublePreview = {link = 'Search'},
+    LspTroubleTextError = {link = 'LspTroubleText'},
+    LspTroubleSignInformation = {link = 'LspDiagnosticsSignInformation'},
+    LspTroubleIndent = {link = 'LineNr'},
+    LspTroubleSource = {link = 'Comment'},
+    LspTroubleSignHint = {link = 'LspDiagnosticsSignHint'},
+    LspTroubleSignOther = {link = 'LspTroubleSignInformation'},
+    LspTroubleFoldIcon = {link = 'CursorLineNr'},
+    LspTroubleTextWarning = {link = 'LspTroubleText'},
+    LspTroubleCode = {link = 'Comment'},
+    LspTroubleInformation = {link = 'LspDiagnosticsDefaultInformation'},
+    LspTroubleSignError = {link = 'LspDiagnosticsSignError'},
+    LspTroubleFile = {link = 'Directory'},
+    LspTroubleHint = {link = 'LspDiagnosticsDefaultHint'},
+    LspTroubleTextHint = {link = 'LspTroubleText'},
+    LspTroubleText = {link = 'Normal'},
+    TroubleCount = {link = "LspTroubleCount"},
+    TroubleError = {link = "LspTroubleError"},
+    TroubleNormal = {link = "LspTroubleNormal"},
+    TroubleTextInformation = {link = "LspTroubleTextInformation"},
+    TroubleSignWarning = {link = "LspTroubleSignWarning"},
+    TroubleLocation = {link = "LspTroubleLocation"},
+    TroubleWarning = {link = "LspTroubleWarning"},
+    TroublePreview = {link = "LspTroublePreview"},
+    TroubleTextError = {link = "LspTroubleTextError"},
+    TroubleSignInformation = {link = "LspTroubleSignInformation"},
+    TroubleIndent = {link = "LspTroubleIndent"},
+    TroubleSource = {link = "LspTroubleSource"},
+    TroubleSignHint = {link = "LspTroubleSignHint"},
+    TroubleSignOther = {link = "LspTroubleSignOther"},
+    TroubleFoldIcon = {link = "LspTroubleFoldIcon"},
+    TroubleTextWarning = {link = "LspTroubleTextWarning"},
+    TroubleCode = {link = "LspTroubleCode"},
+    TroubleInformation = {link = "LspTroubleInformation"},
+    TroubleSignError = {link = "LspTroubleSignError"},
+    TroubleFile = {link = "LspTroubleFile"},
+    TroubleHint = {link = "LspTroubleHint"},
+    TroubleTextHint = {link = "LspTroubleTextHint"},
+    TroubleText = {link = "LspTroubleText"},
 
     -- LspSaga
     -- hl(0, "LspSagaFinderSelection", {fg = c.green})
@@ -582,11 +917,11 @@ theme.set_highlights = function()
     -- Neogit
     -- hl(0, "NeogitBranch", {fg = c.paleblue})
     -- hl(0, "NeogitRemote", {fg = c.purple})
-    hl(0, "NeogitHunkHeader", {fg = c.fg, bg = c.purple})
-    hl(0, "NeogitHunkHeaderHighlight", {fg = c.blue, bg = c.purple})
-    hl(0, "NeogitDiffContextHighlight", {fg = c.darkblue, bg = c.purple})
-    hl(0, "NeogitDiffDeleteHighlight", {fg = c.red})
-    hl(0, "NeogitDiffAddHighlight", {fg = c.green})
+    -- hl(0, "NeogitHunkHeader", {fg = c.fg, bg = c.purple})
+    -- hl(0, "NeogitHunkHeaderHighlight", {fg = c.blue, bg = c.purple})
+    -- hl(0, "NeogitDiffContextHighlight", {fg = c.darkblue, bg = c.purple})
+    -- hl(0, "NeogitDiffDeleteHighlight", {fg = c.red})
+    -- hl(0, "NeogitDiffAddHighlight", {fg = c.green})
     -- hl(0, "NeogitObjectId", {fg = c.green})
     -- hl(0, "NeogitCommitMessage", {fg = c.yellow})
     -- hl(0, "NeogitDiffAdd", {link = "NeogitDiffAddHighlight"})
@@ -620,110 +955,113 @@ theme.set_highlights = function()
     -- hl(0, "GitGutterDelete", {fg = c.red}) -- diff mode: Deleted line |diff.txt|
 
     -- Telescope
-    hl(0, "TelescopeSelection", {fg = c.orange})
-    hl(0, "TelescopeSelectionCaret", {fg = c.error})
-    hl(0, "TelescopeMultiSelection", {fg = c.gray})
-    hl(0, "TelescopeMultiIcon", {link = 'Identifier'})
-    hl(0, "TelescopeNormal", {fg = c.fg, bg = c.alt_bg})
-    hl(0, "TelescopePreviewNormal", {link = 'TelescopeNormal'})
-    hl(0, "TelescopePromptNormal", {link = 'TelescopeNormal'})
-    hl(0, "TelescopeResultsNormal", {link = 'TelescopeNormal'})
-    hl(0, "TelescopeBorder", {fg = c.alt_fg, bg = "NONE"})
-    hl(0, "TelescopePromptBorder", {link = 'TelescopeBorder'})
-    hl(0, "TelescopeResultsBorder", {fg = c.white})
-    hl(0, "TelescopePreviewBorder", {link = 'TelescopeBorder'})
-    hl(0, "TelescopeTitle", {fg = c.orange, bg = "NONE"})
-    hl(0, "TelescopePromptTitle", {link = 'TelescopeTitle'})
-    hl(0, "TelescopeResultsTitle", {link = 'TelescopeTitle'})
-    hl(0, "TelescopePreviewTitle", {link = 'TelescopeTitle'})
-    hl(0, "TelescopePromptCounter", {fg = c.red, bg = "NONE"})
-    hl(0, "TelescopeMatching",
-       {fg = c.cyan, bg = "NONE", bold = true, italic = true})
-    hl(0, "TelescopePromptPrefix", {fg = c.hint, bg = "NONE"})
-    hl(0, "TelescopePreviewLine", {fg = c.none, bg = c.selection})
-    hl(0, "TelescopePreviewMatch", {fg = c.purple, bg = c.white, reverse = true})
-    hl(0, "TelescopePreviewPipe", {link = 'Constant'})
-    hl(0, "TelescopePreviewCharDev", {link = 'Constant'})
-    hl(0, "TelescopePreviewDirectory", {link = 'Directory'})
-    hl(0, "TelescopePreviewBlock", {link = 'Constant'})
-    hl(0, "TelescopePreviewLink", {fg = c.red})
-    hl(0, "TelescopePreviewSocket", {link = 'Statement'})
-    hl(0, "TelescopePreviewRead", {link = 'Constant'})
-    hl(0, "TelescopePreviewWrite", {link = 'Statement'})
-    hl(0, "TelescopePreviewExecute", {link = 'String'})
-    hl(0, "TelescopePreviewHyphen", {fg = c.red, bg = "NONE"})
-    hl(0, "TelescopePreviewSticky", {link = 'Keyword'})
-    hl(0, "TelescopePreviewSize", {link = 'String'})
-    hl(0, "TelescopePreviewUser", {link = 'Constant'})
-    hl(0, "TelescopePreviewGroup", {link = 'Constant'})
-    hl(0, "TelescopePreviewDate", {link = 'Directory'})
-    hl(0, "TelescopePreviewMessage", {link = 'TelescopePreviewNormal'})
-    hl(0, "TelescopePreviewMessageFillchar", {link = 'TelescopePreviewMessage'})
-    hl(0, "TelescopeResultsClass", {link = 'Function'})
-    hl(0, "TelescopeResultsConstant", {link = 'Constant'})
-    hl(0, "TelescopeResultsField", {link = 'Function'})
-    hl(0, "TelescopeResultsFunction", {link = 'Function'})
-    hl(0, "TelescopeResultsMethod", {link = 'Method'})
-    hl(0, "TelescopeResultsOperator", {link = 'Operator'})
-    hl(0, "TelescopeResultsStruct", {link = 'Struct'})
-    hl(0, "TelescopeResultsVariable", {link = 'SpecialChar'})
-    hl(0, "TelescopeResultsLineNr", {link = 'LineNr'})
-    hl(0, "TelescopeResultsIdentifier", {link = 'Identifier'})
-    hl(0, "TelescopeResultsNumber", {link = 'Number'})
-    hl(0, "TelescopeResultsComment", {link = 'Comment'})
-    hl(0, "TelescopeResultsSpecialComment", {link = 'SpecialComment'})
-    hl(0, "TelescopeResultsFileIcon", {link = 'Normal'})
-    hl(0, "TelescopeResultsDiffChange", {link = 'DiffChange'})
-    hl(0, "TelescopeResultsDiffAdd", {link = 'DiffAdd'})
-    hl(0, "TelescopeResultsDiffDelete", {link = 'DiffDelete'})
-    hl(0, "TelescopeResultsDiffUntracked", {link = 'NonText'})
-
+    -- hl(0, "TelescopeSelection", {fg = c.orange})
+    -- hl(0, "TelescopeSelectionCaret", {fg = c.error})
+    -- hl(0, "TelescopeMultiSelection", {fg = c.gray})
+    -- hl(0, "TelescopeMultiIcon", {link = 'Identifier'})
+    -- hl(0, "TelescopeNormal", {fg = c.fg, bg = c.alt_bg})
+    -- hl(0, "TelescopePreviewNormal", {link = 'TelescopeNormal'})
+    -- hl(0, "TelescopePromptNormal", {link = 'TelescopeNormal'})
+    -- hl(0, "TelescopeResultsNormal", {link = 'TelescopeNormal'})
+    -- hl(0, "TelescopeBorder", {fg = c.alt_fg, bg = "NONE"})
+    -- hl(0, "TelescopePromptBorder", {link = 'TelescopeBorder'})
+    -- hl(0, "TelescopeResultsBorder", {fg = c.white})
+    -- hl(0, "TelescopePreviewBorder", {link = 'TelescopeBorder'})
+    -- hl(0, "TelescopeTitle", {fg = c.orange, bg = "NONE"})
+    -- hl(0, "TelescopePromptTitle", {link = 'TelescopeTitle'})
+    -- hl(0, "TelescopeResultsTitle", {link = 'TelescopeTitle'})
+    -- hl(0, "TelescopePreviewTitle", {link = 'TelescopeTitle'})
+    -- hl(0, "TelescopePromptCounter", {fg = c.red, bg = "NONE"})
+    -- hl(0, "TelescopeMatching", {fg = c.cyan, bg = "NONE", bold = true, italic = true})
+    -- hl(0, "TelescopePromptPrefix", {fg = c.hint, bg = "NONE"})
+    -- hl(0, "TelescopePreviewLine", {fg = c.none, bg = c.selection})
+    -- hl(0, "TelescopePreviewMatch", {fg = c.purple, bg = c.white, reverse = true})
+    -- hl(0, "TelescopePreviewPipe", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewCharDev", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewDirectory", {link = 'Directory'})
+    -- hl(0, "TelescopePreviewBlock", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewLink", {fg = c.red})
+    -- hl(0, "TelescopePreviewSocket", {link = 'Statement'})
+    -- hl(0, "TelescopePreviewRead", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewWrite", {link = 'Statement'})
+    -- hl(0, "TelescopePreviewExecute", {link = 'String'})
+    -- hl(0, "TelescopePreviewHyphen", {fg = c.red, bg = "NONE"})
+    -- hl(0, "TelescopePreviewSticky", {link = 'Keyword'})
+    -- hl(0, "TelescopePreviewSize", {link = 'String'})
+    -- hl(0, "TelescopePreviewUser", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewGroup", {link = 'Constant'})
+    -- hl(0, "TelescopePreviewDate", {link = 'Directory'})
+    -- hl(0, "TelescopePreviewMessage", {link = 'TelescopePreviewNormal'})
+    -- hl(0, "TelescopePreviewMessageFillchar", {link = 'TelescopePreviewMessage'})
+    -- hl(0, "TelescopeResultsClass", {link = 'Function'})
+    -- hl(0, "TelescopeResultsConstant", {link = 'Constant'})
+    -- hl(0, "TelescopeResultsField", {link = 'Function'})
+    -- hl(0, "TelescopeResultsFunction", {link = 'Function'})
+    -- hl(0, "TelescopeResultsMethod", {link = 'Method'})
+    -- hl(0, "TelescopeResultsOperator", {link = 'Operator'})
+    -- hl(0, "TelescopeResultsStruct", {link = 'Struct'})
+    -- hl(0, "TelescopeResultsVariable", {link = 'SpecialChar'})
+    -- hl(0, "TelescopeResultsLineNr", {link = 'LineNr'})
+    -- hl(0, "TelescopeResultsIdentifier", {link = 'Identifier'})
+    -- hl(0, "TelescopeResultsNumber", {link = 'Number'})
+    -- hl(0, "TelescopeResultsComment", {link = 'Comment'})
+    -- hl(0, "TelescopeResultsSpecialComment", {link = 'SpecialComment'})
+    -- hl(0, "TelescopeResultsFileIcon", {link = 'Normal'})
+    -- hl(0, "TelescopeResultsDiffChange", {link = 'DiffChange'})
+    -- hl(0, "TelescopeResultsDiffAdd", {link = 'DiffAdd'})
+    -- hl(0, "TelescopeResultsDiffDelete", {link = 'DiffDelete'})
+    -- hl(0, "TelescopeResultsDiffUntracked", {link = 'NonText'})
     -- NvimTree
-    -- hl(0, "NvimTreeFolderIcon", {link = "Directory"})
-    -- hl(0, "NvimTreeIndentMarker", {fg = c.context, bg = "NONE"})
-    -- hl(0, "NvimTreeNormal", {fg = c.fg, bg = c.alt_bg})
-    -- hl(0, "NvimTreeVertSplit", {fg = c.alt_fg, bg = c.alt_bg})
-    -- hl(0, "NvimTreeFolderName", {link = "Directory"})
-    -- hl(0, "NvimTreeOpenedFolderName",
-    -- {fg = c.folder_blue, bg = "NONE", bold = true, italic = true})
-    -- hl(0, "NvimTreeEmptyFolderName", {fg = c.gray, bg = "NONE", italic = true})
-    -- hl(0, "NvimTreeGitIgnored", {fg = c.gray, bg = "NONE", italic = true})
-    -- hl(0, "NvimTreeImageFile", {fg = c.yellow, bg = "NONE"})
-    -- hl(0, "NvimTreeSpecialFile", {fg = c.purple, bg = "NONE", underline = true})
-    -- hl(0, "NvimTreeEndOfBuffer", {fg = c.alt_bg, bg = "NONE"})
-    -- hl(0, "NvimTreeCursorLine", {fg = "NONE", bg = c.line})
-    -- hl(0, "NvimTreeGitStaged", {fg = c.orange, bg = "NONE"})
-    -- hl(0, "NvimTreeGitNew", {fg = c.green, bg = "NONE"})
-    -- hl(0, "NvimTreeGitRenamed", {fg = c.pink, bg = "NONE"})
-    -- hl(0, "NvimTreeGitDeleted", {fg = c.orange, bg = "NONE"})
-    -- hl(0, "NvimTreeGitMerge", {fg = c.blue, bg = "NONE"})
-    -- hl(0, "NvimTreeGitDirty", {fg = c.yellow, bg = "NONE"})
-    -- hl(0, "NvimTreeSymlink", {fg = c.cyan, bg = "NONE", bold = true})
-    -- hl(0, "NvimTreeRootFolder", {fg = c.blue, bg = "NONE", bold = true})
-    -- hl(0, "NvimTreeExecFile", {fg = c.green, bg = "NONE"})
-    -- hl(0, "NvimTreeLspDiagnosticsError", {link = "LspDiagnosticsError"})
-    -- hl(0, "NvimTreeLspDiagnosticsWarning", {link = "LspDiagnosticsWarning"})
-    -- hl(0, "NvimTreeLspDiagnosticsInformation", {link = "LspDiagnosticsInfo"})
-    -- hl(0, "NvimTreeLspDiagnosticsInfo", {link = "LspDiagnosticsInfo"})
-    -- hl(0, "NvimTreeLspDiagnosticsHint", {link = "LspDiagnosticsHint"})
-    -- -- hl(0, "NvimTreeOpenedFile", {fg = c.orange, bg = 'NONE', bold = true})
-    -- -- hl(0, "NvimTreeWindowPicker", {fg = c.gray, bg = c.blue, bold = true})
-    -- -- hl(0, "NvimTreeStatusLine", {fg = c.fg, bg = c.bg})
-    -- -- hl(0, "NvimTreeStatusLineNC", {fg = c.darkblue, bg = c.bg})
-    -- -- hl(0, "NvimTreeFileNew", {fg = c.green})
-    -- -- hl(0, "NvimTreeFileMerge", {fg = c.blue})
-    -- -- hl(0, "NvimTreeFileDirty", {link = 'NvimTreeGitDirty'})
-    -- -- hl(0, "NvimTreeFileRenamed", {link = 'NvimTreeGitRenamed'})
-    -- -- hl(0, "NvimTreeCursorColumn", {link = 'CursorColumn'})
-    -- -- hl(0, "NvimTreeFileDeleted", {link = 'NvimTreeGitDeleted'})
-    -- -- hl(0, "NvimTreePopup", {fg = c.fg, bg = c.bg})
-    -- -- hl(0, "NvimTreeFileStaged", {link = 'NvimTreeGitStaged'})
-
-    -- Lir
-    -- hl(0, "LirFloatNormal", {fg = c.fg, bg = c.alt_bg})
-    -- hl(0, "LirDir", {link = "Directory"})
-    -- hl(0, "LirSymLink", {fg = c.cyan, bg = "NONE"})
-    -- hl(0, "LirEmptyDirText", {fg = c.gray, bg = "NONE", italic = true})
+    NvimTreeSymlink = {fg = '#ffff60', bg = "NONE", bold = true},
+    NvimTreeFolderName = {link = "Directory"},
+    NvimTreeRootFolder = {fg = '#ff80ff', bg = "NONE", bold = true},
+    NvimTreeFolderIcon = {fg = '#8094b4'},
+    NvimTreeFileIcon = {},
+    NvimTreeEmptyFolderName = {link = 'Directory'},
+    NvimTreeOpenedFolderName = {link = 'Directory'},
+    NvimTreeExecFile = {fg = '#ffa0a0', bg = "NONE", bold = true},
+    NvimTreeOpenedFile = {fg = '#ffa0a0', bg = 'NONE', bold = true},
+    NvimTreeSpecialFile = {
+        fg = '#ff80ff',
+        bg = "NONE",
+        bold = true,
+        underline = true
+    },
+    NvimTreeImageFile = {fg = '#ff80ff', bg = "NONE", bold = true},
+    NvimTreeIndentMarker = {fg = '#8094b4', bg = "NONE"},
+    NvimTreeLspDiagnosticsError = {link = "LspDiagnosticsError"},
+    NvimTreeLspDiagnosticsWarning = {link = "LspDiagnosticsWarning"},
+    NvimTreeLspDiagnosticsInformation = {link = "LspDiagnosticsInfo"},
+    NvimTreeLspDiagnosticsHint = {link = "LspDiagnosticsHint"},
+    NvimTreeGitDirty = {fg = '#ffff60', bg = "NONE"},
+    NvimTreeGitStaged = {fg = '#ffa0a0', bg = "NONE"},
+    NvimTreeGitMerge = {fg = '#ffa0a0', bg = "NONE"},
+    NvimTreeGitRenamed = {fg = '#ff80ff', bg = "NONE"},
+    NvimTreeGitNew = {fg = '#ff80ff', bg = "NONE"},
+    NvimTreeGitDeleted = {fg = '#ffff60', bg = "NONE"},
+    NvimTreeGitIgnored = {link = 'Comment'},
+    NvimTreeWindowPicker = {fg = '#ededed', bg = '#4493c8', bold = true},
+    NvimTreeNormal = {link = 'Normal'},
+    NvimTreeEndOfBuffer = {link = 'EndOfBuffer'},
+    NvimTreeCursorLine = {link = 'CursorLine'},
+    NvimTreeVertSplit = {link = 'VertSplit'},
+    NvimTreeWinSeparator = {link = 'VertSplit'},
+    NvimTreeCursorColumn = {link = 'CursorColumn'},
+    NvimTreeFileDirty = {link = 'NvimTreeGitDirty'},
+    NvimTreeFileStaged = {link = 'NvimTreeGitStaged'},
+    NvimTreeFileMerge = {link = 'NvimTreeGitMerge'},
+    NvimTreeFileRenamed = {link = 'NvimTreeGitRenamed'},
+    NvimTreeFileNew = {link = 'NvimTreeGitNew'},
+    NvimTreeFileDeleted = {link = 'NvimTreeGitDeleted'},
+    NvimTreeFileIgnored = {link = 'NvimTreeGitIgnored'},
+    NvimTreeLiveFilterPrefix = {fg = '#ff80ff', bold = true},
+    NvimTreeLiveFilterValue = {bold = true},
+    NvimTreeBookmark = {fg = '#ffa0a0'},
+    NvimTreeSignColumn = {link = 'NvimTreeNormal'},
+    NvimTreeStatusLine = {link = 'StatusLine'},
+    NvimTreeStatusLineNC = {link = 'StatusLineNC'},
+    NvimTreePopup = {link = 'Normal'},
+    NvimTreeNormalNC = {link = 'NvimTreeNormal'},
 
     -- Buffer
     -- hl(0, "BufferCurrent", {fg = c.fg, bg = c.bg})
@@ -742,130 +1080,229 @@ theme.set_highlights = function()
     -- hl(0, "BufferInactiveSign", {fg = c.gray, bg = c.alt_bg})
     -- hl(0, "BufferInactiveTarget", {fg = c.red, bg = c.alt_bg, bold = true})
 
-    -- StatusLine
-    hl(0, "StatusLine", {fg = c.context, bg = c.bg})
-    hl(0, "StatusLineNC", {fg = c.line, bg = c.bg})
-    -- hl(0, "StatusLineSeparator", {fg = c.line, bg = "NONE"})
-    -- hl(0, "StatusLineTerm", {fg = c.line, bg = "NONE"})
-    -- hl(0, "StatusLineTermNC", {fg = c.line, bg = "NONE"})
+    -- Status Line
+    StatusLine = {fg = c.fg, bg = c.bg}, -- status line of current window
+    StatusLineNC = {fg = c.darkblue, bg = c.disabled}, -- status lines of not-current windows.Note: if this is equal to "StatusLine" Vim will use "^^^" in the status line of the current window
+    StatusLineSeparator = {fg = c.line, bg = "NONE"},
+    StatusLineTerm = {fg = c.line, bg = "NONE"},
+    StatusLineTermNC = {fg = c.line, bg = "NONE"},
 
     -- IndentBlankline
-    hl(0, "IndentBlanklineChar",
-       {fg = c.dark_gray, bg = "NONE", nocombine = true}) -- Highlight of indent character.
-    hl(0, "IndentBlanklineSpaceChar", {link = 'IndentBlanklineChar'}) -- Highlight of space character.
-    hl(0, "IndentBlanklineSpaceCharBlankline", {link = 'IndentBlanklineChar'}) -- Highlight of space character on blank lines.
-    hl(0, "IndentBlanklineContextChar",
-       {fg = c.context, bg = "NONE", nocombine = true}) -- Highlight of indent character when base of current context. Only used when |g:indent_blankline_show_current_context| is active
-    hl(0, "IndentBlanklineContextSpaceChar",
-       {link = 'IndentBlanklineContextChar'}) -- Highlight of space characters one indent level of the current context. Only used when |g:indent_blankline_show_current_context| is active
-    hl(0, "IndentBlanklineContextStart",
-       {fg = "NONE", bg = "NONE", underline = true}) -- Highlight of the first line of the current context. Only used when |g:indent_blankline_show_current_context_start| is active
+    -- hl(0, "IndentBlanklineChar", {fg = c.dark_gray, bg = "NONE", nocombine = true}) -- Highlight of indent character.
+    -- hl(0, "IndentBlanklineSpaceChar", {link = 'IndentBlanklineChar'}) -- Highlight of space character.
+    -- hl(0, "IndentBlanklineSpaceCharBlankline", {link = 'IndentBlanklineChar'}) -- Highlight of space character on blank lines.
+    -- hl(0, "IndentBlanklineContextChar", {fg = c.context, bg = "NONE", nocombine = true}) -- Highlight of indent character when base of current context. Only used when |g:indent_blankline_show_current_context| is active
+    -- hl(0, "IndentBlanklineContextSpaceChar", {link = 'IndentBlanklineContextChar'}) -- Highlight of space characters one indent level of the current context. Only used when |g:indent_blankline_show_current_context| is active
+    -- hl(0, "IndentBlanklineContextStart", {fg = "NONE", bg = "NONE", underline = true}) -- Highlight of the first line of the current context. Only used when |g:indent_blankline_show_current_context_start| is active
 
     -- Illuminate
-    hl(0, "IlluminatedWordText", {link = 'Underlined'}) -- Default highlight group used for references if no kind information is available.
-    hl(0, "IlluminatedWordRead", {link = 'Underlined'}) -- Highlight group used for references of kind read.
-    hl(0, "IlluminatedWordWrite", {link = 'Underlined'}) -- Highlight group used for references of kind write.
+    -- hl(0, "IlluminatedWordText", {link = 'Underlined'}) -- Default highlight group used for references if no kind information is available.
+    -- hl(0, "IlluminatedWordRead", {link = 'Underlined'}) -- Highlight group used for references of kind read.
+    -- hl(0, "IlluminatedWordWrite", {link = 'Underlined'}) -- Highlight group used for references of kind write.
+
+    -- Lualine
+    lualine_b_normal = {fg = '#a9a9a9', bg = '#000000'},
+    lualine_c_normal = {fg = '#505050', bg = '#000000'},
+    lualine_a_normal = {fg = '#000000', bg = '#a9a9a9', bold = true},
+    lualine_b_visual = {fg = '#ffa500', bg = '#000000'},
+    lualine_c_visual = {fg = '#505050', bg = '#000000'},
+    lualine_a_visual = {fg = '#000000', bg = '#ffa500', bold = true},
+    lualine_b_replace = {fg = '#ffa0a0', bg = '#000000'},
+    lualine_c_replace = {fg = '#505050', bg = '#000000'},
+    lualine_a_replace = {fg = '#000000', bg = '#ffa0a0', bold = true},
+    lualine_b_terminal = {fg = '#40ffff', bg = '#000000'},
+    lualine_c_terminal = {fg = '#505050', bg = '#000000'},
+    lualine_a_terminal = {fg = '#000000', bg = '#40ffff', bold = true},
+    lualine_b_inactive = {fg = '#a9a9a9', bg = '#000000'},
+    lualine_c_inactive = {fg = '#505050', bg = '#000000'},
+    lualine_a_inactive = {fg = '#000000', bg = '#a9a9a9', bold = true},
+    lualine_b_command = {fg = '#40ffff', bg = '#000000'},
+    lualine_c_command = {fg = '#505050', bg = '#000000'},
+    lualine_a_command = {fg = '#000000', bg = '#40ffff', bold = true},
+    lualine_b_insert = {fg = '#ffa0a0', bg = '#000000'},
+    lualine_c_insert = {fg = '#505050', bg = '#000000'},
+    lualine_a_insert = {fg = '#000000', bg = '#ffa0a0', bold = true},
+    lualine_b_branch_normal = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_insert = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_visual = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_replace = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_command = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_terminal = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_inactive = {fg = '#ffb86c', bg = '#000000', bold = true},
+    lualine_b_branch_0_normal = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_insert = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_visual = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_replace = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_command = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_terminal = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_branch_0_inactive = {fg = '#ffb86c', bg = '#000000'},
+    lualine_b_diff_added_normal = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_insert = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_visual = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_replace = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_command = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_terminal = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_added_inactive = {fg = '#90ee90', bg = '#000000'},
+    lualine_b_diff_modified_normal = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_insert = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_visual = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_replace = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_command = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_terminal = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_modified_inactive = {fg = '#f0e130', bg = '#000000'},
+    lualine_b_diff_removed_normal = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_insert = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_visual = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_replace = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_command = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_terminal = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diff_removed_inactive = {fg = '#0000ff', bg = '#000000'},
+    lualine_b_diagnostics_error = {link = 'DiagnosticError'},
+    lualine_b_diagnostics_warn = {link = 'DiagnosticWarn'},
+    lualine_b_diagnostics_info = {link = 'DiagnosticInfo'},
+    lualine_b_diagnostics_hint = {link = 'DiagnosticHint'},
+    lualine_a_5_normal = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_insert = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_visual = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_replace = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_command = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_terminal = {fg = '#569cd6', bg = '#32363e'},
+    lualine_a_5_inactive = {fg = '#569cd6', bg = '#32363e'},
+    lualine_c_filename_normal = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_insert = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_visual = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_replace = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_command = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_terminal = {fg = '#50fa7b', bg = '#000000', bold = true},
+    lualine_c_filename_inactive = {fg = '#50fa7b', bg = '#000000', bold = true},
 
     -- StartupTime
-    hl(0, "StartupTimeStartupKey", {link = 'Normal'})
-    hl(0, "StartupTimeStartupValue", {link = 'Title'})
-    hl(0, "StartupTimeHeader", {link = 'ModeMsg'})
-    hl(0, "StartupTimeSourcingEvent", {link = 'Type'})
-    hl(0, "StartupTimeOtherEvent", {link = 'Identifier'})
-    hl(0, "StartupTimeTime", {link = 'Directory'})
-    hl(0, "StartupTimePercent", {link = 'Special'})
-    hl(0, "StartupTimePlot", {link = 'Normal'})
+    -- hl(0, "StartupTimeStartupKey", {link = 'Normal'})
+    -- hl(0, "StartupTimeStartupValue", {link = 'Title'})
+    -- hl(0, "StartupTimeHeader", {link = 'ModeMsg'})
+    -- hl(0, "StartupTimeSourcingEvent", {link = 'Type'})
+    -- hl(0, "StartupTimeOtherEvent", {link = 'Identifier'})
+    -- hl(0, "StartupTimeTime", {link = 'Directory'})
+    -- hl(0, "StartupTimePercent", {link = 'Special'})
+    -- hl(0, "StartupTimePlot", {link = 'Normal'})
 
-    -- Dashboard
-    -- hl(0, "DashboardHeader", {fg = c.blue, bg = "NONE"})
-    -- hl(0, "DashboardCenter", {fg = c.purple, bg = "NONE"})
-    -- hl(0, "DashboardFooter", {fg = c.cyan, bg = "NONE"})
+    -- DAP Virtual Text
+    NvimDapVirtualText = {link = 'Comment'},
+    NvimDapVirtualTextChanged = {link = 'DiagnosticVirtualTextWarn'},
+    NvimDapVirtualTextError = {link = 'DiagnosticVirtualTextError'},
+    NvimDapVirtualTextInfo = {link = 'DiagnosticVirtualTextInfo'},
+
+    -- Fidget
+    FidgetTitle = {link = 'Title'},
+    FidgetTask = {link = 'NonText'},
 
     -- DiffView
-    -- hl(0, "DiffViewNormal", {fg = c.gray, bg = c.alt_bg})
-    -- hl(0, "DiffviewStatusAdded", {fg = c.sign_add, bg = "NONE"})
-    -- hl(0, "DiffviewStatusModified", {fg = c.sign_change, bg = "NONE"})
-    -- hl(0, "DiffviewStatusRenamed", {fg = c.sign_change, bg = "NONE"})
-    -- hl(0, "DiffviewStatusDeleted", {fg = c.sign_delete, bg = "NONE"})
-    -- hl(0, "DiffviewFilePanelInsertion", {fg = c.sign_add, bg = "NONE"})
-    -- hl(0, "DiffviewFilePanelDeletion", {fg = c.sign_delete, bg = "NONE"})
-    -- hl(0, "DiffviewVertSplit", {fg = "NONE", bg = c.bg})
-
-    -- Bookmarks
-    -- hl(0, "BookmarkSign", {fg = c.sign_change, bg = "NONE"})
-    -- hl(0, "BookmarkAnnotationSign", {fg = c.yellow, bg = "NONE"})
-    -- hl(0, "BookmarkLine", {fg = c.ui2_blue, bg = "NONE"})
-    -- hl(0, "BookmarkAnnotationLine", {fg = c.ui2_blue, bg = "NONE"})
+    DiffviewFilePanelTitle = {fg = '#ffff60', bold = true},
+    DiffviewFilePanelCounter = {fg = '#40ffff', bold = true},
+    DiffviewDim1 = {fg = '#80a0ff'},
+    DiffviewPrimary = {fg = '#40ffff'},
+    DiffviewSecondary = {fg = '#ffa0a0'},
+    diffRemoved = {},
+    diffChanged = {},
+    DiffviewNormal = {link = 'Normal'},
+    DiffviewNonText = {link = 'NonText'},
+    DiffviewCursorLine = {link = 'CursorLine'},
+    DiffviewWinSeparator = {link = 'WinSeparator'},
+    DiffviewSignColumn = {link = 'Normal'},
+    DiffviewStatusLine = {link = 'StatusLine'},
+    DiffviewStatusLineNC = {link = 'StatusLineNC'},
+    DiffviewEndOfBuffer = {link = 'EndOfBuffer'},
+    DiffviewFilePanelRootPath = {link = 'DiffviewFilePanelTitle'},
+    DiffviewFilePanelFileName = {fg = 'White'},
+    DiffviewFilePanelPath = {link = 'Comment'},
+    DiffviewFilePanelInsertions = {link = 'diffAdded'},
+    DiffviewFilePanelDeletions = {link = 'diffRemoved'},
+    DiffviewFilePanelConflicts = {link = 'DiagnosticSignWarn'},
+    DiffviewFolderName = {link = 'Directory'},
+    DiffviewFolderSign = {link = 'PreProc'},
+    DiffviewStatusAdded = {link = 'diffAdded'},
+    DiffviewStatusUntracked = {link = 'diffAdded'},
+    DiffviewStatusModified = {link = 'diffChanged'},
+    DiffviewStatusRenamed = {link = 'diffChanged'},
+    DiffviewStatusCopied = {link = 'diffChanged'},
+    DiffviewStatusTypeChange = {link = 'diffChanged'},
+    DiffviewStatusUnmerged = {link = 'diffChanged'},
+    DiffviewStatusUnknown = {link = 'diffRemoved'},
+    DiffviewStatusDeleted = {link = 'diffRemoved'},
+    DiffviewStatusBroken = {link = 'diffRemoved'},
+    DiffviewStatusIgnored = {link = 'Comment'},
+    DiffviewDiffAddAsDelete = {fg = '#0000ff', bg = '#008b8b', bold = true},
+    DiffviewDiffDelete = {link = 'Comment'},
 
     -- Bqf
     -- hl(0, "BqfPreviewBorder", {fg = c.fg, bg = "NONE"})
     -- hl(0, "BqfPreviewRange", {fg = "NONE", bg = c.ui2_blue})
 
     -- Nvim-Cmp
-    hl(0, "CmpItemAbbrDefault", {fg = c.gray, bg = "NONE", strikethrough = true}) -- Highlight group for unmatched characters of each completion field.
-    hl(0, "CmpItemAbbr", {link = 'CmpItemAbbrDefault'})
-    hl(0, "CmpItemAbbrDeprecatedDefault", {fg = '#80a0ff'}) -- Highlight group for unmatched characters of each deprecated completion field.
-    hl(0, "CmpItemAbbrDeprecated", {link = 'CmpItemAbbrDeprecatedDefault'})
+    -- hl(0, "CmpItemAbbrDefault", {fg = c.gray, bg = "NONE", strikethrough = true}) -- Highlight group for unmatched characters of each completion field.
+    -- hl(0, "CmpItemAbbr", {link = 'CmpItemAbbrDefault'})
+    -- hl(0, "CmpItemAbbrDeprecatedDefault", {fg = '#80a0ff'}) -- Highlight group for unmatched characters of each deprecated completion field.
+    -- hl(0, "CmpItemAbbrDeprecated", {link = 'CmpItemAbbrDeprecatedDefault'})
 
-    hl(0, "CmpItemAbbrMatchDefault", {fg = c.ui3_blue, bg = "NONE"}) -- Highlight group for matched characters of each completion field. Matched characters must form a substring of a field which share a starting position.
-    hl(0, "CmpItemAbbrMatch", {link = 'CmpItemAbbrMatchDefault'})
-    hl(0, "CmpItemAbbrMatchFuzzyDefault", {fg = c.ui3_blue, bg = "NONE"}) -- Highlight group for fuzzy-matched characters of each completion field.
-    hl(0, "CmpItemAbbrMatchFuzzy", {link = 'CmpItemAbbrMatchFuzzyDefault'})
-    hl(0, "CmpItemKindDefault", {fg = c.fg, bg = "NONE"})
-    hl(0, "CmpItemKind", {link = 'CmpItemKindDefault'})
-    hl(0, "CmpItemKindTextDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindText", {link = 'CmpItemKindTextDefault'})
-    hl(0, "CmpItemKindFunctionDefault", {fg = c.blue, bg = "NONE"})
-    hl(0, "CmpItemKindFunction", {link = 'CmpItemKindFunctionDefault'})
-    hl(0, "CmpItemKindMethodDefault", {link = 'CmpItemKindFunctionDefault'})
-    hl(0, "CmpItemKindMethod", {link = 'CmpItemKindMethodDefault'})
-    hl(0, "CmpItemKindConstructorDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindConstructor", {link = 'CmpItemKindConstructorDefault'})
-    hl(0, "CmpItemKindFieldDefault", {fg = c.red, bg = "NONE"})
-    hl(0, "CmpItemKindField", {link = 'CmpItemKindFieldDefault'})
-    hl(0, "CmpItemKindVariableDefault", {fg = c.red, bg = "NONE"})
-    hl(0, "CmpItemKindVariable", {link = 'CmpItemKindVariableDefault'})
-    hl(0, "CmpItemKindColorDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindColor", {link = 'CmpItemKindColorDefault'})
-    hl(0, "CmpItemKindFileDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindFile", {link = 'CmpItemKindFileDefault'})
-    hl(0, "CmpItemKindReferenceDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindReference", {link = 'CmpItemKindReferenceDefault'})
-    hl(0, "CmpItemKindPropertyDefault", {fg = c.red, bg = "NONE"})
-    hl(0, "CmpItemKindProperty", {link = 'CmpItemKindPropertyDefault'})
-    hl(0, "CmpItemKindUnitDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindUnit", {link = 'CmpItemKindUnitDefault'})
-    hl(0, "CmpItemKindConstantDefault", {fg = c.orange, bg = "NONE"})
-    hl(0, "CmpItemKindConstant", {link = 'CmpItemKindConstantDefault'})
-    hl(0, "CmpItemKindEnumDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindEnum", {link = 'CmpItemKindEnumDefault'})
-    hl(0, "CmpItemKindEnumMemberDefault", {fg = c.orange, bg = "NONE"})
-    hl(0, "CmpItemKindEnumMember", {link = 'CmpItemKindEnumMemberDefault'})
-    hl(0, "CmpItemKindKeywordDefault", {fg = c.purple, bg = "NONE"})
-    hl(0, "CmpItemKindKeyword", {link = 'CmpItemKindKeywordDefault'})
-    hl(0, "CmpItemKindSnippetDefault", {fg = c.yellow, bg = "NONE"})
-    hl(0, "CmpItemKindSnippet", {link = 'CmpItemKindSnippetDefault'})
-    hl(0, "CmpItemKindTypeParameterDefault", {fg = c.red, bg = "NONE"})
-    hl(0, "CmpItemKindTypeParameter", {link = 'CmpItemKindTypeParameterDefault'})
-    hl(0, "CmpItemKindModuleDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindModule", {link = 'CmpItemKindModuleDefault'})
-    hl(0, "CmpItemKindOperatorDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindOperator", {link = 'CmpItemKindOperatorDefault'})
-    hl(0, "CmpItemKindEventDefault", {fg = c.yellow, bg = "NONE"})
-    hl(0, "CmpItemKindEvent", {link = 'CmpItemKindEventDefault'})
-    hl(0, "CmpItemKindStructDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindStruct", {link = 'CmpItemKindStructDefault'})
-    hl(0, "CmpItemKindFolderDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindFolder", {link = 'CmpItemKindFolderDefault'})
-    hl(0, "CmpItemKindClassDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindClass", {link = 'CmpItemKindClassDefault'})
-    hl(0, "CmpItemKindValueDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemKindValue", {link = 'CmpItemKindValueDefault'})
-    hl(0, "CmpItemKindInterfaceDefault", {fg = c.cyan, bg = "NONE"})
-    hl(0, "CmpItemKindInterface", {link = 'CmpItemKindInterfaceDefault'})
-    hl(0, "CmpItemMenuDefault", {link = 'CmpItemKind'})
-    hl(0, "CmpItemMenu", {link = 'CmpItemMenuDefault'})
-    hl(0, "CmpItemKindEmoji", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemAbbrMatchDefault", {fg = c.ui3_blue, bg = "NONE"}) -- Highlight group for matched characters of each completion field. Matched characters must form a substring of a field which share a starting position.
+    -- hl(0, "CmpItemAbbrMatch", {link = 'CmpItemAbbrMatchDefault'})
+    -- hl(0, "CmpItemAbbrMatchFuzzyDefault", {fg = c.ui3_blue, bg = "NONE"}) -- Highlight group for fuzzy-matched characters of each completion field.
+    -- hl(0, "CmpItemAbbrMatchFuzzy", {link = 'CmpItemAbbrMatchFuzzyDefault'})
+    -- hl(0, "CmpItemKindDefault", {fg = c.fg, bg = "NONE"})
+    -- hl(0, "CmpItemKind", {link = 'CmpItemKindDefault'})
+    -- hl(0, "CmpItemKindTextDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindText", {link = 'CmpItemKindTextDefault'})
+    -- hl(0, "CmpItemKindFunctionDefault", {fg = c.blue, bg = "NONE"})
+    -- hl(0, "CmpItemKindFunction", {link = 'CmpItemKindFunctionDefault'})
+    -- hl(0, "CmpItemKindMethodDefault", {link = 'CmpItemKindFunctionDefault'})
+    -- hl(0, "CmpItemKindMethod", {link = 'CmpItemKindMethodDefault'})
+    -- hl(0, "CmpItemKindConstructorDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindConstructor", {link = 'CmpItemKindConstructorDefault'})
+    -- hl(0, "CmpItemKindFieldDefault", {fg = c.red, bg = "NONE"})
+    -- hl(0, "CmpItemKindField", {link = 'CmpItemKindFieldDefault'})
+    -- hl(0, "CmpItemKindVariableDefault", {fg = c.red, bg = "NONE"})
+    -- hl(0, "CmpItemKindVariable", {link = 'CmpItemKindVariableDefault'})
+    -- hl(0, "CmpItemKindColorDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindColor", {link = 'CmpItemKindColorDefault'})
+    -- hl(0, "CmpItemKindFileDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindFile", {link = 'CmpItemKindFileDefault'})
+    -- hl(0, "CmpItemKindReferenceDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindReference", {link = 'CmpItemKindReferenceDefault'})
+    -- hl(0, "CmpItemKindPropertyDefault", {fg = c.red, bg = "NONE"})
+    -- hl(0, "CmpItemKindProperty", {link = 'CmpItemKindPropertyDefault'})
+    -- hl(0, "CmpItemKindUnitDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindUnit", {link = 'CmpItemKindUnitDefault'})
+    -- hl(0, "CmpItemKindConstantDefault", {fg = c.orange, bg = "NONE"})
+    -- hl(0, "CmpItemKindConstant", {link = 'CmpItemKindConstantDefault'})
+    -- hl(0, "CmpItemKindEnumDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindEnum", {link = 'CmpItemKindEnumDefault'})
+    -- hl(0, "CmpItemKindEnumMemberDefault", {fg = c.orange, bg = "NONE"})
+    -- hl(0, "CmpItemKindEnumMember", {link = 'CmpItemKindEnumMemberDefault'})
+    -- hl(0, "CmpItemKindKeywordDefault", {fg = c.purple, bg = "NONE"})
+    -- hl(0, "CmpItemKindKeyword", {link = 'CmpItemKindKeywordDefault'})
+    -- hl(0, "CmpItemKindSnippetDefault", {fg = c.yellow, bg = "NONE"})
+    -- hl(0, "CmpItemKindSnippet", {link = 'CmpItemKindSnippetDefault'})
+    -- hl(0, "CmpItemKindTypeParameterDefault", {fg = c.red, bg = "NONE"})
+    -- hl(0, "CmpItemKindTypeParameter", {link = 'CmpItemKindTypeParameterDefault'})
+    -- hl(0, "CmpItemKindModuleDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindModule", {link = 'CmpItemKindModuleDefault'})
+    -- hl(0, "CmpItemKindOperatorDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindOperator", {link = 'CmpItemKindOperatorDefault'})
+    -- hl(0, "CmpItemKindEventDefault", {fg = c.yellow, bg = "NONE"})
+    -- hl(0, "CmpItemKindEvent", {link = 'CmpItemKindEventDefault'})
+    -- hl(0, "CmpItemKindStructDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindStruct", {link = 'CmpItemKindStructDefault'})
+    -- hl(0, "CmpItemKindFolderDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindFolder", {link = 'CmpItemKindFolderDefault'})
+    -- hl(0, "CmpItemKindClassDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindClass", {link = 'CmpItemKindClassDefault'})
+    -- hl(0, "CmpItemKindValueDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemKindValue", {link = 'CmpItemKindValueDefault'})
+    -- hl(0, "CmpItemKindInterfaceDefault", {fg = c.cyan, bg = "NONE"})
+    -- hl(0, "CmpItemKindInterface", {link = 'CmpItemKindInterfaceDefault'})
+    -- hl(0, "CmpItemMenuDefault", {link = 'CmpItemKind'})
+    -- hl(0, "CmpItemMenu", {link = 'CmpItemMenuDefault'})
+    -- hl(0, "CmpItemKindEmoji", {link = 'CmpItemKind'})
 
     -- Navic
     -- hl(0, "NavicIconsFile", {fg = c.fg, bg = "NONE"})
@@ -927,13 +1364,13 @@ theme.set_highlights = function()
     -- hl(0, "GpsItemKindTypeParameter", {fg = c.fg, bg = "NONE"})
 
     -- Rainbow
-    hl(0, "rainbowcol1", {fg = '#cc241d'})
-    hl(0, "rainbowcol2", {fg = '#a89984'})
-    hl(0, "rainbowcol3", {fg = '#b16286'})
-    hl(0, "rainbowcol4", {fg = '#d79921'})
-    hl(0, "rainbowcol5", {fg = '#689d6a'})
-    hl(0, "rainbowcol6", {fg = '#d65d0e'})
-    hl(0, "rainbowcol7", {fg = '#458588'})
+    -- hl(0, "rainbowcol1", {fg = '#cc241d'})
+    -- hl(0, "rainbowcol2", {fg = '#a89984'})
+    -- hl(0, "rainbowcol3", {fg = '#b16286'})
+    -- hl(0, "rainbowcol4", {fg = '#d79921'})
+    -- hl(0, "rainbowcol5", {fg = '#689d6a'})
+    -- hl(0, "rainbowcol6", {fg = '#d65d0e'})
+    -- hl(0, "rainbowcol7", {fg = '#458588'})
 
     -- Packer
     -- hl(0, "packerString", {fg = c.ui_orange, bg = "NONE"})
@@ -944,30 +1381,37 @@ theme.set_highlights = function()
     -- hl(0, "packerStatusSuccess", {fg = c.ui4_blue, bg = "NONE"})
 
     -- SymbolOutline
-    -- hl(0, "SymbolsOutlineConnector", {fg = c.gray, bg = "NONE"})
-    -- hl(0, "FocusedSymbol", {fg = "NONE", bg = "#36383F"})
+    FocusedSymbol = {fg = '#ffa0a0', bg = '#666666'},
+    SymbolsOutlineConnector = {fg = '#80a0ff'},
 
     -- Notify
-    -- hl(0, "NotifyERRORBorder", {fg = "#8A1F1F", bg = "NONE"})
-    -- hl(0, "NotifyWARNBorder", {fg = "#79491D", bg = "NONE"})
-    -- hl(0, "NotifyINFOBorder", {fg = c.ui_blue, bg = "NONE"})
-    -- hl(0, "NotifyDEBUGBorder", {fg = c.gray, bg = "NONE"})
-    -- hl(0, "NotifyTRACEBorder", {fg = "#4F3552", bg = "NONE"})
-    -- hl(0, "NotifyERRORIcon", {fg = c.error, bg = "NONE"})
-    -- hl(0, "NotifyWARNIcon", {fg = c.warn, bg = "NONE"})
-    -- hl(0, "NotifyINFOIcon", {fg = c.ui4_blue, bg = "NONE"})
-    -- hl(0, "NotifyDEBUGIcon", {fg = c.gray, bg = "NONE"})
-    -- hl(0, "NotifyTRACEIcon", {fg = c.ui_purple, bg = "NONE"})
-    -- hl(0, "NotifyERRORTitle", {fg = c.error, bg = "NONE"})
-    -- hl(0, "NotifyWARNTitle", {fg = c.warn, bg = "NONE"})
-    -- hl(0, "NotifyINFOTitle", {fg = c.ui4_blue, bg = "NONE"})
-    -- hl(0, "NotifyDEBUGTitle", {fg = c.gray, bg = "NONE"})
-    -- hl(0, "NotifyTRACETitle", {fg = c.ui_purple, bg = "NONE"})
+    NotifyERRORBorder = {fg = '#8a1f1f'},
+    NotifyWARNBorder = {fg = '#79491d'},
+    NotifyINFOBorder = {fg = '#4f6752'},
+    NotifyDEBUGBorder = {fg = '#8b8b8b'},
+    NotifyTRACEBorder = {fg = '#4f3552'},
+    NotifyERRORIcon = {fg = '#f70067'},
+    NotifyWARNIcon = {fg = '#f79000'},
+    NotifyINFOIcon = {fg = '#a9ff68'},
+    NotifyDEBUGIcon = {fg = '#8b8b8b'},
+    NotifyTRACEIcon = {fg = '#d484ff'},
+    NotifyERRORTitle = {fg = '#f70067'},
+    NotifyWARNTitle = {fg = '#f79000'},
+    NotifyINFOTitle = {fg = '#a9ff68'},
+    NotifyDEBUGTitle = {fg = '#8b8b8b'},
+    NotifyTRACETitle = {fg = '#d484ff'},
+    NotifyERRORBody = {link = 'Normal'},
+    NotifyWARNBody = {link = 'Normal'},
+    NotifyINFOBody = {link = 'Normal'},
+    NotifyDEBUGBody = {link = 'Normal'},
+    NotifyTRACEBody = {link = 'Normal'},
+    NotifyLogTime = {link = 'Comment'},
+    NotifyLogTitle = {link = 'Special'},
 
     -- Renamer
-    hl(0, "RenamerNormal", {link = 'Normal'})
-    hl(0, "RenamerBorder", {link = 'RenamerNormal'})
-    hl(0, "RenamerTitle", {link = 'Identifier'})
+    -- hl(0, "RenamerNormal", {link = 'Normal'})
+    -- hl(0, "RenamerBorder", {link = 'RenamerNormal'})
+    -- hl(0, "RenamerTitle", {link = 'Identifier'})
 
     -- Hop
     -- hl(0, "HopNextKey", {fg = "#4ae0ff", bg = "NONE"})
@@ -976,41 +1420,66 @@ theme.set_highlights = function()
     -- hl(0, "HopUnmatched", {fg = c.gray, bg = "NONE"})
     -- hl(0, "HopPreview", {fg = "#c7ba7d", bg = "NONE"})
 
-    -- Crates
-    -- hl(0, "CratesNvimLoading", {fg = c.hint, bg = "NONE"})
-    -- hl(0, "CratesNvimVersion", {fg = c.hint, bg = "NONE"})
+    -- TODO Comments
+    TodoBgFIX = {fg = '#ffffff', bg = '#f44747', bold = true},
+    TodoFgFIX = {fg = '#f44747'},
+    TodoSignFIX = {fg = '#f44747', bg = '#808080'},
+    TodoBgTODO = {fg = '#000000', bg = '#4fc1ff', bold = true},
+    TodoFgTODO = {fg = '#4fc1ff'},
+    TodoSignTODO = {fg = '#4fc1ff', bg = '#808080'},
+    TodoBgTEST = {fg = '#000000', bg = '#40ffff', bold = true},
+    TodoFgTEST = {fg = '#40ffff'},
+    TodoSignTEST = {fg = '#40ffff', bg = '#808080'},
+    TodoBgHACK = {fg = '#000000', bg = '#ff8800', bold = true},
+    TodoFgHACK = {fg = '#ff8800'},
+    TodoSignHACK = {fg = '#ff8800', bg = '#808080'},
+    TodoBgWARN = {fg = '#000000', bg = '#ff8800', bold = true},
+    TodoFgWARN = {fg = '#ff8800'},
+    TodoSignWARN = {fg = '#ff8800', bg = '#808080'},
+    TodoBgNOTE = {fg = '#000000', bg = '#10b981', bold = true},
+    TodoFgNOTE = {fg = '#10b981'},
+    TodoSignNOTE = {fg = '#10b981', bg = '#808080'},
+    TodoBgPERF = {fg = '#ffffff', bg = '#7c3aed', bold = true},
+    TodoFgPERF = {fg = '#7c3aed'},
+    TodoSignPERF = {fg = '#7c3aed', bg = '#808080'},
 
     -- DAP UI
-    hl(0, "DapUIVariable", {link = 'Normal'})
-    hl(0, "DapUIScope", {fg = '#00f1f5', bold = true})
-    hl(0, "DapUIType", {fg = '#d484ff'})
-    hl(0, "DapUIValue", {link = 'Normal'})
-    hl(0, "DapUIModifiedValue", {link = 'DapUIScope'})
-    hl(0, "DapUIDecoration", {link = 'DapUIScope'})
-    hl(0, "DapUIThread", {fg = '#a9ff68', bold = true})
-    hl(0, "DapUIStoppedThread", {link = 'DapUIScope'})
-    hl(0, "DapUIFrameName", {link = 'Normal'})
-    hl(0, "DapUISource", {fg = '#d484ff'})
-    hl(0, "DapUILineNumber", {link = 'DapUIScope'})
-    hl(0, "DapUIFloatBorder", {link = 'DapUIScope'})
-    hl(0, "DapUIWatchesEmpty", {fg = '#f70067'})
-    hl(0, "DapUIWatchesValue", {link = 'DapUIThread'})
-    hl(0, "DapUIWatchesError", {link = 'DapUIWatchesEmpty'})
-    hl(0, "DapUIBreakpointsPath", {link = 'DapUIScope'})
-    hl(0, "DapUIBreakpointsInfo", {link = 'DapUIThread'})
-    hl(0, "DapUIBreakpointsCurrentLine", {link = 'DapUIThread'})
-    hl(0, "DapUIBreakpointsLine", {link = 'DapUILineNumber'})
-    hl(0, "DapUIBreakpointsDisabledLine", {fg = '#424242'})
-    hl(0, "DapUICurrentFrameName", {link = 'DapUIBreakpointsCurrentLine'})
+    -- hl(0, "DapUIVariable", {link = 'Normal'})
+    -- hl(0, "DapUIScope", {fg = '#00f1f5', bold = true})
+    -- hl(0, "DapUIType", {fg = '#d484ff'})
+    -- hl(0, "DapUIValue", {link = 'Normal'})
+    -- hl(0, "DapUIModifiedValue", {link = 'DapUIScope'})
+    -- hl(0, "DapUIDecoration", {link = 'DapUIScope'})
+    -- hl(0, "DapUIThread", {fg = '#a9ff68', bold = true})
+    -- hl(0, "DapUIStoppedThread", {link = 'DapUIScope'})
+    -- hl(0, "DapUIFrameName", {link = 'Normal'})
+    -- hl(0, "DapUISource", {fg = '#d484ff'})
+    -- hl(0, "DapUILineNumber", {link = 'DapUIScope'})
+    -- hl(0, "DapUIFloatBorder", {link = 'DapUIScope'})
+    -- hl(0, "DapUIWatchesEmpty", {fg = '#f70067'})
+    -- hl(0, "DapUIWatchesValue", {link = 'DapUIThread'})
+    -- hl(0, "DapUIWatchesError", {link = 'DapUIWatchesEmpty'})
+    -- hl(0, "DapUIBreakpointsPath", {link = 'DapUIScope'})
+    -- hl(0, "DapUIBreakpointsInfo", {link = 'DapUIThread'})
+    -- hl(0, "DapUIBreakpointsCurrentLine", {link = 'DapUIThread'})
+    -- hl(0, "DapUIBreakpointsLine", {link = 'DapUILineNumber'})
+    -- hl(0, "DapUIBreakpointsDisabledLine", {fg = '#424242'})
+    -- hl(0, "DapUICurrentFrameName", {link = 'DapUIBreakpointsCurrentLine'})
+
+    -- Vim-Matchup
+    MatchBackground = {link = 'ColorColumn'},
+
+    -- Nvim Surround
+    NvimSurroundHighlight = {link = 'Visual'}
 
     -- Misc
-    hl(0, "diffAdded", {fg = c.sign_add, bg = "NONE"})
+    -- hl(0, "diffAdded", {fg = c.sign_add, bg = "NONE"})
     -- hl(0, "diffRemoved", {fg = c.sign_delete, bg = "NONE"})
     -- hl(0, "diffFileId", {fg = c.blue, bg = "NONE", bold = true, reverse = true})
     -- hl(0, "diffFile", {fg = c.alt_bg, bg = "NONE"})
     -- hl(0, "diffNewFile", {fg = c.green, bg = "NONE"})
     -- hl(0, "diffOldFile", {fg = c.red, bg = "NONE"})
-    hl(0, "debugPc", {fg = "NONE", bg = c.ui5_blue})
+    -- hl(0, "debugPc", {fg = "NONE", bg = c.ui5_blue})
     -- hl(0, "debugBreakpoint", {fg = c.red, bg = "NONE", reverse = true})
     -- hl(0, "CodiVirtualText", {fg = c.hint, bg = "NONE"})
     -- hl(0, "SniprunVirtualTextOk", {fg = c.hint, bg = "NONE"})
@@ -1066,6 +1535,25 @@ theme.set_highlights = function()
     -- hl(0, "jsonKeyword", {fg = c.blue, bg = "NONE"})
     -- hl(0, "yamlBlockMappingKey", {fg = c.blue, bg = "NONE"})
     -- hl(0, "tomlTSProperty", {fg = c.blue, bg = "NONE"})
+}
+
+theme.loadTerminal = function()
+    vim.g.terminal_color_0 = c.black
+    vim.g.terminal_color_1 = c.red
+    vim.g.terminal_color_2 = c.green
+    vim.g.terminal_color_3 = c.yellow
+    vim.g.terminal_color_4 = c.blue
+    vim.g.terminal_color_5 = c.purple
+    vim.g.terminal_color_6 = c.cyan
+    vim.g.terminal_color_7 = c.white
+    vim.g.terminal_color_8 = c.gray
+    vim.g.terminal_color_9 = c.red
+    vim.g.terminal_color_10 = c.green
+    vim.g.terminal_color_11 = c.yellow
+    vim.g.terminal_color_12 = c.blue
+    vim.g.terminal_color_13 = c.purple
+    vim.g.terminal_color_14 = c.cyan
+    vim.g.terminal_color_15 = c.white
 end
 
 return theme
