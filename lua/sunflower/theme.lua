@@ -266,7 +266,7 @@ theme.setHighlights = {
     Todo = {fg = c.magenta, bg = "NONE", bold = true}, -- Anything that needs extra attention, such as keywords like TODO or FIXME.
     Type = {fg = c.yellow, bg = "#342532", bold = true}, -- Type (and class) definitions and annotations.
     Typedef = {fg = c.red, bg = "NONE"}, -- Type definitions, e.g. `typedef` in C.
-    -- Variable = {fg = c.yellow, bg = "NONE"}, -- Variable names that don't fit into other categories.
+    Variable = {fg = c.white, bg = "NONE"}, -- Variable names that don't fit into other categories.
     Structure = {fg = c.purple, bg = 'NONE', bold = true}, -- struct, union, enum, etc.
     Struct = {link = 'Structure'},
     Macro = {link = 'Define'}, -- same as Define
